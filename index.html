@@ -1,193 +1,22 @@
-<html>
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Pass App</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css">
-    <!-- <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
-    <script nomodule="" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script> -->
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-    <script>
-        
-        while (localStorage.getItem('access') == '') {
-            var a1 = prompt("Primer inicio. Genere clave por favor.");
-            localStorage.setItem('access', a1);
-        }
-        while (a2 != localStorage.getItem('access')) {
-            var a2 = prompt("Inserte clave para iniciar.");
-        }
-        function setNameUser () {
-	    // const loopUserName = true
-            while (true){
-                if (localStorage.getItem('orig').includes('-')){
-                    var userName = localStorage.getItem('orig').split('-');
-                    // var newUserName = prompt('Inserte nuevo nombre de usuario')
-                    // userName[0] = newUserName
-                    document.getElementById('naa').innerHTML = 'Hola ' + deco(userName[0]) + '!';
-                    console.log('nuevo usuario')
-                    // loopUserName = false;
-                    break;
-                
-                }else{
-                    var NU = prompt("Inserte su nombre");
-                    localStorage.setItem('orig', (NU + '-' + localStorage.getItem('orig')));
+    <title>Hello, world!</title>
+  </head>
+  <body>
+    <h1>Hello, world!</h1>
 
-                    // console.log('no hay guiones')
-                }
-            }
-        }
-        // setNameUser();
-    </script>
-
-</head>
-<body>
-    <ion-app>
-        <ion-header>
-            <ion-toolbar>
-                <ion-title>
-                    <p id='naa'></p>
-                </ion-title>
-
-                <ion-buttons  slot="end">
-                    <ion-button id="b-test">
-                        <ion-icon name="globe"></ion-icon>
-                    </ion-button>
-
-                    <!-- <ion-button id="b-imp">
-                        <ion-icon name="cloud-download"></ion-icon>
-                    </ion-button> -->
-
-                    <ion-button id="b-imp-exp">
-                        <ion-icon name="save"></ion-icon>
-                    </ion-button>
-                </ion-buttons>
-
-            </ion-toolbar>
-        </ion-header>
-        <ion-tabs>
-
-
-            <!-- TAB 1 -->
-            <ion-tab tab="pag1">
-                <ion-content>
-                    <ion-grid>
-                        <ion-row>
-                            <ion-col size-md="4" offset-md="4">
-                                <p style="margin-top: 4em;"></p>
-                                <ion-card>
-                                    <ion-card-header color="dark">
-                                        <ion-title>Account Manager</ion-title>
-                                    </ion-card-header>
-
-                                    <ion-card-content>
-                                        <ion-item>
-                                            <ion-label position="floating">Account</ion-label>
-                                            <ion-input id="search-account" type="text"></ion-input>
-                                        </ion-item>
-
-                                        <ion-col>
-                                            <ion-button id="b-search" color="success" expand="block">Search</ion-button>
-                                        </ion-col>
-
-                                    </ion-card-content>
-                                </ion-card>
-
-
-                            </ion-col>
-                        </ion-row>
-                        <!-- ACTIVAR -->
-                        <ion-row>
-                            <ion-col id='show-accounts1' size-md="4" offset-md="4"></ion-col>
-                        </ion-row>
-                    </ion-grid>
-                </ion-content>
-            </ion-tab>
-            <!-- END TAB 1 -->
-
-
-
-            <!-- TAB 2 -->
-            <ion-tab tab="pag2">
-                <ion-content>
-                    <ion-grid>
-                        <ion-row>
-                            <ion-col size-md="4" offset-md="4">
-                                <p style="margin-top: 4em;"></p>
-                                <ion-card>
-                                    <ion-card-header color="dark">
-                                        <ion-title>Account Manager</ion-title>
-                                    </ion-card-header>
-
-                                    <ion-card-content>
-                                        <ion-item>
-                                            <ion-label position="floating">Account</ion-label>
-                                            <ion-input id="u-account" type="text"></ion-input>
-                                        </ion-item>
-
-                                        <ion-item>
-                                            <ion-label position="floating">User</ion-label>
-                                            <ion-input id="u-user" type="text"></ion-input>
-                                        </ion-item>
-                                        
-                                        <ion-item>
-                                            <ion-label position="floating">Password</ion-label>
-                                            <ion-input id="u-pass" type="password"></ion-input>
-                                        </ion-item>
-
-                                        <ion-item>
-                                            <ion-label position="floating">Notes</ion-label>
-                                            <ion-textarea id="u-notes" type="text" placeholder="(Optional)"></ion-textarea type="text">
-                                        </ion-item>
-
-                                        <ion-row size="1" class="ion-margin-vertical">
-                                            <ion-col>
-                                                <ion-button id="b-add" color="success" expand="block">Add</ion-button>
-                                            </ion-col>
-
-                                            <ion-col>
-                                                <!-- color="primary" -->
-                                                <ion-button disabled="false" id="b-edit" color="primary" expand="block">Edit</ion-button>
-                                            </ion-col>
-
-                                            <ion-col>
-                                                <!-- color="danger" -->
-                                                <!-- color="medium" -->
-                                                <ion-button disabled="false" id="b-delete" color="danger" expand="block">Delete</ion-button>
-                                            </ion-col>
-                                        </ion-row>
-                                    </ion-card-content>
-                                </ion-card>
-                            </ion-col>
-                        </ion-row>
-                        <!-- BORRAR -->
-                        <ion-row>
-                            <ion-col id="show-accounts2" size-md="4" offset-md="4"></ion-col>
-                        </ion-row>
-                    </ion-grid>
-                </ion-content>
-            </ion-tab>
-            <!-- END TAB 2 -->
-            <!-- PROP TAB -->
-            <ion-tab-bar slot="bottom">
-                <ion-tab-button tab="pag1">
-                    <ion-label>Search</ion-label>
-                    <ion-icon name="search"></ion-icon>
-                </ion-tab-button>
-
-                <ion-tab-button tab="pag2">
-                    <ion-label>Edit</ion-label>
-                    <ion-icon name="create"></ion-icon>
-                </ion-tab-button>
-            </ion-tab-bar>
-            <!-- END PROP TAB -->
-        </ion-tabs>
-    </ion-app>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
-    <script nomodule="" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
-    <script src="app_p.js"></script>
-
-</body>
-
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  </body>
 </html>
