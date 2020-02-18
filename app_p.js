@@ -8,7 +8,7 @@ async function getISS(){
   const response = await fetch(api_url);
   const data = await response.json();
   console.log(data);
-  tit.innerHTML += data.number + "<br/>" + data.test2;
+  tit.innerHTML += data.number + "<br/>" + data.cod + "<br/>" + data.final;
 };
 
 
