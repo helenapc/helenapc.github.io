@@ -1,4 +1,5 @@
 const tit = document.getElementById("title");
+const txt = document.getElementById("cor");
 
 tit.innerHTML = `<h1>Pablo</h1>`;
 
@@ -8,7 +9,8 @@ async function getISS(){
   const response = await fetch(api_url);
   const data = await response.json();
   console.log(data);
-  tit.innerHTML += data.number + "<br/>" + data.cod + "<br/>" + data.final;
+  tit.innerHTML += data.number + "<br/>" + data.final;
+  txt.innerText = data.cod;
 };
 
 
