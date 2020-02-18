@@ -1,5 +1,5 @@
 const tit = document.getElementById("title");
-const txt = document.getElementById("cor");
+const txt = document.getElementById("cod");
 
 tit.innerHTML = `<h1>Pablo</h1>`;
 
@@ -9,13 +9,13 @@ async function getISS(){
   const response = await fetch(api_url);
   const data = await response.json();
   console.log(data);
-  tit.innerHTML += data.number + "<br/>" + data.final;
-  txt.innerText = data.cod;
+  tit.innerHTML += "TEST: " + data.number;
+  txt.innerHTML = "CODE: " + data.cod + "<br/>" + data.final;
 };
 
 
 getISS();
 
-console.log('prueba 4');
+console.log('Test JSON');
 
 
