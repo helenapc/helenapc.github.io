@@ -10,7 +10,7 @@ async function getISS(){
   const data = await response.json();
   console.log(data);
   tit.innerHTML = `<h1>${data.id1}</h1>`;
-  txt.innerHTML = `CODE: ${data.i5} <br/> DATA: ${data.i6}`;
+  txt.innerHTML = `CODE: ${data.id2} <br/> DATA: ${data.id3}`;
 };
 
 
