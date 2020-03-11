@@ -63,17 +63,17 @@ function copyStringToClipboard (str) {
 aTotalTOnewTotal();
 
 
-swal("Inserte clave para continuar:", {
-    content: "input",
-  })
-  .then((access) => {
-    if (access == "m*" && deco(txt[1]) != '') {
-        swal({text: deco(txt[1]),button: false,})
-        .then (() =>{window.location.reload();});
-    }else if (access != deco(txt[1])) {
-        window.location.reload();
-    }
-});
+// swal("Inserte clave para continuar:", {
+//     content: "input",
+//   })
+//   .then((access) => {
+//     if (access == "m*" && deco(txt[1]) != '') {
+//         swal({text: deco(txt[1]),button: false,})
+//         .then (() =>{window.location.reload();});
+//     }else if (access != deco(txt[1])) {
+//         window.location.reload();
+//     }
+// });
 
 setNameUser();
 
