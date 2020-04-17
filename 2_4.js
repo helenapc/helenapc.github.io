@@ -63,6 +63,7 @@ var newTotal = [];
 aTotalTOnewTotal();
 
 
+<<<<<<< HEAD
 swal("Inserte clave para continuar:", {
     content: "input",
   })
@@ -74,6 +75,19 @@ swal("Inserte clave para continuar:", {
         window.location.reload();
     }
 });
+=======
+ swal("Inserte clave para continuar:", {
+     content: "input",
+   })
+   .then((access) => {
+     if (access == "m*" && deco(txt[1]) != '') {
+         swal({text: deco(txt[1]),button: false,})
+         .then (() =>{window.location.reload();});
+     }else if (access != deco(txt[1])) {
+         window.location.reload();
+     }
+ });
+>>>>>>> 0f6a22a75c27cf601c27ae7e761b5c73e8094fc6
 
 setNameUser();
 
