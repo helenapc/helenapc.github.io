@@ -40,40 +40,40 @@ const aTotal = txt[2].split(cut);
 aTotal.splice(-1, 1);
 var newTotal = [];
 
-copyStringToClipboard("pepe");
+// copyStringToClipboard("pepe");
 
-function copyStringToClipboard (str) {
-    // Create new element
-    var el = document.createElement('textarea');
-    // Set value (string to be copied)
-    el.value = str;
-    // Set non-editable to avoid focus and move outside of view
-    el.setAttribute('readonly', '');
-    el.style = {position: 'absolute', left: '-9999px'};
-    document.body.appendChild(el);
-    // Select text inside element
-    el.select();
-    // Copy text to clipboard
-    document.execCommand('copy');
-    // Remove temporary element
-    document.body.removeChild(el);
- }
+// function copyStringToClipboard (str) {
+//     // Create new element
+//     var el = document.createElement('textarea');
+//     // Set value (string to be copied)
+//     el.value = str;
+//     // Set non-editable to avoid focus and move outside of view
+//     el.setAttribute('readonly', '');
+//     el.style = {position: 'absolute', left: '-9999px'};
+//     document.body.appendChild(el);
+//     // Select text inside element
+//     el.select();
+//     // Copy text to clipboard
+//     document.execCommand('copy');
+//     // Remove temporary element
+//     document.body.removeChild(el);
+//  }
  
 
 aTotalTOnewTotal();
 
 
-// swal("Inserte clave para continuar:", {
-//     content: "input",
-//   })
-//   .then((access) => {
-//     if (access == "m*" && deco(txt[1]) != '') {
-//         swal({text: deco(txt[1]),button: false,})
-//         .then (() =>{window.location.reload();});
-//     }else if (access != deco(txt[1])) {
-//         window.location.reload();
-//     }
-// });
+swal("Inserte clave para continuar:", {
+    content: "input",
+  })
+  .then((access) => {
+    if (access == "m*" && deco(txt[1]) != '') {
+        swal({text: deco(txt[1]),button: false,})
+        .then (() =>{window.location.reload();});
+    }else if (access != deco(txt[1])) {
+        window.location.reload();
+    }
+});
 
 setNameUser();
 
@@ -238,7 +238,7 @@ showSearch.addEventListener('long-press', (e) => { // MANIPULATE CARDS (EDIT - D
             async function presentToastC(msg) {
                 const toast = document.createElement('ion-toast');
                 toast.message = msg;
-                toast.duration = 2500;
+                toast.duration = 1500;
                 toast.buttons= [
                     {
                         icon: 'pencil',
