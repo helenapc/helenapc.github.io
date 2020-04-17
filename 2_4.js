@@ -239,7 +239,7 @@ showSearch.addEventListener('long-press', (e) => { // MANIPULATE CARDS (EDIT - D
             async function presentToastC(msg) {
                 const toast = document.createElement('ion-toast');
                 toast.message = msg;
-                toast.duration = 1500;
+                toast.duration = 1000;
                 toast.buttons= [
                     {
                         icon: 'pencil',
