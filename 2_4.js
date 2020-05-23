@@ -187,7 +187,7 @@ buttonImpExp.addEventListener('click', () => { //BUTTON IMP/EXP
                                 cssClass: 'secondary',
                             },
                             {
-                                text: 'ok',
+                                text: 'Descargar',
                                 handler: (dataExp) => {
                                     // console.log()
                                     presentToast('Datos exportados.', 500);
