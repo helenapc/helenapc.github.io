@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- <html> -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>PassV2.5(edit.ver)</title>
+    <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-firestore.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css">
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+    <script nomodule="" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <!-- <script src="long-press-event.min.js"></script>  -->
+
+
+
+</head>
+
+<body>
+    <ion-app>
+        <!-- NAV BAR -->
+        <ion-menu id="barMenu" side="end" content-id="main-content">
+            <ion-header>
+                <ion-toolbar>
+                    <ion-title>Configuración
+                    </ion-title>
+                </ion-toolbar>
+            </ion-header>
+            <ion-content id="bar"></ion-content>
+        </ion-menu>
+        <div class="ion-page" id="main-content">
+            <ion-header>
+                <ion-toolbar>
+                    <ion-buttons slot="end">
+                        <ion-menu-button></ion-menu-button>
+                    </ion-buttons>
+                    <ion-title>
+                        <p id='userName'></p>
+                    </ion-title>
+
+                    <ion-buttons slot="start">
+                        <ion-button id="b-imp-exp">
+                            <!-- <ion-icon name="save"></ion-icon> -->
+                        </ion-button>
+                        <ion-button id="b-imp">
+                            <!-- <ion-icon name="arrow-down-circle"></ion-icon>B2-L -->
+                        </ion-button>
+                        <ion-button id="b-exp">
+                            <!-- <ion-icon name="arrow-up-circle"></ion-icon>L-B2 -->
+                        </ion-button>
+                        <ion-button id="b-down">
+                            <!-- <ion-icon name="arrow-down"></ion-icon>B1-L -->
+                        </ion-button>
+                        <ion-button id="b-up">
+                            <!-- <ion-icon name="arrow-up">1</ion-icon>L-B1 -->
+                        </ion-button>
+                    </ion-buttons>
+                </ion-toolbar>
+            </ion-header>
+            <ion-content>
+                <ion-grid>
+                    <ion-row>
+                        <ion-col size-md="4" offset-md="4">
+                            <p style="margin-top: -1em;"></p>
+                            <ion-card>
+                                <ion-card-header color="dark">
+                                    <ion-row>
+                                        <ion-title>Account Manager<ion-text class="ion-margin-end"
+                                                style="margin-top: 0.3em;">
+                                                <font size="2">v2.41 (edit ver.)</font>
+                                            </ion-text>
+                                        </ion-title>
+                                    </ion-row>
+                                </ion-card-header>
+                            </ion-card>
+                            <ion-searchbar id="new-s" debounce="3" placeholder="Account"> </ion-searchbar>
+                        </ion-col>
+                    </ion-row>
+                    </ion-card>
+                    <ion-row>
+                        <ion-col id='show-accounts1' size-md="4" offset-md="4"></ion-col>
+                    </ion-row>
+                </ion-grid>
+                <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+                    <ion-fab-button color="success" size="Xsmall" id="b-add">
+                        <ion-icon name="add"></ion-icon>
+                    </ion-fab-button>
+                </ion-fab>
+            </ion-content>
+
+    </ion-app>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+    <script nomodule="" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+    <script src="2_5.js"></script>
+</body>
+
+</html>
