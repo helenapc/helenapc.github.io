@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- <html> -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pass V3.0</title>
+    <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.5/firebase-firestore.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css">
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+    <script nomodule="" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <!-- <script src="long-press-event.min.js"></script>  -->
+</head>
+
+<body>
+    <ion-app>
+        <!-- NEW BAR -->
+        <ion-menu side="end" content-id="main-content" max-edge-start="30" id="barMenuPrincipal"></ion-menu>
+        <div class="ion-page" id="main-content">
+            <ion-header>
+                <ion-toolbar>
+                    <ion-buttons slot="end">
+                        <ion-menu-button></ion-menu-button>
+                    </ion-buttons>
+                    <ion-title id='userName' slot="start"></ion-title>
+                </ion-toolbar>
+            </ion-header>
+            <ion-content>
+                <ion-grid>
+                    <ion-row>
+                        <ion-col size-md="4" offset-md="4">
+                            <!-- <p style="margin-top: -1em;"></p> -->
+                            <ion-card id="titleName">
+                                <ion-card-header color="dark">
+                                    <ion-row>
+                                        <ion-title>Account Manager</ion-title>
+                                    </ion-row>
+                                </ion-card-header>
+                            </ion-card>
+                            <ion-searchbar id="new-s" debounce="3" placeholder="Account"></ion-searchbar>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col id='show-accounts1' size-md="4" offset-md="4"></ion-col>
+                    </ion-row>
+                </ion-grid>
+                <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+                    <ion-fab-button color="success" size="Xsmall" id="b-add">
+                        <ion-icon name="add"></ion-icon>
+                    </ion-fab-button>
+                </ion-fab>
+            </ion-content>
+    </ion-app>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+    <script nomodule="" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+    <script src="3_0.js"></script>
+</body>
+
+</html>
