@@ -286,7 +286,6 @@ if (localStorage.getItem('L2') == '') {
     splitInit();
     aTotalTOnewTotal();
     localStorage.setItem('accessTempData', txt[1] + 'GD' + txt[2] + 'GD');
-    // console.log(localStorage.getItem('accessTempData'));
 
     document.getElementById('userName').innerHTML = deco(txt[0]);
 
@@ -453,7 +452,7 @@ buttonAdd.addEventListener('click', () => {
                     save();
                     //refreshData();
                     updateDB('L1', 'L2');
-                    showSerch.innerHTML = '';
+                    showSearch.innerHTML = '';
                     newSearch.value = newData2.name1a;
                     showCardAll(newData2.name1a.toUpperCase(), newData2.name1a, newData2.name1a, newData2.name1a);
                 }
