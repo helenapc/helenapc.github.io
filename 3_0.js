@@ -181,7 +181,7 @@ buttonLogin.addEventListener('click', () => { // FALTA
         const alert = document.createElement('ion-alert');
         alert.header = 'Iniciar sesión';
         alert.inputs = [
-            { name: 'userEditUser', placeholder: 'Usuario' },
+            { name: 'userEditUser', placeholder: 'Usuario'},
             { name: 'userEditPass', placeholder: 'Contraseña', type: 'password' }
         ];
         alert.buttons = [
