@@ -12,11 +12,16 @@ var docB1 = ''; var docB2 = ''; var userID = '';
 
 // Init components
 const titleName = document.getElementById('titleName');
+const showSearch = document.getElementById('show-accounts1');
 const newSearch = document.getElementById("new-s");
+const buttonAdd = document.getElementById('b-add');
+titleName.setAttribute('disabled', true);
 newSearch.setAttribute('disabled', true);
-const showSearch = document.querySelector('#show-accounts1');
-const buttonAdd = document.querySelector("#b-add");
 buttonAdd.setAttribute('disabled', true)
+
+const showLogin = document.getElementById('showLogin');
+const buttonLogin = document.getElementById('buttonLogin');
+const buttonCreate = document.getElementById('buttonCreate');
 
 
 // NAV BAR
@@ -92,12 +97,12 @@ const showCardAll = (account, user, pass, notes) => { // OK
     const newHeader = document.createElement('ion-card-header');
 
     const newSub1 = document.createElement('ion-card-subtitle');
-    newSub1.textContent = account.toUpperCase();
     const newSub2 = document.createElement('ion-card-subtitle');
-    newSub2.textContent = 'Usuario: ' + user;
     const newSub3 = document.createElement('ion-card-subtitle');
-    newSub3.textContent = 'Contraseña: ' + pass;
     const newSub4 = document.createElement('ion-card-subtitle');
+    newSub1.textContent = account.toUpperCase();
+    newSub2.textContent = 'Usuario: ' + user;
+    newSub3.textContent = 'Contraseña: ' + pass;
     newSub4.textContent = 'Notas: ' + notes;
 
     newHeader.appendChild(newSub1);
@@ -119,170 +124,19 @@ db.collection("users").onSnapshot((querySnapshot) => {
 });
 
 localStorage.setItem('L1', 'GDGDGDGD');
-// localStorage.setItem('accessTempData', '');
-// RECORDAR INICIO
+
 (localStorage.getItem('L2')) ? localStorage.setItem('L1', localStorage.getItem('L2')) : localStorage.setItem('L2', '');
 
-if (localStorage.getItem('L2') == '') {
+if (localStorage.getItem('L2') != '') {
+    if (localStorage.getItem('L2').length < 12) {
+        console.log('Error', 'No se pueden cargar datos');
+        localStorage.setItem('L2', '');
+        window.location.reload();
+    };
 
-    const loginButons = document.createElement('ion-card');
+    showLogin.innerHTML = '';
+    disableItem(false);
 
-    const loginButtonLogin = document.createElement('ion-button');
-    loginButtonLogin.textContent = 'Login';
-    loginButtonLogin.setAttribute("expand", "block");
-    loginButtonLogin.setAttribute('fill', 'outline');
-
-    const loginButtonCreate = document.createElement('ion-button');
-    loginButtonCreate.textContent = 'Create (X)';
-    loginButtonCreate.setAttribute("expand", "block");
-
-    loginButons.appendChild(loginButtonLogin);
-    loginButons.appendChild(loginButtonCreate);
-    showSearch.appendChild(loginButons);
-
-
-    //BOTONES
-    loginButtonLogin.addEventListener('click', () => { // FALTA
-
-        // COMPROBACIÓN DE DATOS DIFERENTES
-        // L2 != B1
-        // Obtener diferencias
-
-        //---------------------
-        // MSG: Diferentes: Escoja:
-        // - Memoria Local
-        // - Base de datos
-
-        function presentAlertLogin() {
-            var accessTempData = [];
-            const alert = document.createElement('ion-alert');
-            alert.header = 'Iniciar sesión';
-            alert.inputs = [
-                { name: 'userEditUser', placeholder: 'Usuario' },
-                { name: 'userEditPass', placeholder: 'Contraseña', type: 'password' }
-            ];
-            alert.buttons = [
-                { text: 'Cancelar', role: 'cancel' },
-                {
-                    text: 'Ok',
-                    handler: (usNData) => {
-                        if (usNData.userEditName == '' || usNData.userEditUser == '' || usNData.userEditPass == '') {
-                            alertMsg('Error', 'Datos incorrectos o vacíos.');
-                            return;
-                        }
-                        enableItem = true;
-                        // console.log('INICIANDO DESDE LOGIN DB');
-
-                        accessTempData[0] = code(usNData.userEditUser);
-                        accessTempData[1] = code(usNData.userEditPass);
-                        localStorage.setItem('accessTempData', accessTempData[0] + 'GD' + accessTempData[1] + 'GD');
-
-
-                        db.collection("users").onSnapshot((querySnapshot) => {
-                            querySnapshot.forEach((doc) => {
-                                docB1 = doc.data().B1;
-                                docB2 = doc.data().B2;
-                                userID = doc.id;
-                                if (doc.data().B1.includes(localStorage.getItem('accessTempData'))) {
-                                    // console.log('ID:' + userID)
-                                    coincidencia = true;
-                                    updateDB('B1', 'L1');
-                                    updateDB('L1', 'L2');
-                                    splitInit();
-                                    aTotalTOnewTotal();
-                                    document.getElementById('userName').innerHTML = deco(txt[0]);
-                                    disableItem(false);
-                                    window.location.reload();
-                                    return;
-                                }
-                            });
-                            (coincidencia) ? showSearch.innerHTML = '' : alertMsg('Error', 'Sos un pelotudo.');
-                        });
-
-                    }
-                }
-            ];
-            document.body.appendChild(alert);
-            return alert.present();
-        }
-        presentAlertLogin();
-
-    });
-
-    loginButtonCreate.addEventListener('click', () => { // DESHABILItADO
-        coincidencia = false;
-        docB1 = ''; docB2 = ''; userID = '';
-        function presentAlertCreate() {
-            var accessTempData = [];
-            const alert = document.createElement('ion-alert');
-            alert.header = 'Crear cuenta';
-            alert.inputs = [
-                { name: 'userEditName', placeholder: 'Nombre' },
-                { name: 'userEditUser', placeholder: 'Usuario' },
-                { name: 'userEditPass', placeholder: 'Contraseña', type: 'password' }
-            ];
-            alert.buttons = [
-                { text: 'Cancelar', role: 'cancel' },
-                {
-                    text: 'Ok',
-                    handler: (usNData) => {
-                        if (usNData.userEditName == '' || usNData.userEditUser == '' || usNData.userEditPass == '') {
-                            alertMsg('Error', 'Datos incorrectos o vacíos.');
-                            return;
-                        };
-                        accessTempData[0] = code(usNData.userEditName);
-                        accessTempData[1] = code(usNData.userEditUser);
-                        accessTempData[2] = code(usNData.userEditPass);
-                        localStorage.setItem('accessTempData', accessTempData[1] + 'GD' + accessTempData[2] + 'GD')
-                        // console.log(localStorage.getItem('accessTempData'));
-
-
-                        db.collection("users").onSnapshot((querySnapshot) => {
-                            querySnapshot.forEach((doc) => {
-                                if (doc.data().B1.includes(localStorage.getItem('accessTempData'))) {
-                                    docB1 = doc.data().B1;
-                                    docB2 = doc.data().B2;
-                                    userID = doc.id;
-                                    coincidencia = true;
-                                    // console.log('Una coincidencia en: ' + userID);
-                                    localStorage.removeItem('accessTempData');
-                                    return;
-                                };
-                            });
-                            if (!coincidencia) {
-                                db.collection("users").add({
-                                    B1: accessTempData[0] + 'GD' + accessTempData[1] + 'GD' + accessTempData[2] + 'GD',
-                                    B2: ''
-                                })
-                                    .then(function () { //docRef
-                                        updateDB('B1', 'L1');
-                                        updateDB('L1', 'L2');
-                                        splitInit();
-                                        aTotalTOnewTotal();
-                                        document.getElementById('userName').innerHTML = deco(txt[0]);
-                                        showSearch.innerHTML = ''
-                                        disableItem(false);
-                                        window.location.reload();
-                                    })
-                                    .catch(function (error) {
-                                        console.error("Error adding document: ", error);
-                                        return;
-                                    });
-                                return;
-
-                            };
-                        });
-                    }
-                }
-            ];
-            document.body.appendChild(alert);
-            return alert.present();
-        };
-        presentAlertCreate();
-        return;
-    });
-
-} else {
     splitInit();
     aTotalTOnewTotal();
     localStorage.setItem('accessTempData', txt[1] + 'GD' + txt[2] + 'GD');
@@ -307,13 +161,150 @@ if (localStorage.getItem('L2') == '') {
 
 
 
-
-
-
-
-//BOTONES
+//######################## BOTONES ########################
 
 newSearch.addEventListener('ionInput', () => { refreshData() });
+
+
+buttonLogin.addEventListener('click', () => { // FALTA
+    // COMPROBACIÓN DE DATOS DIFERENTES
+    // L2 != B1
+    // Obtener diferencias
+
+    //---------------------
+    // MSG: Diferentes: Escoja:
+    // - Memoria Local
+    // - Base de datos
+
+    function presentAlertLogin() {
+        var accessTempData = [];
+        const alert = document.createElement('ion-alert');
+        alert.header = 'Iniciar sesión';
+        alert.inputs = [
+            { name: 'userEditUser', placeholder: 'Usuario' },
+            { name: 'userEditPass', placeholder: 'Contraseña', type: 'password' }
+        ];
+        alert.buttons = [
+            { text: 'Cancelar', role: 'cancel' },
+            {
+                text: 'Ok',
+                handler: (usNData) => {
+                    if (usNData.userEditName == '' || usNData.userEditUser == '' || usNData.userEditPass == '') {
+                        alertMsg('Error', 'Datos incorrectos o vacíos.');
+                        return;
+                    }
+                    enableItem = true;
+                    // console.log('INICIANDO DESDE LOGIN DB');
+
+                    accessTempData[0] = code(usNData.userEditUser);
+                    accessTempData[1] = code(usNData.userEditPass);
+                    localStorage.setItem('accessTempData', accessTempData[0] + 'GD' + accessTempData[1] + 'GD');
+
+
+                    db.collection("users").onSnapshot((querySnapshot) => {
+                        querySnapshot.forEach((doc) => {
+                            docB1 = doc.data().B1;
+                            docB2 = doc.data().B2;
+                            userID = doc.id;
+                            if (doc.data().B1.includes(localStorage.getItem('accessTempData'))) {
+                                // console.log('ID:' + userID)
+                                coincidencia = true;
+                                updateDB('B1', 'L1');
+                                updateDB('L1', 'L2');
+                                splitInit();
+                                aTotalTOnewTotal();
+                                document.getElementById('userName').innerHTML = deco(txt[0]);
+                                disableItem(false);
+                                window.location.reload();
+                                return;
+                            }
+                        });
+                        (coincidencia) ? showLogin.innerHTML = '' : alertMsg('Error', 'Sos un pelotudo.');
+                    });
+
+                }
+            }
+        ];
+        document.body.appendChild(alert);
+        return alert.present();
+    }
+    presentAlertLogin();
+
+});
+
+buttonCreate.addEventListener('click', () => { // DESHABILItADO
+    coincidencia = false;
+    docB1 = ''; docB2 = ''; userID = '';
+    function presentAlertCreate() {
+        var accessTempData = [];
+        const alert = document.createElement('ion-alert');
+        alert.header = 'Registrarse';
+        alert.inputs = [
+            { name: 'userEditName', placeholder: 'Nombre' },
+            { name: 'userEditUser', placeholder: 'Usuario' },
+            { name: 'userEditPass', placeholder: 'Contraseña', type: 'password' }
+        ];
+        alert.buttons = [
+            { text: 'Cancelar', role: 'cancel' },
+            {
+                text: 'Ok',
+                handler: (usNData) => {
+                    if (usNData.userEditName == '' || usNData.userEditUser == '' || usNData.userEditPass == '') {
+                        alertMsg('Error', 'Datos incorrectos o vacíos.');
+                        return;
+                    };
+                    accessTempData[0] = code(usNData.userEditName);
+                    accessTempData[1] = code(usNData.userEditUser);
+                    accessTempData[2] = code(usNData.userEditPass);
+                    localStorage.setItem('accessTempData', accessTempData[1] + 'GD' + accessTempData[2] + 'GD')
+                    // console.log(localStorage.getItem('accessTempData'));
+
+
+                    db.collection("users").onSnapshot((querySnapshot) => {
+                        querySnapshot.forEach((doc) => {
+                            if (doc.data().B1.includes(localStorage.getItem('accessTempData'))) {
+                                docB1 = doc.data().B1;
+                                docB2 = doc.data().B2;
+                                userID = doc.id;
+                                coincidencia = true;
+                                // console.log('Una coincidencia en: ' + userID);
+                                localStorage.removeItem('accessTempData');
+                                return;
+                            };
+                        });
+                        if (!coincidencia) {
+                            db.collection("users").add({
+                                B1: accessTempData[0] + 'GD' + accessTempData[1] + 'GD' + accessTempData[2] + 'GD',
+                                B2: ''
+                            })
+                                .then(function () { // .then(function(docRef){
+                                    updateDB('B1', 'L1');
+                                    showLogin.innerHTML = '';
+                                    splitInit();
+                                    aTotalTOnewTotal();
+                                    document.getElementById('userName').innerHTML = deco(txt[0]);
+                                    // showSearch.innerHTML = ''
+                                    updateDB('L1', 'L2');
+                                    disableItem(false);
+                                    window.location.reload();
+                                })
+                                .catch(function (error) {
+                                    console.error("Error adding document: ", error);
+                                    return;
+                                });
+                            return;
+
+                        };
+                    });
+                }
+            }
+        ];
+        document.body.appendChild(alert);
+        return alert.present();
+    };
+    presentAlertCreate();
+    return;
+});
 
 showSearch.addEventListener('long-press', (e) => { // MANIPULATE CARDS (EDIT - DELETE) // OK OK
 
