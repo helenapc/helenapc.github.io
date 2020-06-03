@@ -28,6 +28,16 @@
                 </ion-toolbar>
             </ion-header>
             <ion-content>
+
+                <!-- pulling-text="Pull to refresh" -->
+                <ion-refresher slot="fixed" id="refresher" pull-factor="0.5" pull-min="50" pull-max="200">
+                    <ion-refresher-content
+                      pulling-icon="chevron-down-outline"
+                      refreshing-spinner="circular">
+                    </ion-refresher-content>
+                  </ion-refresher>
+
+
                 <ion-grid>
                     <ion-row>
                         <ion-col size-md="5" offset-md="3.5">
@@ -58,6 +68,18 @@
                         <ion-icon name="add"></ion-icon>
                     </ion-fab-button>
                 </ion-fab>
+
+                <!-- <ion-content>
+                    <ion-refresher slot="fixed">
+                      <ion-refresher-content
+                        pulling-icon="chevron-down-circle-outline"
+                        pulling-text="Pull to refresh"
+                        refreshing-spinner="circles"
+                        refreshing-text="Refreshing...">
+                      </ion-refresher-content>
+                    </ion-refresher>
+                  </ion-content> -->
+
             </ion-content>
             <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
             <script nomodule="" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>

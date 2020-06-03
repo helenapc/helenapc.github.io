@@ -11,17 +11,23 @@ var txt = []; var aTotal = []; var newTotal = [];
 var docB1 = ''; var docB2 = ''; var userID = '';
 
 // Init components
+const refresher = document.getElementById('refresher');
+
+
+
 const titleName = document.getElementById('titleName');
 const showSearch = document.getElementById('show-accounts1');
 const newSearch = document.getElementById("new-s");
 const buttonAdd = document.getElementById('b-add');
 titleName.setAttribute('disabled', true);
 newSearch.setAttribute('disabled', true);
-buttonAdd.setAttribute('disabled', true)
+buttonAdd.setAttribute('disabled', true);
+refresher.setAttribute('disabled', true);
 
 const showLogin = document.getElementById('showLogin');
 const buttonLogin = document.getElementById('buttonLogin');
 const buttonCreate = document.getElementById('buttonCreate');
+
 
 
 // NAV BAR
@@ -165,6 +171,13 @@ if (localStorage.getItem('L2') != '') {
 
 newSearch.addEventListener('ionInput', () => { refreshData() });
 
+refresher.addEventListener('ionRefresh', () => {
+    setTimeout(() => {
+        console.log('refresh');
+        window.location.reload();
+      refresher.complete();
+    }, 150);
+  })
 
 buttonLogin.addEventListener('click', () => { // FALTA
     // COMPROBACIÓN DE DATOS DIFERENTES
@@ -584,6 +597,7 @@ function disableItem(boolean) {
     newSearch.setAttribute('disabled', boolean);
     barMenuPrincipal.setAttribute('disabled', boolean);
     titleName.setAttribute('disabled', boolean);
+    refresher.setAttribute('disabled', boolean);
 }
 
 function refreshData() { // OK 
