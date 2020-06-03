@@ -133,33 +133,94 @@ localStorage.setItem('L1', 'GDGDGDGD');
 
 (localStorage.getItem('L2')) ? localStorage.setItem('L1', localStorage.getItem('L2')) : localStorage.setItem('L2', '');
 
-if (localStorage.getItem('L2') != '') {
+
+if (localStorage.getItem('L2') != '') { //existen datos locales
     if (localStorage.getItem('L2').length < 12) {
         console.log('Error', 'No se pueden cargar datos');
         localStorage.setItem('L2', '');
         window.location.reload();
     };
 
-    showLogin.innerHTML = '';
-    disableItem(false);
+    // disableItem(false);
 
-    splitInit();
-    aTotalTOnewTotal();
-    localStorage.setItem('accessTempData', txt[1] + 'GD' + txt[2] + 'GD');
+    // splitInit();
+    // aTotalTOnewTotal();
+    // localStorage.setItem('accessTempData', txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD');
+    // document.getElementById('userName').innerHTML = deco(txt[0]);
 
-    document.getElementById('userName').innerHTML = deco(txt[0]);
 
+    // comprobación de local con base de datos
     db.collection("users").onSnapshot((querySnapshot) => {
+        var txtTemp = [];
+        var aTotalTemp = [];
+        var newa = [];
         querySnapshot.forEach((doc) => {
+            // console.log('buscando');
             if (doc.data().B1.includes(localStorage.getItem('accessTempData'))) {
                 docB1 = doc.data().B1;
                 docB2 = doc.data().B2;
                 userID = doc.id;
                 return;
             };
+
         });
+        if (docB1 != localStorage.getItem('L2')) {
+            function alertCompareData() {
+                const alert = document.createElement('ion-alert');
+                alert.header = 'Se realizaron cambios en la base da datos';
+                alert.subHeader = 'Selecione una para utilizar';
+                alert.buttons = [
+                    {
+                        text: 'Local',
+                        handler: () => {
+                            plitInit();
+                            aTotalTOnewTotal();
+                            localStorage.setItem('accessTempData', txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD');
+                            document.getElementById('userName').innerHTML = deco(txt[0]);
+                            showLogin.innerHTML = '';
+                            disableItem(false);
+                        }
+                    },
+                    {
+                        text: 'Nube',
+                        handler: () => {
+                            console.log('Pre update: ' + localStorage.getItem('L1'));
+                            updateDB('B1', 'L1');
+                            console.log('Post update: ' + localStorage.getItem('L1'));
+                            splitInit();
+                            aTotalTOnewTotal();
+                            localStorage.setItem('accessTempData', txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD');
+                            document.getElementById('userName').innerHTML = deco(txt[0]);
+                            showLogin.innerHTML = '';
+                            disableItem(false);
+
+                        }
+                    }
+                ];
+                document.body.appendChild(alert);
+                return alert.present();
+            }
+            alertCompareData();
+
+            //OBTENER DIFERENCIA
+            // console.log('diferencia de datos')
+            // txtTemp = docB1.split('GD');
+            // aTotalTemp = txtTemp[3].split(txtTemp[3].includes('Q0') ? 'Q0' : 'BO');
+            // aTotalTemp.splice(-1, 1);
+            // aTotalTemp = aTotalTemp.concat(aTotal);
+            // aTotalTemp.sort();
+
+            // for (i = 0; i < aTotalTemp.length; i++) {
+            //     (aTotalTemp[i] == aTotalTemp[i + 1]) ? i++ : newa.push(aTotalTemp[i]);
+            // };
+            // console.log(newa);
+
+
+        } else {
+            console.log('Son iguales');
+        };
     });
-    disableItem(false);
+
 };
 // ------------------ START ------------------ //
 
@@ -175,9 +236,9 @@ refresher.addEventListener('ionRefresh', () => {
     setTimeout(() => {
         console.log('refresh');
         window.location.reload();
-      refresher.complete();
+        refresher.complete();
     }, 150);
-  })
+})
 
 buttonLogin.addEventListener('click', () => { // FALTA
     // COMPROBACIÓN DE DATOS DIFERENTES
@@ -194,7 +255,7 @@ buttonLogin.addEventListener('click', () => { // FALTA
         const alert = document.createElement('ion-alert');
         alert.header = 'Iniciar sesión';
         alert.inputs = [
-            { name: 'userEditUser', placeholder: 'Usuario'},
+            { name: 'userEditUser', placeholder: 'Usuario' },
             { name: 'userEditPass', placeholder: 'Contraseña', type: 'password' }
         ];
         alert.buttons = [
@@ -420,7 +481,6 @@ showSearch.addEventListener('long-press', (e) => { // MANIPULATE CARDS (EDIT - D
 });
 
 buttonAdd.addEventListener('click', () => {
-    // console.log(userID);
     function presentAlertAdd() {
         const alert = document.createElement('ion-alert');
         alert.header = 'Agregar cuenta';
@@ -451,8 +511,8 @@ buttonAdd.addEventListener('click', () => {
                     aTotal.push(code(newData2.name1a.toLowerCase()) + "OG" + code(newData2.name2a) + "OG" + code(newData2.name3a) + "OG" + code(newData2.name4a));
 
                     aTotalTOnewTotal();
-                    updateDB('L1', 'B1');
                     save();
+                    updateDB('L1', 'B1');
                     updateDB('L1', 'L2');
                     showSearch.innerHTML = '';
                     newSearch.value = newData2.name1a;
