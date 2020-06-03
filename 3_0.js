@@ -141,19 +141,17 @@ if (localStorage.getItem('L2') != '') { //existen datos locales
         window.location.reload();
     };
 
-    // disableItem(false);
-
-    // splitInit();
-    // aTotalTOnewTotal();
-    // localStorage.setItem('accessTempData', txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD');
-    // document.getElementById('userName').innerHTML = deco(txt[0]);
+    showLogin.innerHTML = '';
+    disableItem(false);
+    splitInit();
+    aTotalTOnewTotal();
+    localStorage.setItem('accessTempData', txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD');
+    document.getElementById('userName').innerHTML = deco(txt[0]);
 
 
     // comprobación de local con base de datos
+
     db.collection("users").onSnapshot((querySnapshot) => {
-        var txtTemp = [];
-        var aTotalTemp = [];
-        var newa = [];
         querySnapshot.forEach((doc) => {
             // console.log('buscando');
             if (doc.data().B1.includes(localStorage.getItem('accessTempData'))) {
@@ -164,16 +162,40 @@ if (localStorage.getItem('L2') != '') { //existen datos locales
             };
 
         });
+        console.log(docB1);
+        console.log(localStorage.getItem('L2'));
         if (docB1 != localStorage.getItem('L2')) {
+
+
+            // OBTENER DIFERENCIA
+            var txtTemp = [];
+            var aTotalTemp = [];
+            var newa = [];
+            console.log('diferencia de datos')
+            txtTemp = docB1.split('GD');
+            aTotalTemp = txtTemp[3].split(txtTemp[3].includes('Q0') ? 'Q0' : 'BO');
+            aTotalTemp.splice(-1, 1);
+            aTotalTemp = aTotalTemp.concat(aTotal);
+            aTotalTemp.sort();
+
+            for (i = 0; i < aTotalTemp.length; i++) {
+                (aTotalTemp[i] == aTotalTemp[i + 1]) ? i++ : newa.push(aTotalTemp[i]);
+            };
+            console.log(newa);
+
+
+
+
+
             function alertCompareData() {
                 const alert = document.createElement('ion-alert');
-                alert.header = 'Se realizaron cambios en la base da datos';
-                alert.subHeader = 'Selecione una para utilizar';
+                alert.subHeader = 'Cambios en la base da datos';
+                alert.message = 'Selecione una para utilizar';
                 alert.buttons = [
                     {
                         text: 'Local',
                         handler: () => {
-                            plitInit();
+                            splitInit();
                             aTotalTOnewTotal();
                             localStorage.setItem('accessTempData', txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD');
                             document.getElementById('userName').innerHTML = deco(txt[0]);
@@ -195,6 +217,8 @@ if (localStorage.getItem('L2') != '') { //existen datos locales
                             disableItem(false);
 
                         }
+                    }, {
+                        text: 'Fusionar',
                     }
                 ];
                 document.body.appendChild(alert);
@@ -203,6 +227,9 @@ if (localStorage.getItem('L2') != '') { //existen datos locales
             alertCompareData();
 
             //OBTENER DIFERENCIA
+            // var txtTemp = [];
+            // var aTotalTemp = [];
+            // var newa = [];
             // console.log('diferencia de datos')
             // txtTemp = docB1.split('GD');
             // aTotalTemp = txtTemp[3].split(txtTemp[3].includes('Q0') ? 'Q0' : 'BO');
