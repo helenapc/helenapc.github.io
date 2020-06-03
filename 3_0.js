@@ -451,14 +451,12 @@ buttonAdd.addEventListener('click', () => {
                     aTotal.push(code(newData2.name1a.toLowerCase()) + "OG" + code(newData2.name2a) + "OG" + code(newData2.name3a) + "OG" + code(newData2.name4a));
 
                     aTotalTOnewTotal();
-                    //save();
                     updateDB('L1', 'B1');
                     save();
-                    //refreshData();
                     updateDB('L1', 'L2');
                     showSearch.innerHTML = '';
                     newSearch.value = newData2.name1a;
-                    showCardAll(newData2.name1a.toUpperCase(), newData2.name1a, newData2.name1a, newData2.name1a);
+                    showCardAll(newData2.name1a.toUpperCase(), newData2.name2a, newData2.name3a, newData2.name4a);
                 }
             }
         ];
