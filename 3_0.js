@@ -135,11 +135,11 @@ localStorage.setItem('L1', 'GDGDGDGD');
 
 
 if (localStorage.getItem('L2') != '') { //existen datos locales
-    if (localStorage.getItem('L2').length < 12) {
-        console.log('Error', 'No se pueden cargar datos');
-        localStorage.setItem('L2', '');
-        window.location.reload();
-    };
+    // if (localStorage.getItem('L2').length < 12) {
+    //     console.log('Error', 'No se pueden cargar datos');
+    //     localStorage.setItem('L2', '');
+    //     window.location.reload();
+    // };
 
     showLogin.innerHTML = '';
     disableItem(false);
@@ -153,7 +153,6 @@ if (localStorage.getItem('L2') != '') { //existen datos locales
 
     db.collection("users").onSnapshot((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-            // console.log('buscando');
             if (doc.data().B1.includes(localStorage.getItem('accessTempData'))) {
                 docB1 = doc.data().B1;
                 docB2 = doc.data().B2;
@@ -162,75 +161,16 @@ if (localStorage.getItem('L2') != '') { //existen datos locales
             };
 
         });
-        console.log(docB1);
-        console.log(localStorage.getItem('L2'));
+        // console.log(docB1);
+        // console.log(userID);
+        // console.log(localStorage.getItem('L2'));
         if (docB1 != localStorage.getItem('L2')) {
 
 
             // OBTENER DIFERENCIA
-            var txtTemp = [];
-            var aTotalTemp = [];
-            var newa = [];
-            console.log('diferencia de datos')
-            txtTemp = docB1.split('GD');
-            aTotalTemp = txtTemp[3].split(txtTemp[3].includes('Q0') ? 'Q0' : 'BO');
-            aTotalTemp.splice(-1, 1);
-            aTotalTemp = aTotalTemp.concat(aTotal);
-            aTotalTemp.sort();
-
-            for (i = 0; i < aTotalTemp.length; i++) {
-                (aTotalTemp[i] == aTotalTemp[i + 1]) ? i++ : newa.push(aTotalTemp[i]);
-            };
-            console.log(newa);
-
-
-
-
-
-            function alertCompareData() {
-                const alert = document.createElement('ion-alert');
-                alert.subHeader = 'Cambios en la base da datos';
-                alert.message = 'Selecione una para utilizar';
-                alert.buttons = [
-                    {
-                        text: 'Local',
-                        handler: () => {
-                            splitInit();
-                            aTotalTOnewTotal();
-                            localStorage.setItem('accessTempData', txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD');
-                            document.getElementById('userName').innerHTML = deco(txt[0]);
-                            showLogin.innerHTML = '';
-                            disableItem(false);
-                        }
-                    },
-                    {
-                        text: 'Nube',
-                        handler: () => {
-                            console.log('Pre update: ' + localStorage.getItem('L1'));
-                            updateDB('B1', 'L1');
-                            console.log('Post update: ' + localStorage.getItem('L1'));
-                            splitInit();
-                            aTotalTOnewTotal();
-                            localStorage.setItem('accessTempData', txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD');
-                            document.getElementById('userName').innerHTML = deco(txt[0]);
-                            showLogin.innerHTML = '';
-                            disableItem(false);
-
-                        }
-                    }, {
-                        text: 'Fusionar',
-                    }
-                ];
-                document.body.appendChild(alert);
-                return alert.present();
-            }
-            alertCompareData();
-
-            //OBTENER DIFERENCIA
             // var txtTemp = [];
             // var aTotalTemp = [];
             // var newa = [];
-            // console.log('diferencia de datos')
             // txtTemp = docB1.split('GD');
             // aTotalTemp = txtTemp[3].split(txtTemp[3].includes('Q0') ? 'Q0' : 'BO');
             // aTotalTemp.splice(-1, 1);
@@ -243,8 +183,112 @@ if (localStorage.getItem('L2') != '') { //existen datos locales
             // console.log(newa);
 
 
+            function alertCompareData() {
+                const alert = document.createElement('ion-alert');
+                alert.subHeader = 'Cambios en la base da datos';
+                alert.message = 'Selecione una para utilizar';
+                alert.buttons = [
+                    {
+                        text: 'Mmemoria local',
+                        handler: () => {
+                            splitInit();
+                            aTotalTOnewTotal();
+                            localStorage.setItem('accessTempData', txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD');
+                            document.getElementById('userName').innerHTML = deco(txt[0]);
+                            showLogin.innerHTML = '';
+                            disableItem(false);
+                            updateDB('L2', 'B1');
+                        }
+                    },
+                    {
+                        text: 'Base de datos',
+                        handler: () => {
+                            updateDB('B1', 'L1');
+                            splitInit();
+                            aTotalTOnewTotal();
+                            localStorage.setItem('accessTempData', txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD');
+                            document.getElementById('userName').innerHTML = deco(txt[0]);
+                            showLogin.innerHTML = '';
+                            disableItem(false);
+                            updateDB('L1', 'L2');
+
+                        }
+                    },
+
+                    // {
+                    //     text: 'Fusionar',
+                    //     handler: () => {
+                    //         function presentAlertCheckbox() {
+                    //             const alert = document.createElement('ion-alert');
+                    //             alert.cssClass = 'my-custom-class';
+                    //             alert.header = 'Agregar cambios';
+                    //             alert.inputs = [
+                    //                 {
+                    //                     type: 'checkbox',
+                    //                     label: 'Checkbox 1',
+                    //                     value: 'value1',
+                    //                     checked: true
+                    //                 },
+
+                    //                 {
+                    //                     type: 'checkbox',
+                    //                     label: 'Checkbox 2',
+                    //                     value: 'value2'
+                    //                 },
+
+                    //                 {
+                    //                     type: 'checkbox',
+                    //                     label: 'Checkbox 3',
+                    //                     value: 'value3'
+                    //                 },
+
+                    //                 {
+                    //                     type: 'checkbox',
+                    //                     label: 'Checkbox 4',
+                    //                     value: 'value4'
+                    //                 },
+
+                    //                 {
+                    //                     type: 'checkbox',
+                    //                     label: 'Checkbox 5',
+                    //                     value: 'value5'
+                    //                 },
+
+                    //                 {
+                    //                     type: 'checkbox',
+                    //                     label: 'Checkbox 6',
+                    //                     value: 'value6'
+                    //                 }
+                    //             ];
+                    //             alert.buttons = [
+                    //                 {
+                    //                     text: 'Cancel',
+                    //                     role: 'cancel',
+                    //                     cssClass: 'secondary',
+                    //                     handler: () => {
+                    //                         console.log('Confirm Cancel')
+                    //                     }
+                    //                 }, {
+                    //                     text: 'Ok',
+                    //                     handler: () => {
+                    //                         console.log('Confirm Ok')
+                    //                     }
+                    //                 }
+                    //             ];
+
+                    //             document.body.appendChild(alert);
+                    //             return alert.present();
+                    //         }
+                    //         presentAlertCheckbox();
+                    //     }
+                    // }
+                ];
+                document.body.appendChild(alert);
+                return alert.present();
+            }
+            alertCompareData();
         } else {
-            console.log('Son iguales');
+            // console.log('Son iguales');
         };
     });
 
@@ -261,7 +305,6 @@ newSearch.addEventListener('ionInput', () => { refreshData() });
 
 refresher.addEventListener('ionRefresh', () => {
     setTimeout(() => {
-        console.log('refresh');
         window.location.reload();
         refresher.complete();
     }, 150);
