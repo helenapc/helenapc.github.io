@@ -13,12 +13,15 @@ var docB1 = ''; var docB2 = ''; var userID = '';
 // Init components
 const refresher = document.getElementById('refresher');
 
-
-
 const titleName = document.getElementById('titleName');
 const showSearch = document.getElementById('show-accounts1');
 const newSearch = document.getElementById("new-s");
 const buttonAdd = document.getElementById('b-add');
+
+
+// buttonAdd.setAttribute('activated', true);
+// buttonAdd
+
 titleName.setAttribute('disabled', true);
 newSearch.setAttribute('disabled', true);
 buttonAdd.setAttribute('disabled', true);
@@ -311,15 +314,6 @@ refresher.addEventListener('ionRefresh', () => {
 })
 
 buttonLogin.addEventListener('click', () => { // FALTA
-    // COMPROBACIÓN DE DATOS DIFERENTES
-    // L2 != B1
-    // Obtener diferencias
-
-    //---------------------
-    // MSG: Diferentes: Escoja:
-    // - Memoria Local
-    // - Base de datos
-
     function presentAlertLogin() {
         var accessTempData = [];
         const alert = document.createElement('ion-alert');
@@ -338,12 +332,9 @@ buttonLogin.addEventListener('click', () => { // FALTA
                         return;
                     }
                     enableItem = true;
-                    // console.log('INICIANDO DESDE LOGIN DB');
-
                     accessTempData[0] = code(usNData.userEditUser);
                     accessTempData[1] = code(usNData.userEditPass);
                     localStorage.setItem('accessTempData', accessTempData[0] + 'GD' + accessTempData[1] + 'GD');
-
 
                     db.collection("users").onSnapshot((querySnapshot) => {
                         querySnapshot.forEach((doc) => {
@@ -363,7 +354,7 @@ buttonLogin.addEventListener('click', () => { // FALTA
                                 return;
                             }
                         });
-                        (coincidencia) ? showLogin.innerHTML = '' : alertMsg('Error', 'Sos un pelotudo.');
+                        (coincidencia) ? showLogin.innerHTML = '' : alertMsg('Error', 'Datos incorrectos o vacíos.');
                     });
 
                 }
@@ -401,17 +392,15 @@ buttonCreate.addEventListener('click', () => { // DESHABILItADO
                     accessTempData[1] = code(usNData.userEditUser);
                     accessTempData[2] = code(usNData.userEditPass);
                     localStorage.setItem('accessTempData', accessTempData[1] + 'GD' + accessTempData[2] + 'GD')
-                    // console.log(localStorage.getItem('accessTempData'));
-
 
                     db.collection("users").onSnapshot((querySnapshot) => {
                         querySnapshot.forEach((doc) => {
                             if (doc.data().B1.includes(localStorage.getItem('accessTempData'))) {
+                                // console.log('Una coincidencia en: ' + userID);
                                 docB1 = doc.data().B1;
                                 docB2 = doc.data().B2;
                                 userID = doc.id;
                                 coincidencia = true;
-                                // console.log('Una coincidencia en: ' + userID);
                                 localStorage.removeItem('accessTempData');
                                 return;
                             };
@@ -427,7 +416,6 @@ buttonCreate.addEventListener('click', () => { // DESHABILItADO
                                     splitInit();
                                     aTotalTOnewTotal();
                                     document.getElementById('userName').innerHTML = deco(txt[0]);
-                                    // showSearch.innerHTML = ''
                                     updateDB('L1', 'L2');
                                     disableItem(false);
                                     window.location.reload();
@@ -495,7 +483,10 @@ showSearch.addEventListener('long-press', (e) => { // MANIPULATE CARDS (EDIT - D
                                                 alertMsg('Error', 'Datos incorrectos o vacíos.');
                                                 return;
                                             }
-
+                                            if (1 == 1) { // comprobar si hay datos existentes
+                                                console.log('comprobar si hay datos existentes');
+                                                return;
+                                            }
                                             aTotal.splice(toRemplace, 1, code(newData.name1) + "OG" + code(newData.name2) + "OG" + code(newData.name3) + "OG" + code(newData.name4));
                                             aTotalTOnewTotal();
                                             refreshData();
@@ -503,7 +494,6 @@ showSearch.addEventListener('long-press', (e) => { // MANIPULATE CARDS (EDIT - D
                                             save();
                                             updateDB('L1', 'B1');
                                             updateDB('L1', 'L2');
-
                                         }
                                     }
                                 ];
@@ -523,7 +513,7 @@ showSearch.addEventListener('long-press', (e) => { // MANIPULATE CARDS (EDIT - D
                                     { text: 'cancelar', role: 'cancel' },
                                     {
                                         text: 'ok',
-                                        handler: () => { // V 2.4
+                                        handler: () => {
                                             aTotal.splice((i / 5), 1);
                                             aTotalTOnewTotal();
                                             refreshData();
@@ -556,7 +546,7 @@ buttonAdd.addEventListener('click', () => {
         alert.header = 'Agregar cuenta';
         alert.inputs = [
             // id: 'name1a-id'
-            { name: 'name1a', placeholder: 'Cuenta', value: '' },
+            { name: 'name1a', placeholder: 'Cuenta', value: ''},
             { name: 'name2a', placeholder: 'Usuario', value: '' },
             { name: 'name3a', placeholder: 'Contraseña', value: '' },
             { name: 'name4a', placeholder: 'Notas(Opcional)', value: '' }
@@ -632,7 +622,6 @@ barImport.addEventListener('click', () => {
                     updateDB('L1', 'L2');
                     splitInit();
                     aTotalTOnewTotal();
-                    // console.log('importados desde: ' + userID);
                     document.getElementById('userName').innerHTML = deco(txt[0]);
                 }
             },
@@ -686,7 +675,6 @@ barExport.addEventListener('click', () => {
         const alert = document.createElement('ion-alert');
         alert.subHeader = 'Exportar';
         alert.buttons = [
-
             {
                 text: 'Backup',
                 handler: () => {
@@ -727,8 +715,18 @@ function disableItem(boolean) {
     titleName.setAttribute('disabled', boolean);
     refresher.setAttribute('disabled', boolean);
 }
-
 function refreshData() { // OK 
+    if (newSearch.value){
+        buttonAdd.setAttribute('vertical','top');
+        buttonAdd.setAttribute('style','margin-top:10px');
+        buttonAdd.setAttribute('color','light');
+        console.log('Datos');
+    }else{
+        buttonAdd.setAttribute('vertical','bottom');
+        console.log('No datos');
+    };
+    // (newSearch.value) ? buttonAdd.setAttribute('show','true') : buttonAdd.setAttribute('show','false');
+    // (newSearch.value) ? buttonAdd.setAttribute('style','margin-top: 500em') : buttonAdd.setAttribute('style','margin-top: 0em');
     // console.log('Búsqueda = ' + newSearch.value);
     aTotal.sort();
     showSearch.innerHTML = '';

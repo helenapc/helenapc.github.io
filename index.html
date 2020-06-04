@@ -25,12 +25,9 @@
                     <ion-title id="userName" slot="start"></ion-title>
                 </ion-toolbar>
             </ion-header>
-            <ion-content>
+            <ion-content style="margin-right: 20px">
                 <ion-refresher slot="fixed" id="refresher" pull-factor="0.5" pull-min="50" pull-max="200">
-                    <ion-refresher-content
-                      pulling-icon="chevron-down-outline"
-                      refreshing-spinner="circular">
-                    </ion-refresher-content>
+                    <ion-refresher-content pulling-icon="chevron-down-outline" refreshing-spinner="circular"></ion-refresher-content>
                   </ion-refresher>
                 <ion-grid>
                     <ion-row>
@@ -39,6 +36,7 @@
                                 <ion-card-header color="dark">
                                     <ion-row>
                                         <ion-title>Gestor de Cuentas</ion-title>
+                                        <ion-icon name="eye-outline" size="large"></ion-icon>
                                     </ion-row>
                                 </ion-card-header>
                             </ion-card>
@@ -55,11 +53,12 @@
                         </ion-col>
                     </ion-row>
                 </ion-grid>
-                <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-                    <ion-fab-button color="success" size="Xsmall" id="b-add">
-                        <ion-icon name="add"></ion-icon>
-                    </ion-fab-button>
-                </ion-fab>
+                        <ion-fab id="b-add" vertical="bottom" horizontal="end" slot="fixed">
+                            <ion-fab-button color="success" size="small" >
+                                <ion-icon name="add"></ion-icon>
+                            </ion-fab-button>
+                        </ion-fab>
+                        <!-- <ion-icon name="eye-outline" size="large" horizontal="start"></ion-icon> -->
             </ion-content>
             <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
             <script nomodule="" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
