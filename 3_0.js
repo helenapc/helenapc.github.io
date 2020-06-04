@@ -19,8 +19,6 @@ const newSearch = document.getElementById("new-s");
 const buttonAdd = document.getElementById('b-add');
 
 
-// buttonAdd.setAttribute('activated', true);
-// buttonAdd
 
 titleName.setAttribute('disabled', true);
 newSearch.setAttribute('disabled', true);
@@ -102,6 +100,8 @@ const barLogout = document.getElementById('barLogout')
 
 const showCardAll = (account, user, pass, notes) => { // OK
     const ionCard = document.createElement('ion-card');
+    // ionCard.setAttribute('size-md', '4');
+    // ionCard.setAttribute('offset-md', '4');
     ionCard.setAttribute("button", "click-btn");
     const newHeader = document.createElement('ion-card-header');
 
@@ -715,6 +715,7 @@ function disableItem(boolean) {
     titleName.setAttribute('disabled', boolean);
     refresher.setAttribute('disabled', boolean);
 }
+
 function refreshData() { // OK 
     if (newSearch.value){
         buttonAdd.setAttribute('vertical','top');
@@ -725,9 +726,6 @@ function refreshData() { // OK
         buttonAdd.setAttribute('vertical','bottom');
         console.log('No datos');
     };
-    // (newSearch.value) ? buttonAdd.setAttribute('show','true') : buttonAdd.setAttribute('show','false');
-    // (newSearch.value) ? buttonAdd.setAttribute('style','margin-top: 500em') : buttonAdd.setAttribute('style','margin-top: 0em');
-    // console.log('Búsqueda = ' + newSearch.value);
     aTotal.sort();
     showSearch.innerHTML = '';
     var contador = 0;
