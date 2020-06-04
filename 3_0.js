@@ -15,7 +15,8 @@ const refresher = document.getElementById('refresher');
 
 const titleName = document.getElementById('titleName');
 const showSearch = document.getElementById('show-accounts1');
-const newSearch = document.getElementById("new-s");
+const newSearch = document.getElementById('new-s');
+const sizeSearch = document.getElementById('sizeSearch'); // NUEVO
 const buttonAdd = document.getElementById('b-add');
 
 
@@ -100,8 +101,6 @@ const barLogout = document.getElementById('barLogout')
 
 const showCardAll = (account, user, pass, notes) => { // OK
     const ionCard = document.createElement('ion-card');
-    // ionCard.setAttribute('size-md', '4');
-    // ionCard.setAttribute('offset-md', '4');
     ionCard.setAttribute("button", "click-btn");
     const newHeader = document.createElement('ion-card-header');
 
@@ -704,7 +703,7 @@ barLogout.addEventListener('click', () => {
 
 
 
-
+const pos2Fab = document.getElementById('pos2Fab');
 
 //######################## FUNCIONES ########################
 
@@ -717,15 +716,29 @@ function disableItem(boolean) {
 }
 
 function refreshData() { // OK 
-    if (newSearch.value){
-        buttonAdd.setAttribute('vertical','top');
-        buttonAdd.setAttribute('style','margin-top:10px');
-        buttonAdd.setAttribute('color','light');
-        console.log('Datos');
-    }else{
-        buttonAdd.setAttribute('vertical','bottom');
-        console.log('No datos');
-    };
+    // if (newSearch.value){
+    //     sizeSearch.setAttribute('size', '10.5')
+    //     buttonAdd.setAttribute('vertical','top');
+    //     buttonAdd.setAttribute('horizontal','end');
+    //     buttonAdd.setAttribute('style','margin-top:90px');
+    //     pos2Fab.setAttribute('style','margin-right:10px');
+    //     // style="padding-right: 40px"
+    //     // newSearch.setAttribute('size','10.5');
+    //     console.log('Datos');
+
+    // }else{
+    //     sizeSearch.setAttribute('size', '12')
+    //     buttonAdd.setAttribute('vertical','bottom');
+    //     pos2Fab.setAttribute('style','margin-right:100px');
+    //     buttonAdd.setAttribute('horizontal','end');
+    //     // buttonAdd.setAttribute('style','margin-top:-40px');
+    //     // buttonAdd.setAttribute('style','margin-left:-28px');
+    //     // buttonAdd.setAttribute('style','margin-top:0px');
+    //     // buttonAdd.setAttribute('style','margin-left:0px');
+    //     // buttonAdd.setAttribute('horizontal','center');
+    //     // newSearch.setAttribute('size','12');
+    //     console.log('No datos');
+    // };
     aTotal.sort();
     showSearch.innerHTML = '';
     var contador = 0;

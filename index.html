@@ -40,9 +40,16 @@
                                     </ion-row>
                                 </ion-card-header>
                             </ion-card>
+                            <!-- <ion-col size="4"><ion-searchbar id="new-s" debounce="3" placeholder="Buscar.."></ion-searchbar></ion-col> -->
                             <ion-row>
-                                <ion-col size="10"><ion-searchbar id="new-s" debounce="3" placeholder="Buscar.."></ion-searchbar></ion-col>
-                                <ion-col><ion-icon name="eye-outline" size="large" style="margin-top: 15px"></ion-icon></ion-col>
+                                <!-- ion-col SIZE 10.5 / 12 -->
+                                <ion-col size="12" id="sizeSearch">
+                                    <ion-searchbar id="new-s" debounce="3" placeholder="Buscar.." ></ion-searchbar>
+                                    <!-- <ion-fab-button color="success" size="small" ><ion-icon name="add"></ion-icon></ion-fab-button> -->
+                                </ion-col>
+                                <!-- <ion-col><ion-fab-button color="danger" size="small" ><ion-icon name="add"></ion-icon></ion-fab-button></ion-col> -->
+                                <!-- <ion-col><ion-icon name="eye-off-outline" size="large" style="margin-top: 15px"></ion-icon></ion-col> -->
+                                <!-- <ion-col><ion-fab-button color="success" size="small" ><ion-icon name="add"></ion-icon></ion-fab-button></ion-col> -->
                             </ion-row>
                         </ion-col>
                     </ion-row>
@@ -55,8 +62,8 @@
                         </ion-col>
                     </ion-row>
                 </ion-grid>
-                        <ion-fab id="b-add" vertical="bottom" horizontal="end" slot="fixed">
-                            <ion-fab-button color="success" size="small" >
+                        <ion-fab id="b-add" vertical="bottom" horizontal="center" slot="fixed">
+                            <ion-fab-button id="pos2Fab" color="success" size="small" >
                                 <ion-icon name="add"></ion-icon>
                             </ion-fab-button>
                         </ion-fab>
