@@ -9,6 +9,7 @@ var coincidencia = false;
 var txt = []; var aTotal = []; var newTotal = [];
 var docB1 = ''; var docB2 = ''; var userID = '';
 
+
 // Init components
 const refresher = document.getElementById('refresher');
 
@@ -16,9 +17,11 @@ const titleName = document.getElementById('titleName');
 const showSearch = document.getElementById('show-accounts1');
 const newSearch = document.getElementById('new-s');
 const sizeSearch = document.getElementById('sizeSearch'); // NUEVO
-const buttonAdd = document.getElementById('b-add');
+const buttonAdd = document.getElementById('buttonAdd');
+const buttonAdd2 = document.getElementById('buttonAdd2');
 const buttonEye = document.getElementById('buttonEye');
 
+// buttonAdd2.setAttribute('disabled', true);
 
 titleName.setAttribute('disabled', true);
 newSearch.setAttribute('disabled', true);
@@ -98,6 +101,8 @@ const barImport = document.getElementById('barImport')
 const barExport = document.getElementById('barExport')
 const barLogout = document.getElementById('barLogout')
 
+
+
 const showCardAll = (account, user, pass, notes) => { // OK
     const ionCard = document.createElement('ion-card');
     ionCard.setAttribute("button", "click-btn");
@@ -127,7 +132,7 @@ const showCardAll = (account, user, pass, notes) => { // OK
 // ------------------ START ------------------ //
 
 db.collection("users").onSnapshot((querySnapshot) => {
-    querySnapshot.forEach(() => { });
+    querySnapshot.forEach(() => {});
 });
 
 localStorage.setItem('L1', 'GDGDGDGD');
@@ -166,7 +171,6 @@ if (localStorage.getItem('L2') != '') { //existen datos locales
         // console.log(userID);
         // console.log(localStorage.getItem('L2'));
         if (docB1 != localStorage.getItem('L2')) {
-
 
             // OBTENER DIFERENCIA
             // var txtTemp = [];
@@ -511,7 +515,53 @@ buttonAdd.addEventListener('click', () => {
         alert.header = 'Agregar cuenta';
         alert.inputs = [
             // id: 'name1a-id'
-            { name: 'name1a', placeholder: 'Cuenta', value: ''},
+            { name: 'name1a', placeholder: 'Cuenta(Nombre)', value: ''},
+            { name: 'name2a', placeholder: 'Usuario', value: '' },
+            { name: 'name3a', placeholder: 'Contraseña', value: '' },
+            { name: 'name4a', placeholder: 'Notas(Opcional)', value: '' }
+        ];
+        alert.buttons = [
+            { text: 'Cancel', role: 'cancel' },
+            {
+                text: 'Ok',
+                handler: (newData2) => {
+                    if (newData2.name1a == '' || newData2.name2a == '' || newData2.name3a == '') {
+                        refreshData();
+                        alertMsg('Error', 'Datos incorrectos o vacíos.');
+                        return;
+                    }
+                    for (let i = 0; i < newTotal.length; i += 5) {
+                        if (newData2.name1a == newTotal[i] && newData2.name2a == newTotal[i + 1] && newData2.name3a == newTotal[i + 2]) {
+                            refreshData();
+                            alertMsg('Error', `La cuenta ${newTotal[i]} ya existe.`);
+                            return;
+                        }
+                    }
+                    aTotal.push(code(newData2.name1a.toLowerCase()) + "OG" + code(newData2.name2a) + "OG" + code(newData2.name3a) + "OG" + code(newData2.name4a));
+
+                    aTotalTOnewTotal();
+                    save();
+                    updateDB('L1', 'B1');
+                    updateDB('L1', 'L2');
+                    showSearch.innerHTML = '';
+                    newSearch.value = newData2.name1a;
+                    showCardAll(newData2.name1a.toUpperCase(), newData2.name2a, newData2.name3a, newData2.name4a);
+                }
+            }
+        ];
+        document.body.appendChild(alert);
+        return alert.present();
+    }
+    presentAlertAdd()
+});
+
+buttonAdd2.addEventListener('click', () => {
+    function presentAlertAdd() {
+        const alert = document.createElement('ion-alert');
+        alert.header = 'Agregar cuenta';
+        alert.inputs = [
+            // id: 'name1a-id'
+            { name: 'name1a', placeholder: 'Cuenta(Nombre)', value: ''},
             { name: 'name2a', placeholder: 'Usuario', value: '' },
             { name: 'name3a', placeholder: 'Contraseña', value: '' },
             { name: 'name4a', placeholder: 'Notas(Opcional)', value: '' }
@@ -561,8 +611,15 @@ barEdit.addEventListener('click', () => {
             {
                 text: 'Ok',
                 handler: (u) => {
-                    (u.uEPass == deco(txt[2])) ? presentAlertEditUserData() : presentToast('Incorrecto', '500');
-                    updateDB('L2', 'B1')
+                    if (u.uEPass == deco(txt[2])) {
+                        presentAlertEditUserData()
+                        updateDB('L2', 'B1');
+                        console.log();
+                    }else{
+                        presentToast('Incorrecto', '500');
+
+                    }
+                    // localStorage.setItem('accessTempData', '');
                 }
             }
         ];
@@ -668,6 +725,7 @@ barLogout.addEventListener('click', () => {
 
 });
 
+
 //######################## FUNCIONES ########################
 
 function disableItem(boolean) {
@@ -680,35 +738,17 @@ function disableItem(boolean) {
 
 function refreshData() { // OK 
     if (newSearch.value){
-        // buttonAdd2.setAttribute('id', 'b-add');
-    //     sizeSearch.setAttribute('size', '10.5')
-    //     buttonAdd.setAttribute('vertical','top');
-    //     buttonAdd.setAttribute('horizontal','end');
-    //     buttonAdd.setAttribute('style','margin-top:90px');
-    //     pos2Fab.setAttribute('style','margin-right:10px');
-    //     // style="padding-right: 40px"
-    //     // newSearch.setAttribute('size','10.5');
-    //     console.log('Datos');
-
+        buttonAdd2.setAttribute('style', 'margin-right: 0px');
+        buttonAdd.setAttribute('style','margin-bottom:-1000px');
     }else{
-    //     // sizeSearch.setAttribute('size', '12')
-    //     // buttonAdd.setAttribute('vertical','bottom');
-    //     // pos2Fab.setAttribute('style','margin-right:100px');
-    //     // buttonAdd.setAttribute('horizontal','end');
-    //     // buttonAdd.setAttribute('style','margin-top:-40px');
-    //     // buttonAdd.setAttribute('style','margin-left:-28px');
-    //     // buttonAdd.setAttribute('style','margin-top:0px');
-    //     // buttonAdd.setAttribute('style','margin-left:0px');
-    //     // buttonAdd.setAttribute('horizontal','center');
-    //     // newSearch.setAttribute('size','12');
-    //     console.log('No datos');
+        buttonAdd2.setAttribute('style', 'margin-right: -80px');
+        buttonAdd.setAttribute('style','margin-bottom:0px');
     };
-
 
     aTotal.sort();
     showSearch.innerHTML = '';
     var contador = 0;
-    for (let i = 0; i < newTotal.length; i += 5) {
+    for (i = 0; i < newTotal.length; i += 5) {
         if (newSearch.value === "*") {
             showCardAll(newTotal[i].toUpperCase(), newTotal[i + 1], newTotal[i + 2], newTotal[i + 3]);
             contador++;
@@ -880,8 +920,10 @@ function presentAlertEditUserData() {
                 txt[2] = code(usNData.userEditPass);
                 document.getElementById('userName').innerHTML = deco(txt[0]);
                 save();
-                updateDB('L1', 'L2');
                 updateDB('L1', 'B1');
+                updateDB('L1', 'L2');
+                localStorage.setItem('accessTempData',txt[0]+'GD'+txt[1]+'GD'+txt[2]+'GD')
+
             }
         }
     ];
