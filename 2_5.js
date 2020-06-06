@@ -452,10 +452,15 @@ showSearch.addEventListener('long-press', (e) => { // MANIPULATE CARDS (EDIT - D
                                                 alertMsg('Error', 'Datos incorrectos o vacíos.');
                                                 return;
                                             }
-                                            if (1 == 1) { // comprobar si hay datos existentes
-                                                console.log('comprobar si hay datos existentes');
-                                                return;
+
+                                            for (i = 0; i < newTotal.length; i += 5) {
+                                                console.log(newTotal);
+                                                if (newData.name1 == newTotal[i] && newData.name2 == newTotal[i + 1] && newData.name3 == newTotal[i + 2] && newData.name4 == newTotal[i + 3]) {
+                                                    alertMsg('Error', `La cuenta ${newTotal[i]} ya existe.`);
+                                                    return;
+                                                }
                                             }
+
                                             aTotal.splice(toRemplace, 1, code(newData.name1) + "OG" + code(newData.name2) + "OG" + code(newData.name3) + "OG" + code(newData.name4));
                                             aTotalTOnewTotal();
                                             refreshData();
@@ -530,7 +535,7 @@ buttonAdd.addEventListener('click', () => {
                         alertMsg('Error', 'Datos incorrectos o vacíos.');
                         return;
                     }
-                    for (let i = 0; i < newTotal.length; i += 5) {
+                    for (i = 0; i < newTotal.length; i += 5) {
                         if (newData2.name1a == newTotal[i] && newData2.name2a == newTotal[i + 1] && newData2.name3a == newTotal[i + 2]) {
                             refreshData();
                             alertMsg('Error', `La cuenta ${newTotal[i]} ya existe.`);
