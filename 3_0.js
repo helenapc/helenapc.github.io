@@ -1,4 +1,3 @@
-
 firebase.initializeApp({
     apiKey: 'AIzaSyAZW5fuFF8X3zoUWddiAg2IPEodtNSX33c',
     authDomain: 'helena-db-5c523.firebaseapp.com',
@@ -279,11 +278,6 @@ refresher.addEventListener('ionRefresh', () => {
     }, 150);
 })
 
-// buttonEye.addEventListener('click', () =>{
-//     (buttonEye.name == 'eye-outline') ? buttonEye.setAttribute('name', 'eye-off-outline') : buttonEye.setAttribute('name', 'eye-outline');
-//     console.log(buttonEye.name);
-// });
-
 buttonLogin.addEventListener('click', () => { // FALTA
     function presentAlertLogin() {
         var accessTempData = [];
@@ -430,7 +424,7 @@ showSearch.addEventListener('long-press', (e) => { // MANIPULATE CARDS (EDIT - D
             async function presentToastC(msg) {
                 const toast = document.createElement('ion-toast');
                 toast.message = msg;
-                toast.duration = 1000;
+                toast.duration = 1250;
                 toast.buttons = [
                     {
                         icon: 'pencil',
@@ -568,6 +562,7 @@ barEdit.addEventListener('click', () => {
                 text: 'Ok',
                 handler: (u) => {
                     (u.uEPass == deco(txt[2])) ? presentAlertEditUserData() : presentToast('Incorrecto', '500');
+                    updateDB('L2', 'B1')
                 }
             }
         ];

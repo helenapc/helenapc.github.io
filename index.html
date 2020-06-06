@@ -28,7 +28,7 @@
             <ion-content>
                 <ion-refresher slot="fixed" id="refresher" pull-factor="0.5" pull-min="50" pull-max="200">
                     <ion-refresher-content pulling-icon="chevron-down-outline" refreshing-spinner="circular"></ion-refresher-content>
-                  </ion-refresher>
+                </ion-refresher>
                 <ion-grid>
                     <ion-row>
                         <ion-col size-md="5" offset-md="3.5">
@@ -40,15 +40,17 @@
                                     </ion-row>
                                 </ion-card-header>
                             </ion-card>
+                            
                             <ion-row>
                                 <!-- ion-col SIZE 10.5 / 12 -->
                                 <ion-col size="12" id="sizeSearch">
-                                    <ion-searchbar id="new-s" debounce="3" placeholder="Buscar.." ></ion-searchbar>
+                                    <ion-searchbar id="new-s" debounce="3" placeholder="Buscar.."></ion-searchbar>
                                 </ion-col>
                             </ion-row>
                         </ion-col>
                     </ion-row>
-                    <ion-row><ion-col id="show-accounts1" size-md="5" offset-md="3.5"></ion-col>
+                    <ion-row>
+                        <ion-col id="show-accounts1" size-md="5" offset-md="3.5"></ion-col>
                     </ion-row>
                     <ion-row id="showLogin">
                         <ion-col size="5.5" offset="3.25">
@@ -57,12 +59,12 @@
                         </ion-col>
                     </ion-row>
                 </ion-grid>
-                        <!-- <ion-fab  vertical="bottom" horizontal="center" slot="fixed" style="margin-left:110px">
+                <!-- <ion-fab  vertical="bottom" horizontal="center" slot="fixed" style="margin-left:110px">
                             <ion-fab-button id="b-add" color="success" size="small">
                                 <ion-icon name="add"></ion-icon>
                             </ion-fab-button>
                         </ion-fab> -->
-                        <!-- <ion-icon name="eye-outline" size="large" horizontal="start"></ion-icon> -->
+                <!-- <ion-icon name="eye-outline" size="large" horizontal="start"></ion-icon> -->
             </ion-content>
             <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
             <script nomodule="" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
