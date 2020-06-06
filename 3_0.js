@@ -18,7 +18,7 @@ const showSearch = document.getElementById('show-accounts1');
 const newSearch = document.getElementById('new-s');
 const sizeSearch = document.getElementById('sizeSearch'); // NUEVO
 const buttonAdd = document.getElementById('b-add');
-
+const buttonEye = document.getElementById('buttonEye');
 
 
 titleName.setAttribute('disabled', true);
@@ -191,7 +191,7 @@ if (localStorage.getItem('L2') != '') { //existen datos locales
                 alert.message = 'Selecione una para utilizar';
                 alert.buttons = [
                     {
-                        text: 'Mmemoria local',
+                        text: 'Memoria local',
                         handler: () => {
                             splitInit();
                             aTotalTOnewTotal();
@@ -225,42 +225,12 @@ if (localStorage.getItem('L2') != '') { //existen datos locales
                     //             alert.cssClass = 'my-custom-class';
                     //             alert.header = 'Agregar cambios';
                     //             alert.inputs = [
-                    //                 {
-                    //                     type: 'checkbox',
-                    //                     label: 'Checkbox 1',
-                    //                     value: 'value1',
-                    //                     checked: true
-                    //                 },
-
-                    //                 {
-                    //                     type: 'checkbox',
-                    //                     label: 'Checkbox 2',
-                    //                     value: 'value2'
-                    //                 },
-
-                    //                 {
-                    //                     type: 'checkbox',
-                    //                     label: 'Checkbox 3',
-                    //                     value: 'value3'
-                    //                 },
-
-                    //                 {
-                    //                     type: 'checkbox',
-                    //                     label: 'Checkbox 4',
-                    //                     value: 'value4'
-                    //                 },
-
-                    //                 {
-                    //                     type: 'checkbox',
-                    //                     label: 'Checkbox 5',
-                    //                     value: 'value5'
-                    //                 },
-
-                    //                 {
-                    //                     type: 'checkbox',
-                    //                     label: 'Checkbox 6',
-                    //                     value: 'value6'
-                    //                 }
+                    //                 {type: 'checkbox', label: 'Checkbox 1', value: 'value1',checked: true},
+                    //                 {type: 'checkbox',label: 'Checkbox 2',value: 'value2'},
+                    //                 {type: 'checkbox',label: 'Checkbox 3',value: 'value3'},
+                    //                 {type: 'checkbox',label: 'Checkbox 4',value: 'value4'},
+                    //                 {type: 'checkbox',label: 'Checkbox 5',value: 'value5'},
+                    //                 {type: 'checkbox',label: 'Checkbox 6',value: 'value6'}
                     //             ];
                     //             alert.buttons = [
                     //                 {
@@ -270,12 +240,7 @@ if (localStorage.getItem('L2') != '') { //existen datos locales
                     //                     handler: () => {
                     //                         console.log('Confirm Cancel')
                     //                     }
-                    //                 }, {
-                    //                     text: 'Ok',
-                    //                     handler: () => {
-                    //                         console.log('Confirm Ok')
-                    //                     }
-                    //                 }
+                    //                 }, {text: 'Ok',handler: () => {console.log('Confirm Ok')}}
                     //             ];
 
                     //             document.body.appendChild(alert);
@@ -305,12 +270,19 @@ if (localStorage.getItem('L2') != '') { //existen datos locales
 
 newSearch.addEventListener('ionInput', () => { refreshData() });
 
+
+
 refresher.addEventListener('ionRefresh', () => {
     setTimeout(() => {
         window.location.reload();
         refresher.complete();
     }, 150);
 })
+
+// buttonEye.addEventListener('click', () =>{
+//     (buttonEye.name == 'eye-outline') ? buttonEye.setAttribute('name', 'eye-off-outline') : buttonEye.setAttribute('name', 'eye-outline');
+//     console.log(buttonEye.name);
+// });
 
 buttonLogin.addEventListener('click', () => { // FALTA
     function presentAlertLogin() {
@@ -701,10 +673,6 @@ barLogout.addEventListener('click', () => {
 
 });
 
-
-
-const pos2Fab = document.getElementById('pos2Fab');
-
 //######################## FUNCIONES ########################
 
 function disableItem(boolean) {
@@ -716,7 +684,8 @@ function disableItem(boolean) {
 }
 
 function refreshData() { // OK 
-    // if (newSearch.value){
+    if (newSearch.value){
+        // buttonAdd2.setAttribute('id', 'b-add');
     //     sizeSearch.setAttribute('size', '10.5')
     //     buttonAdd.setAttribute('vertical','top');
     //     buttonAdd.setAttribute('horizontal','end');
@@ -726,11 +695,11 @@ function refreshData() { // OK
     //     // newSearch.setAttribute('size','10.5');
     //     console.log('Datos');
 
-    // }else{
-    //     sizeSearch.setAttribute('size', '12')
-    //     buttonAdd.setAttribute('vertical','bottom');
-    //     pos2Fab.setAttribute('style','margin-right:100px');
-    //     buttonAdd.setAttribute('horizontal','end');
+    }else{
+    //     // sizeSearch.setAttribute('size', '12')
+    //     // buttonAdd.setAttribute('vertical','bottom');
+    //     // pos2Fab.setAttribute('style','margin-right:100px');
+    //     // buttonAdd.setAttribute('horizontal','end');
     //     // buttonAdd.setAttribute('style','margin-top:-40px');
     //     // buttonAdd.setAttribute('style','margin-left:-28px');
     //     // buttonAdd.setAttribute('style','margin-top:0px');
@@ -738,7 +707,9 @@ function refreshData() { // OK
     //     // buttonAdd.setAttribute('horizontal','center');
     //     // newSearch.setAttribute('size','12');
     //     console.log('No datos');
-    // };
+    };
+
+
     aTotal.sort();
     showSearch.innerHTML = '';
     var contador = 0;
