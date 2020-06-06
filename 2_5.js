@@ -203,7 +203,7 @@ if (localStorage.getItem('L2') != '') { //existen datos locales
                             showLogin.innerHTML = '';
                             disableItem(false);
                             updateDB('L2', 'B1');
-                            newSearch.innerHTML='';
+                            newSearch.value='';
                             // newSearch.value != ''
                         }
                     },
@@ -218,7 +218,7 @@ if (localStorage.getItem('L2') != '') { //existen datos locales
                             showLogin.innerHTML = '';
                             disableItem(false);
                             updateDB('L1', 'L2');
-                            newSearch.innerHTML='';
+                            newSearch.value='';
                             // refreshData();
                         }
                     },
