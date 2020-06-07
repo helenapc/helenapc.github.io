@@ -172,6 +172,13 @@ if (localStorage.getItem('L2') != '') { //existen datos locales
         // console.log(localStorage.getItem('L2'));
         if (docB1 != localStorage.getItem('L2')) {
 
+            if (docB1.includes(localStorage.getItem('accesTempData'))) {
+
+            } else {
+                localStorage.clear();
+                window.location.reload();
+            };
+
             // OBTENER DIFERENCIA
             // var txtTemp = [];
             // var aTotalTemp = [];
@@ -194,6 +201,21 @@ if (localStorage.getItem('L2') != '') { //existen datos locales
                 alert.message = 'Selecione una para utilizar';
                 alert.buttons = [
                     {
+                        // text: 'Memoria local',
+                        // handler: () => {
+                        //     splitInit();
+                        //     aTotalTOnewTotal();
+                        //     localStorage.setItem('accessTempData', txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD');
+                        //     document.getElementById('userName').innerHTML = deco(txt[0]);
+                        //     showLogin.innerHTML = '';
+                        //     disableItem(false);
+                        //     updateDB('L2', 'B1');
+                        //     // newSearch.value='';
+                        //     refreshData();
+
+                        // }
+
+                        //New Memoria Local
                         text: 'Memoria local',
                         handler: () => {
                             splitInit();
@@ -202,8 +224,9 @@ if (localStorage.getItem('L2') != '') { //existen datos locales
                             document.getElementById('userName').innerHTML = deco(txt[0]);
                             showLogin.innerHTML = '';
                             disableItem(false);
-                            updateDB('L2', 'B1');
-                            newSearch.value='';
+                            // updateDB('L2', 'B1');
+                            // newSearch.value='';
+                            refreshData();
 
                         }
                     },
@@ -218,7 +241,8 @@ if (localStorage.getItem('L2') != '') { //existen datos locales
                             showLogin.innerHTML = '';
                             disableItem(false);
                             updateDB('L1', 'L2');
-                            newSearch.value='';
+                            // newSearch.value='';
+                            refreshData();
 
                         }
                     },
@@ -523,7 +547,7 @@ buttonAdd.addEventListener('click', () => {
         alert.header = 'Agregar cuenta';
         alert.inputs = [
             // id: 'name1a-id'
-            { name: 'name1a', placeholder: 'Cuenta(Nombre)', value: ''},
+            { name: 'name1a', placeholder: 'Cuenta(Nombre)', value: '' },
             { name: 'name2a', placeholder: 'Usuario', value: '' },
             { name: 'name3a', placeholder: 'Contraseña', value: '' },
             { name: 'name4a', placeholder: 'Notas(Opcional)', value: '' }
@@ -569,7 +593,7 @@ buttonAdd2.addEventListener('click', () => {
         alert.header = 'Agregar cuenta';
         alert.inputs = [
             // id: 'name1a-id'
-            { name: 'name1a', placeholder: 'Cuenta(Nombre)', value: ''},
+            { name: 'name1a', placeholder: 'Cuenta(Nombre)', value: '' },
             { name: 'name2a', placeholder: 'Usuario', value: '' },
             { name: 'name3a', placeholder: 'Contraseña', value: '' },
             { name: 'name4a', placeholder: 'Notas(Opcional)', value: '' }
@@ -623,7 +647,7 @@ barEdit.addEventListener('click', () => {
                         presentAlertEditUserData()
                         updateDB('L2', 'B1');
                         console.log();
-                    }else{
+                    } else {
                         presentToast('Incorrecto', '500');
 
                     }
@@ -745,12 +769,12 @@ function disableItem(boolean) {
 }
 
 function refreshData() { // OK 
-    if (newSearch.value){
+    if (newSearch.value) {
         buttonAdd2.setAttribute('style', 'margin-right: 0px');
-        buttonAdd.setAttribute('style','margin-bottom:-1000px');
-    }else{
+        buttonAdd.setAttribute('style', 'margin-bottom:-1000px');
+    } else {
         buttonAdd2.setAttribute('style', 'margin-right: -80px');
-        buttonAdd.setAttribute('style','margin-bottom:0px');
+        buttonAdd.setAttribute('style', 'margin-bottom:0px');
     };
 
     aTotal.sort();
@@ -930,7 +954,7 @@ function presentAlertEditUserData() {
                 save();
                 updateDB('L1', 'B1');
                 updateDB('L1', 'L2');
-                localStorage.setItem('accessTempData',txt[0]+'GD'+txt[1]+'GD'+txt[2]+'GD')
+                localStorage.setItem('accessTempData', txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD')
 
             }
         }
