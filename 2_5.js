@@ -172,12 +172,12 @@ if (localStorage.getItem('L2') != '') { //existen datos locales
         // console.log(localStorage.getItem('L2'));
         if (docB1 != localStorage.getItem('L2')) {
 
-            if (docB1.includes(localStorage.getItem('accesTempData'))) {
+            // if (docB1.includes(localStorage.getItem('accesTempData'))) {
 
-            } else {
-                localStorage.clear();
-                window.location.reload();
-            };
+            // } else {
+            //     localStorage.clear();
+            //     window.location.reload();
+            // };
 
             // OBTENER DIFERENCIA
             // var txtTemp = [];
