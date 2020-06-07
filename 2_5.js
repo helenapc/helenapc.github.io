@@ -131,9 +131,9 @@ const showCardAll = (account, user, pass, notes) => { // OK
 
 // ------------------ START ------------------ //
 
-db.collection("users").onSnapshot((querySnapshot) => {
-    querySnapshot.forEach(() => {});
-});
+// db.collection("users").onSnapshot((querySnapshot) => {
+//     querySnapshot.forEach(() => {});
+// });
 
 localStorage.setItem('L1', 'GDGDGDGD');
 
