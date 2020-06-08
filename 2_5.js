@@ -132,7 +132,7 @@ const showCardAll = (account, user, pass, notes) => { // OK
 // ------------------ START ------------------ //
 
 db.collection("users").onSnapshot((querySnapshot) => {
-    querySnapshot.forEach(() => {});
+    querySnapshot.forEach(() => { });
 });
 
 localStorage.setItem('L1', 'GDGDGDGD');
@@ -161,31 +161,25 @@ if (localStorage.getItem('L2')) { //existen datos locales
                 userID = doc.id;
 
                 //COMPROBANDO DATOS
-                console.log('----------------------------------------------------');
-                console.log('B1:     ' + docB1);
-                console.log('Access: ' + localStorage.getItem('accessTempData'));
-                console.log('L2:     ' + localStorage.getItem('L2'));
-                if (docB1==localStorage.getItem('L2')) {
-                    console.log('coincide (primero)');
-                }else{
-                    console.log('no coincide (primero)');
-                };
+                // console.log('----------------------------------------------------');
+                // console.log('B1:     ' + docB1);
+                // console.log('Access: ' + localStorage.getItem('accessTempData'));
+                // console.log('L1:     ' + localStorage.getItem('L1'));
+                // console.log('L2:     ' + localStorage.getItem('L2'));
+                // if (docB1 == localStorage.getItem('L2')) {
+                //     console.log('coincide (primero)');
+                // } else {
+                //     console.log('no coincide (primero)');
+                // };
                 compare = true;
                 return;
             };
 
         });
 
-        if (compare){
-            console.log('Encontrado');
-            // console.log(localStorage.getItem('accessTempData'));
-        }else{
-            // console.log(localStorage.getItem('accessTempData'));
-            console.log('No encontrado');
-            
+        if (!compare) {
             localStorage.clear();
             window.location.reload();
-
         };
         compare = false;
 
@@ -194,17 +188,14 @@ if (localStorage.getItem('L2')) { //existen datos locales
         // console.log(localStorage.getItem('L2'));
 
         if (docB1 != localStorage.getItem('L2')) {
-            if(true){
-
-            };
             function alertCompareData() {
                 const alert = document.createElement('ion-alert');
                 alert.subHeader = 'Cambios en la base da datos';
-                alert.message = 'Selecione una para utilizar';
+                alert.message = '¿Sincorinizar la base de datos?';
                 alert.buttons = [
                     {
 
-                        text: 'Memoria local',
+                        text: 'No', //Memoria Local
                         handler: () => {
                             splitInit();
                             aTotalTOnewTotal();
@@ -213,13 +204,14 @@ if (localStorage.getItem('L2')) { //existen datos locales
                             showLogin.innerHTML = '';
                             disableItem(false);
                             updateDB('L2', 'B1');
-                            // newSearch.value='';
+                            newSearch.value = '';
                             refreshData();
+                            presentToast('Usando memoria local', '1000');
 
                         }
                     },
                     {
-                        text: 'Base de datos',
+                        text: 'Si', //Base de datos
                         handler: () => {
                             updateDB('B1', 'L1');
                             splitInit();
@@ -229,8 +221,9 @@ if (localStorage.getItem('L2')) { //existen datos locales
                             showLogin.innerHTML = '';
                             disableItem(false);
                             updateDB('L1', 'L2');
-                            // newSearch.value='';
+                            newSearch.value = '';
                             refreshData();
+                            presentToast('Base de datos sincronizada', '1000')
 
                         }
                     },
@@ -608,7 +601,7 @@ barEdit.addEventListener('click', () => {
                                 { name: 'userEditPass', placeholder: 'Contraseña', value: deco(txt[2]) }
                             ];
                             alert.buttons = [
-                                { text: 'Cancel', role: 'cancel' },
+                                { text: 'Cancelar', role: 'cancel' },
                                 {
                                     text: 'Ok',
                                     handler: (usNData) => {
@@ -616,26 +609,35 @@ barEdit.addEventListener('click', () => {
                                             alertMsg('Error', 'Datos incorrectos o vacíos.');
                                             return;
                                         }
-                                        txt[0] = code(usNData.userEditName);
-                                        txt[1] = code(usNData.userEditUser);
-                                        txt[2] = code(usNData.userEditPass);
-                                        document.getElementById('userName').innerHTML = deco(txt[0]);
-                                        localStorage.setItem('accessTempData', txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD')
 
-                                        // save();
-                                        // updateDB('L1', 'B1');
-                                        // updateDB('L1', 'L2');
-                                        // console.log(aTotal);
-                                        // aTotal.push(code(usNData.userEditName).toLowerCase()) + "OG" + code(usNData.userEditUser) + "OG" + code(usNData.userEditPass) + "OG");
+                                        function presentAlertConfirmEdit() {
+                                            const alert = document.createElement('ion-alert');
+                                            alert.header = 'ADVERTENCIA!'
+                                            alert.subHeader = 'Al cambiar estos datos se cerrará la sesión en otros dispositivos'
+                                            alert.message = '¿Confirmar?'
+                                            alert.buttons = [
+                                                { text: 'Cancelar', role: 'cancel' },
+                                                {
+                                                    text: 'Ok',
+                                                    handler: () => {
+                                                        txt[0] = code(usNData.userEditName);
+                                                        txt[1] = code(usNData.userEditUser);
+                                                        txt[2] = code(usNData.userEditPass);
+                                                        document.getElementById('userName').innerHTML = deco(txt[0]);
+                                                        localStorage.setItem('accessTempData', txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD')
+                                                        save();
+                                                        updateDB('L1', 'B1');
+                                                        updateDB('L1', 'L2');
 
-                                        // aTotalTOnewTotal();
-                                        save();
-                                        updateDB('L1', 'B1');
-                                        updateDB('L1', 'L2');
-                                        // showSearch.innerHTML = '';
-                                        // newSearch.value = newData2.name1a;
-                                        // showCardAll(newData2.name1a.toUpperCase(), newData2.name2a, newData2.name3a, newData2.name4a);
-                        
+
+                                                    }
+                                                }
+
+                                            ];
+                                            document.body.appendChild(alert);
+                                            return alert.present();
+                                        }
+                                        presentAlertConfirmEdit();
                                     }
                                 }
                             ];
