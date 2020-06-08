@@ -385,6 +385,9 @@ buttonCreate.addEventListener('click', () => { // DESHABILItADO
 showSearch.addEventListener('long-press', (e) => { // MANIPULATE CARDS (EDIT - DELETE) // OK OK
 
     e.preventDefault();
+
+    // console.log(e.path);
+
     var xPath = 3;
     var cuPath = [];
 
@@ -393,9 +396,10 @@ showSearch.addEventListener('long-press', (e) => { // MANIPULATE CARDS (EDIT - D
     if (e.path[xPath].innerText == '') xPath = 5;
 
     cuPath[0] = e.path[xPath].children[0].innerText;
-    cuPath[1] = e.path[xPath].children[1].innerText.split(': ').pop();
-    cuPath[2] = e.path[xPath].children[2].innerText.split(': ').pop();
-    cuPath[3] = e.path[xPath].children[3].innerText.split(': ').pop();
+    cuPath[1] = e.path[xPath].children[1].innerText.split('Usuario: ').pop();
+    cuPath[2] = e.path[xPath].children[2].innerText.split('Contraseña: ').pop();
+    cuPath[3] = e.path[xPath].children[3].innerText.split('Notas: ').pop();
+
     if (cuPath[3] == 'Notas:') cuPath[3] = '';
 
     for (i = 0; i < newTotal.length; i += 5) {
@@ -495,10 +499,10 @@ buttonAdd.addEventListener('click', () => {
         alert.header = 'Agregar cuenta';
         alert.inputs = [
             // id: 'name1a-id'
-            { name: 'name1a', placeholder: 'Cuenta(Nombre)', value: '' },
+            { name: 'name1a', placeholder: 'Cuenta(Nombre)', value: '', type: 'email' },
             { name: 'name2a', placeholder: 'Usuario', value: '' },
             { name: 'name3a', placeholder: 'Contraseña', value: '' },
-            { name: 'name4a', placeholder: 'Notas(Opcional)', value: '' }
+            { name: 'name4a', placeholder: 'Notas(Opcional)', value: '', type: 'url' }
         ];
         alert.buttons = [
             { text: 'Cancel', role: 'cancel' },
