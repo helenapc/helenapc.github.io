@@ -131,91 +131,79 @@ const showCardAll = (account, user, pass, notes) => { // OK
 
 // ------------------ START ------------------ //
 
-// db.collection("users").onSnapshot((querySnapshot) => {
-//     querySnapshot.forEach(() => {});
-// });
+db.collection("users").onSnapshot((querySnapshot) => {
+    querySnapshot.forEach(() => {});
+});
 
 localStorage.setItem('L1', 'GDGDGDGD');
 
 (localStorage.getItem('L2')) ? localStorage.setItem('L1', localStorage.getItem('L2')) : localStorage.setItem('L2', '');
 
 
-if (localStorage.getItem('L2') != '') { //existen datos locales
-    // if (localStorage.getItem('L2').length < 12) {
-    //     console.log('Error', 'No se pueden cargar datos');
-    //     localStorage.setItem('L2', '');
-    //     window.location.reload();
-    // };
+// if (localStorage.getItem('L2') != '') { //existen datos locales
+if (localStorage.getItem('L2')) { //existen datos locales
 
     showLogin.innerHTML = '';
     disableItem(false);
     splitInit();
     aTotalTOnewTotal();
-    localStorage.setItem('accessTempData', txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD');
+    // localStorage.setItem('accessTempData', txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD');
     document.getElementById('userName').innerHTML = deco(txt[0]);
 
 
     // comprobación de local con base de datos
-
+    var compare = false;
     db.collection("users").onSnapshot((querySnapshot) => {
         querySnapshot.forEach((doc) => {
             if (doc.data().B1.includes(localStorage.getItem('accessTempData'))) {
                 docB1 = doc.data().B1;
                 docB2 = doc.data().B2;
                 userID = doc.id;
+
+                //COMPROBANDO DATOS
+                console.log('----------------------------------------------------');
+                console.log('B1:     ' + docB1);
+                console.log('Access: ' + localStorage.getItem('accessTempData'));
+                console.log('L2:     ' + localStorage.getItem('L2'));
+                if (docB1==localStorage.getItem('L2')) {
+                    console.log('coincide (primero)');
+                }else{
+                    console.log('no coincide (primero)');
+                };
+                compare = true;
                 return;
             };
 
         });
+
+        if (compare){
+            console.log('Encontrado');
+            // console.log(localStorage.getItem('accessTempData'));
+        }else{
+            // console.log(localStorage.getItem('accessTempData'));
+            console.log('No encontrado');
+            
+            localStorage.clear();
+            window.location.reload();
+
+        };
+        compare = false;
+
         // console.log(docB1);
         // console.log(userID);
         // console.log(localStorage.getItem('L2'));
+
         if (docB1 != localStorage.getItem('L2')) {
+            if(true){
 
-            // if (docB1.includes(localStorage.getItem('accesTempData'))) {
-
-            // } else {
-            //     localStorage.clear();
-            //     window.location.reload();
-            // };
-
-            // OBTENER DIFERENCIA
-            // var txtTemp = [];
-            // var aTotalTemp = [];
-            // var newa = [];
-            // txtTemp = docB1.split('GD');
-            // aTotalTemp = txtTemp[3].split(txtTemp[3].includes('Q0') ? 'Q0' : 'BO');
-            // aTotalTemp.splice(-1, 1);
-            // aTotalTemp = aTotalTemp.concat(aTotal);
-            // aTotalTemp.sort();
-
-            // for (i = 0; i < aTotalTemp.length; i++) {
-            //     (aTotalTemp[i] == aTotalTemp[i + 1]) ? i++ : newa.push(aTotalTemp[i]);
-            // };
-            // console.log(newa);
-
-
+            };
             function alertCompareData() {
                 const alert = document.createElement('ion-alert');
                 alert.subHeader = 'Cambios en la base da datos';
                 alert.message = 'Selecione una para utilizar';
                 alert.buttons = [
                     {
-                        // text: 'Memoria local',
-                        // handler: () => {
-                        //     splitInit();
-                        //     aTotalTOnewTotal();
-                        //     localStorage.setItem('accessTempData', txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD');
-                        //     document.getElementById('userName').innerHTML = deco(txt[0]);
-                        //     showLogin.innerHTML = '';
-                        //     disableItem(false);
-                        //     updateDB('L2', 'B1');
-                        //     // newSearch.value='';
-                        //     refreshData();
 
-                        // }
-
-                        //New Memoria Local
                         text: 'Memoria local',
                         handler: () => {
                             splitInit();
@@ -224,7 +212,7 @@ if (localStorage.getItem('L2') != '') { //existen datos locales
                             document.getElementById('userName').innerHTML = deco(txt[0]);
                             showLogin.innerHTML = '';
                             disableItem(false);
-                            // updateDB('L2', 'B1');
+                            updateDB('L2', 'B1');
                             // newSearch.value='';
                             refreshData();
 
@@ -246,39 +234,6 @@ if (localStorage.getItem('L2') != '') { //existen datos locales
 
                         }
                     },
-
-                    // {
-                    //     text: 'Fusionar',
-                    //     handler: () => {
-                    //         function presentAlertCheckbox() {
-                    //             const alert = document.createElement('ion-alert');
-                    //             alert.cssClass = 'my-custom-class';
-                    //             alert.header = 'Agregar cambios';
-                    //             alert.inputs = [
-                    //                 {type: 'checkbox', label: 'Checkbox 1', value: 'value1',checked: true},
-                    //                 {type: 'checkbox',label: 'Checkbox 2',value: 'value2'},
-                    //                 {type: 'checkbox',label: 'Checkbox 3',value: 'value3'},
-                    //                 {type: 'checkbox',label: 'Checkbox 4',value: 'value4'},
-                    //                 {type: 'checkbox',label: 'Checkbox 5',value: 'value5'},
-                    //                 {type: 'checkbox',label: 'Checkbox 6',value: 'value6'}
-                    //             ];
-                    //             alert.buttons = [
-                    //                 {
-                    //                     text: 'Cancel',
-                    //                     role: 'cancel',
-                    //                     cssClass: 'secondary',
-                    //                     handler: () => {
-                    //                         console.log('Confirm Cancel')
-                    //                     }
-                    //                 }, {text: 'Ok',handler: () => {console.log('Confirm Ok')}}
-                    //             ];
-
-                    //             document.body.appendChild(alert);
-                    //             return alert.present();
-                    //         }
-                    //         presentAlertCheckbox();
-                    //     }
-                    // }
                 ];
                 document.body.appendChild(alert);
                 return alert.present();
@@ -481,7 +436,7 @@ showSearch.addEventListener('long-press', (e) => { // MANIPULATE CARDS (EDIT - D
                                             }
 
                                             for (i = 0; i < newTotal.length; i += 5) {
-                                                console.log(newTotal);
+                                                // console.log(newTotal);
                                                 if (newData.name1 == newTotal[i] && newData.name2 == newTotal[i + 1] && newData.name3 == newTotal[i + 2] && newData.name4 == newTotal[i + 3]) {
                                                     alertMsg('Error', `La cuenta ${newTotal[i]} ya existe.`);
                                                     return;
@@ -644,9 +599,51 @@ barEdit.addEventListener('click', () => {
                 text: 'Ok',
                 handler: (u) => {
                     if (u.uEPass == deco(txt[2])) {
-                        presentAlertEditUserData()
-                        updateDB('L2', 'B1');
-                        console.log();
+                        function presentAlertEditUserData() {
+                            const alert = document.createElement('ion-alert');
+                            alert.header = 'Editar cuenta';
+                            alert.inputs = [
+                                { name: 'userEditName', placeholder: 'Nombre', value: deco(txt[0]) },
+                                { name: 'userEditUser', placeholder: 'Usuario', value: deco(txt[1]) },
+                                { name: 'userEditPass', placeholder: 'Contraseña', value: deco(txt[2]) }
+                            ];
+                            alert.buttons = [
+                                { text: 'Cancel', role: 'cancel' },
+                                {
+                                    text: 'Ok',
+                                    handler: (usNData) => {
+                                        if (usNData.userEditName == '' || usNData.userEditUser == '' || usNData.userEditPass == '') {
+                                            alertMsg('Error', 'Datos incorrectos o vacíos.');
+                                            return;
+                                        }
+                                        txt[0] = code(usNData.userEditName);
+                                        txt[1] = code(usNData.userEditUser);
+                                        txt[2] = code(usNData.userEditPass);
+                                        document.getElementById('userName').innerHTML = deco(txt[0]);
+                                        localStorage.setItem('accessTempData', txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD')
+
+                                        // save();
+                                        // updateDB('L1', 'B1');
+                                        // updateDB('L1', 'L2');
+                                        // console.log(aTotal);
+                                        // aTotal.push(code(usNData.userEditName).toLowerCase()) + "OG" + code(usNData.userEditUser) + "OG" + code(usNData.userEditPass) + "OG");
+
+                                        // aTotalTOnewTotal();
+                                        save();
+                                        updateDB('L1', 'B1');
+                                        updateDB('L1', 'L2');
+                                        // showSearch.innerHTML = '';
+                                        // newSearch.value = newData2.name1a;
+                                        // showCardAll(newData2.name1a.toUpperCase(), newData2.name2a, newData2.name3a, newData2.name4a);
+                        
+                                    }
+                                }
+                            ];
+                            document.body.appendChild(alert);
+                            return alert.present();
+                        };
+                        presentAlertEditUserData();
+
                     } else {
                         presentToast('Incorrecto', '500');
 
@@ -928,39 +925,6 @@ function updateDB(send, receive) {
             return;
         })
     };
-};
-
-function presentAlertEditUserData() {
-    const alert = document.createElement('ion-alert');
-    alert.header = 'Editar cuenta';
-    alert.inputs = [
-        { name: 'userEditName', placeholder: 'Nombre', value: deco(txt[0]) },
-        { name: 'userEditUser', placeholder: 'Usuario', value: deco(txt[1]) },
-        { name: 'userEditPass', placeholder: 'Contraseña', value: deco(txt[2]) }
-    ];
-    alert.buttons = [
-        { text: 'Cancel', role: 'cancel' },
-        {
-            text: 'Ok',
-            handler: (usNData) => {
-                if (usNData.userEditName == '' || usNData.userEditUser == '' || usNData.userEditPass == '') {
-                    alertMsg('Error', 'Datos incorrectos o vacíos.');
-                    return;
-                }
-                txt[0] = code(usNData.userEditName);
-                txt[1] = code(usNData.userEditUser);
-                txt[2] = code(usNData.userEditPass);
-                document.getElementById('userName').innerHTML = deco(txt[0]);
-                save();
-                updateDB('L1', 'B1');
-                updateDB('L1', 'L2');
-                localStorage.setItem('accessTempData', txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD')
-
-            }
-        }
-    ];
-    document.body.appendChild(alert);
-    return alert.present();
 };
 
 function save() {
