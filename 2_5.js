@@ -247,7 +247,7 @@ buttonLogin.addEventListener('click', () => {
     const alert = document.createElement('ion-alert');
     alert.header = 'Iniciar sesión';
     alert.inputs = [
-      { name: 'userEditUser', placeholder: 'Usuario' },
+      { name: 'userEditUser', placeholder: 'Email' },
       { name: 'userEditPass', placeholder: 'Contraseña', type: 'password' },
     ];
     alert.buttons = [
@@ -305,7 +305,7 @@ buttonCreate.addEventListener('click', () => {
     alert.header = 'Registrarse';
     alert.inputs = [
       { name: 'userEditName', placeholder: 'Nombre' },
-      { name: 'userEditUser', placeholder: 'Usuario' },
+      { name: 'userEditUser', placeholder: 'Email' },
       { name: 'userEditPass', placeholder: 'Contraseña', type: 'password' },
     ];
     alert.buttons = [
