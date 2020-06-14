@@ -133,54 +133,32 @@ localStorage.setItem('L1', 'GDGDGDGD');
 
 localStorage.getItem('L2') ? localStorage.setItem('L1', localStorage.getItem('L2')) : localStorage.setItem('L2', '');
 
-// if (localStorage.getItem('L2') != '') { //existen datos locales
 if (localStorage.getItem('L2')) {
-  //existen datos locales
 
   showLogin.innerHTML = '';
   disableItem(false);
   splitInit();
   aTotalTOnewTotal();
-  // localStorage.setItem('accessTempData', txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD');
   document.getElementById('userName').innerHTML = deco(txt[0]);
 
-  // comprobación de local con base de datos
-  var compare = false;
-  db.collection('users').onSnapshot(querySnapshot => {
-    querySnapshot.forEach(doc => {
-      if (doc.data().B1.includes(localStorage.getItem('accessTempData'))) {
-        docB1 = doc.data().B1;
-        docB2 = doc.data().B2;
-        userID = doc.id;
 
-        //COMPROBANDO DATOS
-        // console.log('----------------------------------------------------');
-        // console.log('B1:     ' + docB1);
-        // console.log('Access: ' + localStorage.getItem('accessTempData'));
-        // console.log('L1:     ' + localStorage.getItem('L1'));
-        // console.log('L2:     ' + localStorage.getItem('L2'));
-        // if (docB1 == localStorage.getItem('L2')) {
-        //     console.log('coincide (primero)');
-        // } else {
-        //     console.log('no coincide (primero)');
-        // };
+db.collection('users').doc(localStorage.getItem('us')).get()
+  .then(function(doc) {
+    console.log('Pre-Comprobacion')
+    docB1 = doc.data().B1;
+    docB2 = doc.data().B2;
+    userID = doc.id;
 
-        compare = true;
-        return;
-      }
-    });
+    if (docB1 == localStorage.getItem('L2')) {
+      console.log('coincide (primero)');
+    } else {
+        console.log('no coincide (primero)');
+    };
 
-    if (!compare) {
-      localStorage.clear();
-      window.location.reload();
-    }
-    compare = false;
-
-    // console.log(docB1);
-    // console.log(userID);
-    // console.log(localStorage.getItem('L2'));
-
+    //console.log('Pre-Compare: ' + docB1)
+    console.log('Pre compare B1 - L2');
     if (docB1 != localStorage.getItem('L2')) {
+      console.log('TRUE compare B1 - L2');
       function alertCompareData() {
         const alert = document.createElement('ion-alert');
         alert.subHeader = 'Cambios en la base da datos';
@@ -224,9 +202,27 @@ if (localStorage.getItem('L2')) {
       alertCompareData();
     } else {
       // console.log('Son iguales');
-    }
+      console.log('FALSE compare B1 - L2');
+    };
+    console.log('Comprobado');
+
+  })
+/*
+  .catch(function(error) {
+    console.log("Error getting document:", error);
   });
-}
+*/
+};
+
+//  compare = true;
+  
+
+//  if (!compare) {
+//    localStorage.clear();
+//    window.location.reload();
+//  }
+//  compare = false;
+
 // ------------------ START ------------------ //
 
 //######################## BOTONES ########################
@@ -265,11 +261,15 @@ buttonLogin.addEventListener('click', () => {
           localStorage.setItem('accessTempData',accessTempData[0] + 'GD' + accessTempData[1] + 'GD');
 
           db.collection('users').onSnapshot(querySnapshot => {
+            console.log('LLamado Login');
             querySnapshot.forEach(doc => {
+              console.log('LLamado ForEach');
               docB1 = doc.data().B1;
               docB2 = doc.data().B2;
               userID = doc.id;
               if (doc.data().B1.includes(localStorage.getItem('accessTempData'))) {
+                localStorage.setItem('us', userID);
+                 console.log('Consulta Include');
                 // console.log('ID:' + userID)
                 coincidencia = true;
                 updateDB('B1', 'L1');
@@ -304,8 +304,8 @@ buttonCreate.addEventListener('click', () => {
     const alert = document.createElement('ion-alert');
     alert.header = 'Registrarse';
     alert.inputs = [
-      { name: 'userEditName', placeholder: 'Nombre' },
-      { name: 'userEditUser', placeholder: 'Email' },
+      { name: 'userEditName', placeholder: 'Nombre'},
+      { name: 'userEditUser', placeholder: 'Email'},
       { name: 'userEditPass', placeholder: 'Contraseña', type: 'password' },
     ];
     alert.buttons = [
@@ -314,20 +314,14 @@ buttonCreate.addEventListener('click', () => {
         text: 'Ok',
         handler: usNData => {
           if (
-            usNData.userEditName == '' ||
-            usNData.userEditUser == '' ||
-            usNData.userEditPass == ''
-          ) {
+            usNData.userEditName == '' || usNData.userEditUser == '' || usNData.userEditPass == '') {
             alertMsg('Error', 'Datos incorrectos o vacíos.');
             return;
           }
           accessTempData[0] = code(usNData.userEditName);
           accessTempData[1] = code(usNData.userEditUser);
           accessTempData[2] = code(usNData.userEditPass);
-          localStorage.setItem(
-            'accessTempData',
-            accessTempData[1] + 'GD' + accessTempData[2] + 'GD'
-          );
+          localStorage.setItem('accessTempData',accessTempData[1] + 'GD' + accessTempData[2] + 'GD');
 
           db.collection('users').onSnapshot(querySnapshot => {
             querySnapshot.forEach(doc => {
@@ -335,10 +329,12 @@ buttonCreate.addEventListener('click', () => {
                 doc.data().B1.includes(localStorage.getItem('accessTempData'))
               ) {
                 // console.log('Una coincidencia en: ' + userID);
+
                 docB1 = doc.data().B1;
                 docB2 = doc.data().B2;
                 userID = doc.id;
                 coincidencia = true;
+                localStorage.setItem('us', userID);
                 localStorage.removeItem('accessTempData');
                 return;
               }
@@ -346,13 +342,7 @@ buttonCreate.addEventListener('click', () => {
             if (!coincidencia) {
               db.collection('users')
                 .add({
-                  B1:
-                    accessTempData[0] +
-                    'GD' +
-                    accessTempData[1] +
-                    'GD' +
-                    accessTempData[2] +
-                    'GD',
+                  B1:accessTempData[0] +'GD' +accessTempData[1] +'GD' +accessTempData[2] +'GD',
                   B2: '',
                 })
                 .then(function() {
@@ -425,33 +415,17 @@ showSearch.addEventListener('long-press', e => {
                 alert.header = 'Editar cuenta';
                 alert.inputs = [
                   //id: 'name1-id'
-                  { name: 'name1', placeholder: 'Cuenta', value: newTotal[i] },
-                  {
-                    name: 'name2',
-                    placeholder: 'Usuario',
-                    value: newTotal[i + 1],
-                  },
-                  {
-                    name: 'name3',
-                    placeholder: 'Contraseña',
-                    value: newTotal[i + 2],
-                  },
-                  {
-                    name: 'name4',
-                    placeholder: 'Notas(Opcional)',
-                    value: newTotal[i + 3],
-                  },
+                  { name: 'n1', placeholder: 'Cuenta', value: newTotal[i] },
+                  { name: 'n2', placeholder: 'Usuario', value: newTotal[i + 1]},
+                  { name: 'n3', placeholder: 'Contraseña', value: newTotal[i + 2]},
+                  { name: 'n4', placeholder: 'Notas(Opcional)', value: newTotal[i + 3]},
                 ];
                 alert.buttons = [
                   { text: 'Cancel', role: 'cancel' },
                   {
                     text: 'Ok',
-                    handler: newData => {
-                      if (
-                        newData.name1 == '' ||
-                        newData.name2 == '' ||
-                        newData.name3 == ''
-                      ) {
+                    handler: nDt => {
+                      if (nDt.n1 == '' || nDt.n2 == '' || nDt.n3 == '') {
                         alertMsg('Error', 'Datos incorrectos o vacíos.');
                         return;
                       }
@@ -459,30 +433,14 @@ showSearch.addEventListener('long-press', e => {
                       for (i = 0; i < newTotal.length; i += 5) {
                         // console.log(newTotal);
                         if (
-                          newData.name1 == newTotal[i] &&
-                          newData.name2 == newTotal[i + 1] &&
-                          newData.name3 == newTotal[i + 2] &&
-                          newData.name4 == newTotal[i + 3]
-                        ) {
-                          alertMsg(
-                            'Error',
-                            `La cuenta ${newTotal[i]} ya existe.`
-                          );
+                          nDt.n1 == newTotal[i] && nDt.n2 == newTotal[i + 1] && nDt.n3 == newTotal[i + 2] && nDt.n4 == newTotal[i + 3]) {
+                          alertMsg('Error',`La cuenta ${newTotal[i]} ya existe.`);
                           return;
                         }
                       }
 
-                      aTotal.splice(
-                        toRemplace,
-                        1,
-                        code(newData.name1) +
-                          'OG' +
-                          code(newData.name2) +
-                          'OG' +
-                          code(newData.name3) +
-                          'OG' +
-                          code(newData.name4)
-                      );
+                      //aTotal.splice(toRemplace,1,code(nDt.n1) +'OG' +code(nDt.n2) +'OG' +code(nDt.n3) +'OG' +code(nDt.n4));
+                      aTotal.splice(toRemplace,1,`${code(nDt.n1)}OG${code(nDt.n2)}OG${code(nDt.n3)}OG${code(nDt.n4)}`)
                       aTotalTOnewTotal();
                       refreshData();
                       presentToast(`Editado ${msg}`, 500);
@@ -542,30 +500,20 @@ buttonAdd.addEventListener('click', () => {
     alert.header = 'Agregar cuenta';
     alert.inputs = [
       // id: 'name1a-id'
-      {
-        name: 'name1a',
-        placeholder: 'Cuenta(Nombre)',
-        value: '',
-        type: 'email',
-      },
-      { name: 'name2a', placeholder: 'Usuario', value: '' },
-      { name: 'name3a', placeholder: 'Contraseña', value: '' },
-      {
-        name: 'name4a',
-        placeholder: 'Notas(Opcional)',
-        value: '',
-        type: 'url',
-      },
+      { name: 'n1a', placeholder: 'Cuenta(Nombre)', value: ''},
+      { name: 'n2a', placeholder: 'Usuario', value: '' },
+      { name: 'n3a', placeholder: 'Contraseña', value: '' },
+      { name: 'n4a', placeholder: 'Notas(Opcional)', value: ''},
     ];
     alert.buttons = [
       { text: 'Cancel', role: 'cancel' },
       {
         text: 'Ok',
-        handler: newData2 => {
+        handler: nDt2 => {
           if (
-            newData2.name1a == '' ||
-            newData2.name2a == '' ||
-            newData2.name3a == ''
+            nDt2.n1a == '' ||
+            nDt2.n2a == '' ||
+            nDt2.n3a == ''
           ) {
             refreshData();
             alertMsg('Error', 'Datos incorrectos o vacíos.');
@@ -573,9 +521,9 @@ buttonAdd.addEventListener('click', () => {
           }
           for (i = 0; i < newTotal.length; i += 5) {
             if (
-              newData2.name1a == newTotal[i] &&
-              newData2.name2a == newTotal[i + 1] &&
-              newData2.name3a == newTotal[i + 2]
+              nDt2.n1a == newTotal[i] &&
+              nDt2.n2a == newTotal[i + 1] &&
+              nDt2.n3a == newTotal[i + 2]
             ) {
               refreshData();
               alertMsg('Error', `La cuenta ${newTotal[i]} ya existe.`);
@@ -583,13 +531,13 @@ buttonAdd.addEventListener('click', () => {
             }
           }
           aTotal.push(
-            code(newData2.name1a.toLowerCase()) +
+            code(nDt2.n1a.toLowerCase()) +
               'OG' +
-              code(newData2.name2a) +
+              code(nDt2.n2a) +
               'OG' +
-              code(newData2.name3a) +
+              code(nDt2.n3a) +
               'OG' +
-              code(newData2.name4a)
+              code(nDt2.n4a)
           );
 
           aTotalTOnewTotal();
@@ -597,13 +545,8 @@ buttonAdd.addEventListener('click', () => {
           updateDB('L1', 'B1');
           updateDB('L1', 'L2');
           showSearch.innerHTML = '';
-          newSearch.value = newData2.name1a;
-          showCardAll(
-            newData2.name1a.toUpperCase(),
-            newData2.name2a,
-            newData2.name3a,
-            newData2.name4a
-          );
+          newSearch.value = nDt2.n1a;
+          showCardAll(nDt2.n1a.toUpperCase(),nDt2.n2a,nDt2.n3a,nDt2.n4a);
         },
       },
     ];
@@ -619,58 +562,37 @@ buttonAdd2.addEventListener('click', () => {
     alert.header = 'Agregar cuenta';
     alert.inputs = [
       // id: 'name1a-id'
-      { name: 'name1a', placeholder: 'Cuenta(Nombre)', value: '' },
-      { name: 'name2a', placeholder: 'Usuario', value: '' },
-      { name: 'name3a', placeholder: 'Contraseña', value: '' },
-      { name: 'name4a', placeholder: 'Notas(Opcional)', value: '' },
+      { name: 'n1a', placeholder: 'Cuenta(Nombre)', value: '' },
+      { name: 'n2a', placeholder: 'Usuario', value: '' },
+      { name: 'n3a', placeholder: 'Contraseña', value: '' },
+      { name: 'n4a', placeholder: 'Notas(Opcional)', value: '' },
     ];
     alert.buttons = [
       { text: 'Cancel', role: 'cancel' },
       {
         text: 'Ok',
-        handler: newData2 => {
-          if (
-            newData2.name1a == '' ||
-            newData2.name2a == '' ||
-            newData2.name3a == ''
-          ) {
+        handler: nDt2 => {
+          if (nDt2.n1a == '' || nDt2.n2a == '' || nDt2.n3a == '') {
             refreshData();
             alertMsg('Error', 'Datos incorrectos o vacíos.');
             return;
           }
           for (let i = 0; i < newTotal.length; i += 5) {
-            if (
-              newData2.name1a == newTotal[i] &&
-              newData2.name2a == newTotal[i + 1] &&
-              newData2.name3a == newTotal[i + 2]
-            ) {
+            if ( nDt2.n1a == newTotal[i] && nDt2.n2a == newTotal[i + 1] && nDt2.n3a == newTotal[i + 2]) {
               refreshData();
               alertMsg('Error', `La cuenta ${newTotal[i]} ya existe.`);
               return;
             }
           }
-          aTotal.push(
-            code(newData2.name1a.toLowerCase()) +
-              'OG' +
-              code(newData2.name2a) +
-              'OG' +
-              code(newData2.name3a) +
-              'OG' +
-              code(newData2.name4a)
-          );
-
+          //aTotal.push(code(nDt2.n1a.toLowerCase()) + 'OG' + code(nDt2.n2a) + 'OG' + code(nDt2.n3a) + 'OG' + code(nDt2.n4a));
+          aTotal.push(`${code(nDt2.n1a.toLowerCase())} OG ${code(nDt2.n2a)} OG ${code(nDt2.n3a)} OG ${code(nDt2.n4a)}`);
           aTotalTOnewTotal();
           save();
           updateDB('L1', 'B1');
           updateDB('L1', 'L2');
           showSearch.innerHTML = '';
-          newSearch.value = newData2.name1a;
-          showCardAll(
-            newData2.name1a.toUpperCase(),
-            newData2.name2a,
-            newData2.name3a,
-            newData2.name4a
-          );
+          newSearch.value = nDt2.n1a;
+          showCardAll(nDt2.n1a.toUpperCase(),nDt2.n2a,nDt2.n3a,nDt2.n4a);
         },
       },
     ];
@@ -697,21 +619,9 @@ barEdit.addEventListener('click', () => {
               const alert = document.createElement('ion-alert');
               alert.header = 'Editar cuenta';
               alert.inputs = [
-                {
-                  name: 'userEditName',
-                  placeholder: 'Nombre',
-                  value: deco(txt[0]),
-                },
-                {
-                  name: 'userEditUser',
-                  placeholder: 'Usuario',
-                  value: deco(txt[1]),
-                },
-                {
-                  name: 'userEditPass',
-                  placeholder: 'Contraseña',
-                  value: deco(txt[2]),
-                },
+                { name: 'userEditName', placeholder: 'Nombre', value: deco(txt[0])},
+                { name: 'userEditUser', placeholder: 'Usuario', value: deco(txt[1])},
+                { name: 'userEditPass', placeholder: 'Contraseña', value: deco(txt[2])},
               ];
               alert.buttons = [
                 { text: 'Cancelar', role: 'cancel' },
@@ -984,7 +894,8 @@ function fecha() {
   if (hh < 10) hh = '0' + hh;
   var mm = today.getMinutes();
   if (mm < 10) mm = '0' + mm;
-  today = DD + '-' + MM + '-' + (YYYY - 2000) + '-' + hh + mm;
+  //today = DD + '-' + MM + '-' + (YYYY - 2000) + '-' + hh + mm;
+  today = `${DD} - ${MM} - ${(YYYY - 2000)} - ${hh} ${mm}`;
   return today;
 }
 
@@ -1003,11 +914,12 @@ function aTotalTOnewTotal() {
   for (b = 0; b < aTotal.length; b++) {
     const final = aTotal[b].split('OG');
     for (n = 0; n < final.length; n++) {
-      if (n % 4 == 0) {
-        newTotal.push(deco(final[n]).toLowerCase());
-      } else {
-        newTotal.push(deco(final[n]));
-      }
+      (n % 4 == 0) ? newTotal.push(deco(final[n]).toLowerCase()) : newTotal.push(deco(final[n]));
+      //if (n % 4 == 0) {
+      //  newTotal.push(deco(final[n]).toLowerCase());
+      //} else {
+      //  newTotal.push(deco(final[n]));
+      //}
       if (n == 3) newTotal.push('oo');
     }
   }
@@ -1034,6 +946,7 @@ function updateDB(send, receive) {
 
   // ('L -> B1');
   if (receive == 'B1') {
+    console.log('Llamado Update B1');
     return db.collection('users').doc(userID).update({
         B1: localStorage.getItem(send),
         //si se agrega nueva source se agrega nueva en firebase
@@ -1049,6 +962,7 @@ function updateDB(send, receive) {
 
   // ('L -> B2');
   if (receive == 'B2') {
+    console.log('Llamado Update B2');
     return db.collection('users').doc(userID).update({
         B2: localStorage.getItem(send),
       })
