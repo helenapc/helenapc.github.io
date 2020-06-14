@@ -286,21 +286,23 @@ buttonLogin.addEventListener('click', () => {
 
           db.collection('users').onSnapshot(querySnapshot => {
             querySnapshot.forEach(doc => {
-              docB1 = doc.data().B1;
-              docB2 = doc.data().B2;
-              userID = doc.id;
-              if (doc.data().B1.includes(localStorage.getItem('accessTempData'))) {
-                // console.log('ID:' + userID)
-                coincidencia = true;
-                updateDB('B1', 'L1');
-                updateDB('L1', 'L2');
-                splitInit();
-                aTotalTOnewTotal();
-                document.getElementById('userName').innerHTML = deco(txt[0]);
-                disableItem(false);
-                window.location.reload();
-                return;
-              }
+              if(!coincidencia){
+                docB1 = doc.data().B1;
+                docB2 = doc.data().B2;
+                userID = doc.id;
+                if (doc.data().B1.includes(localStorage.getItem('accessTempData'))) {
+                  // console.log('ID:' + userID)
+                  coincidencia = true;
+                  updateDB('B1', 'L1');
+                  updateDB('L1', 'L2');
+                  splitInit();
+                  aTotalTOnewTotal();
+                  document.getElementById('userName').innerHTML = deco(txt[0]);
+                  disableItem(false);
+                  window.location.reload();
+                  return;
+                };
+              };
             });
             (coincidencia) ? showLogin.innerHTML = '' : alertMsg('Error', 'Datos incorrectos o vacíos.');
           });
@@ -315,7 +317,7 @@ buttonLogin.addEventListener('click', () => {
 
 buttonCreate.addEventListener('click', () => {
   // DESHABILItADO
-  coincidencia = false;
+  //coincidencia = false;
   docB1 = '';
   docB2 = '';
   userID = '';
@@ -344,15 +346,17 @@ buttonCreate.addEventListener('click', () => {
 
           db.collection('users').onSnapshot(querySnapshot => {
             querySnapshot.forEach(doc => {
-              if (doc.data().B1.includes(localStorage.getItem('accessTempData'))) {
-                // console.log('Una coincidencia en: ' + userID);
-                docB1 = doc.data().B1;
-                docB2 = doc.data().B2;
-                userID = doc.id;
-                coincidencia = true;
-                localStorage.removeItem('accessTempData');
-                return;
-              }
+              if(!coincidencia){
+                if (doc.data().B1.includes(localStorage.getItem('accessTempData'))) {
+                  // console.log('Una coincidencia en: ' + userID);
+                  docB1 = doc.data().B1;
+                  docB2 = doc.data().B2;
+                  userID = doc.id;
+                  coincidencia = true;
+                  localStorage.removeItem('accessTempData');
+                  return;
+                };
+              };
             });
             if (!coincidencia) {
               db.collection('users').add({
@@ -677,7 +681,7 @@ barEdit.addEventListener('click', () => {
                     function presentAlertConfirmEdit() {
                       const alert = document.createElement('ion-alert');
                       alert.header = 'ADVERTENCIA!';
-                      alert.subHeader ='Al cambiar estos datos se cerrará la sesión en otros dispositivos.';
+                      alert.subHeader ='Al cambiar estos datos se cerrará la sesión en otros dispositivos';
                       alert.message = '¿Confirmar?';
                       alert.buttons = [
                         { text: 'Cancelar', role: 'cancel' },
