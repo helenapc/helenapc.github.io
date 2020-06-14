@@ -313,27 +313,18 @@ buttonCreate.addEventListener('click', () => {
       {
         text: 'Ok',
         handler: usNData => {
-          if (
-            usNData.userEditName == '' ||
-            usNData.userEditUser == '' ||
-            usNData.userEditPass == ''
-          ) {
+          if ( usNData.userEditName == '' || usNData.userEditUser == '' || usNData.userEditPass == '') {
             alertMsg('Error', 'Datos incorrectos o vacíos.');
             return;
           }
           accessTempData[0] = code(usNData.userEditName);
           accessTempData[1] = code(usNData.userEditUser);
           accessTempData[2] = code(usNData.userEditPass);
-          localStorage.setItem(
-            'accessTempData',
-            accessTempData[1] + 'GD' + accessTempData[2] + 'GD'
-          );
+          localStorage.setItem( 'accessTempData',accessTempData[1] + 'GD' + accessTempData[2] + 'GD'          );
 
           db.collection('users').onSnapshot(querySnapshot => {
             querySnapshot.forEach(doc => {
-              if (
-                doc.data().B1.includes(localStorage.getItem('accessTempData'))
-              ) {
+              if (doc.data().B1.includes(localStorage.getItem('accessTempData'))) {
                 // console.log('Una coincidencia en: ' + userID);
                 docB1 = doc.data().B1;
                 docB2 = doc.data().B2;
@@ -344,15 +335,8 @@ buttonCreate.addEventListener('click', () => {
               }
             });
             if (!coincidencia) {
-              db.collection('users')
-                .add({
-                  B1:
-                    accessTempData[0] +
-                    'GD' +
-                    accessTempData[1] +
-                    'GD' +
-                    accessTempData[2] +
-                    'GD',
+              db.collection('users').add({
+                  B1:accessTempData[0] +'GD' +accessTempData[1] +'GD' +accessTempData[2] +'GD',
                   B2: '',
                 })
                 .then(function() {
@@ -426,32 +410,16 @@ showSearch.addEventListener('long-press', e => {
                 alert.inputs = [
                   //id: 'name1-id'
                   { name: 'name1', placeholder: 'Cuenta', value: newTotal[i] },
-                  {
-                    name: 'name2',
-                    placeholder: 'Usuario',
-                    value: newTotal[i + 1],
-                  },
-                  {
-                    name: 'name3',
-                    placeholder: 'Contraseña',
-                    value: newTotal[i + 2],
-                  },
-                  {
-                    name: 'name4',
-                    placeholder: 'Notas(Opcional)',
-                    value: newTotal[i + 3],
-                  },
+                  { name: 'name2', placeholder: 'Usuario', value: newTotal[i + 1]},
+                  { name: 'name3', placeholder: 'Contraseña', value: newTotal[i + 2]},
+                  { name: 'name4', placeholder: 'Notas(Opcional)', value: newTotal[i + 3]},
                 ];
                 alert.buttons = [
                   { text: 'Cancel', role: 'cancel' },
                   {
                     text: 'Ok',
                     handler: newData => {
-                      if (
-                        newData.name1 == '' ||
-                        newData.name2 == '' ||
-                        newData.name3 == ''
-                      ) {
+                      if (newData.name1 == '' ||newData.name2 == '' ||newData.name3 == '') {
                         alertMsg('Error', 'Datos incorrectos o vacíos.');
                         return;
                       }
@@ -464,17 +432,12 @@ showSearch.addEventListener('long-press', e => {
                           newData.name3 == newTotal[i + 2] &&
                           newData.name4 == newTotal[i + 3]
                         ) {
-                          alertMsg(
-                            'Error',
-                            `La cuenta ${newTotal[i]} ya existe.`
-                          );
+                          alertMsg('Error',`La cuenta ${newTotal[i]} ya existe.`);
                           return;
                         }
                       }
 
-                      aTotal.splice(
-                        toRemplace,
-                        1,
+                      aTotal.splice(toRemplace,1,
                         code(newData.name1) +
                           'OG' +
                           code(newData.name2) +
@@ -542,31 +505,17 @@ buttonAdd.addEventListener('click', () => {
     alert.header = 'Agregar cuenta';
     alert.inputs = [
       // id: 'name1a-id'
-      {
-        name: 'name1a',
-        placeholder: 'Cuenta(Nombre)',
-        value: '',
-        type: 'email',
-      },
+      { name: 'name1a', placeholder: 'Cuenta(Nombre)', value: '',type: 'email'},
       { name: 'name2a', placeholder: 'Usuario', value: '' },
       { name: 'name3a', placeholder: 'Contraseña', value: '' },
-      {
-        name: 'name4a',
-        placeholder: 'Notas(Opcional)',
-        value: '',
-        type: 'url',
-      },
+      { name: 'name4a', placeholder: 'Notas(Opcional)', value: '', type: 'url'},
     ];
     alert.buttons = [
       { text: 'Cancel', role: 'cancel' },
       {
         text: 'Ok',
         handler: newData2 => {
-          if (
-            newData2.name1a == '' ||
-            newData2.name2a == '' ||
-            newData2.name3a == ''
-          ) {
+          if ( newData2.name1a == '' || newData2.name2a == '' || newData2.name3a == '') {
             refreshData();
             alertMsg('Error', 'Datos incorrectos o vacíos.');
             return;
@@ -598,12 +547,7 @@ buttonAdd.addEventListener('click', () => {
           updateDB('L1', 'L2');
           showSearch.innerHTML = '';
           newSearch.value = newData2.name1a;
-          showCardAll(
-            newData2.name1a.toUpperCase(),
-            newData2.name2a,
-            newData2.name3a,
-            newData2.name4a
-          );
+          showCardAll(newData2.name1a.toUpperCase(),newData2.name2a,newData2.name3a,newData2.name4a);
         },
       },
     ];
@@ -665,12 +609,7 @@ buttonAdd2.addEventListener('click', () => {
           updateDB('L1', 'L2');
           showSearch.innerHTML = '';
           newSearch.value = newData2.name1a;
-          showCardAll(
-            newData2.name1a.toUpperCase(),
-            newData2.name2a,
-            newData2.name3a,
-            newData2.name4a
-          );
+          showCardAll(newData2.name1a.toUpperCase(),newData2.name2a,newData2.name3a,newData2.name4a);
         },
       },
     ];
@@ -697,21 +636,9 @@ barEdit.addEventListener('click', () => {
               const alert = document.createElement('ion-alert');
               alert.header = 'Editar cuenta';
               alert.inputs = [
-                {
-                  name: 'userEditName',
-                  placeholder: 'Nombre',
-                  value: deco(txt[0]),
-                },
-                {
-                  name: 'userEditUser',
-                  placeholder: 'Usuario',
-                  value: deco(txt[1]),
-                },
-                {
-                  name: 'userEditPass',
-                  placeholder: 'Contraseña',
-                  value: deco(txt[2]),
-                },
+                { name: 'userEditName', placeholder: 'Nombre', value: deco(txt[0])},
+                { name: 'userEditUser', placeholder: 'Usuario', value: deco(txt[1])},
+                { name: 'userEditPass', placeholder: 'Contraseña', value: deco(txt[2])},
               ];
               alert.buttons = [
                 { text: 'Cancelar', role: 'cancel' },
@@ -730,8 +657,7 @@ barEdit.addEventListener('click', () => {
                     function presentAlertConfirmEdit() {
                       const alert = document.createElement('ion-alert');
                       alert.header = 'ADVERTENCIA!';
-                      alert.subHeader =
-                        'Al cambiar estos datos se cerrará la sesión en otros dispositivos';
+                      alert.subHeader ='Al cambiar estos datos se cerrará la sesión en otros dispositivos';
                       alert.message = '¿Confirmar?';
                       alert.buttons = [
                         { text: 'Cancelar', role: 'cancel' },
