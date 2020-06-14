@@ -141,14 +141,33 @@ if (localStorage.getItem('L2')) {
   disableItem(false);
   splitInit();
   aTotalTOnewTotal();
-  // localStorage.setItem('accessTempData', txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD');
   document.getElementById('userName').innerHTML = deco(txt[0]);
+  
+  /*
+  // OP1 comparación local con base de datos
+  localStorage.setItem('us', userID);
 
-  // comprobación de local con base de datos
+  db.collection('users').doc(localStorage.getItem('us')).get()
+  .then(function(doc) {
+    if (doc.exists) {
+        console.log("Document data:", doc.data());
+    } else {
+        console.log("No such document!");
+    }
+  })
+  .catch(function(error) {
+    console.log("Error getting document:", error);
+  });
+*/
+
+  // OP2 comprobación de local con base de datos
   var compare = false;
   db.collection('users').onSnapshot(querySnapshot => {
     querySnapshot.forEach(doc => {
+    if(!compare){
+      console.log('Llamados');
       if (doc.data().B1.includes(localStorage.getItem('accessTempData'))) {
+        console.log('Encontrado');
         docB1 = doc.data().B1;
         docB2 = doc.data().B2;
         userID = doc.id;
@@ -168,6 +187,7 @@ if (localStorage.getItem('L2')) {
         compare = true;
         return;
       }
+    };
     });
 
     if (!compare) {
