@@ -677,7 +677,7 @@ barEdit.addEventListener('click', () => {
                     function presentAlertConfirmEdit() {
                       const alert = document.createElement('ion-alert');
                       alert.header = 'ADVERTENCIA!';
-                      alert.subHeader ='Al cambiar estos datos se cerrará la sesión en otros dispositivos';
+                      alert.subHeader ='Al cambiar estos datos se cerrará la sesión en otros dispositivos.';
                       alert.message = '¿Confirmar?';
                       alert.buttons = [
                         { text: 'Cancelar', role: 'cancel' },
