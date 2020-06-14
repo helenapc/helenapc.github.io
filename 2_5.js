@@ -15,7 +15,6 @@ var userID = '';
 
 // Init components
 const refresher = document.getElementById('refresher');
-
 const titleName = document.getElementById('titleName');
 const showSearch = document.getElementById('show-accounts1');
 const newSearch = document.getElementById('new-s');
@@ -23,6 +22,7 @@ const sizeSearch = document.getElementById('sizeSearch'); // NUEVO
 const buttonAdd = document.getElementById('buttonAdd');
 const buttonAdd2 = document.getElementById('buttonAdd2');
 const buttonEye = document.getElementById('buttonEye');
+const iconEye =  document.getElementById('iconEye');
 
 // buttonAdd2.setAttribute('disabled', true);
 
@@ -158,7 +158,7 @@ if (localStorage.getItem('L2')) {
   .catch(function(error) {
     console.log("Error getting document:", error);
   });
-*/
+  */
 
   // OP2 comprobación de local con base de datos
   var compare = false;
@@ -821,6 +821,15 @@ barLogout.addEventListener('click', () => {
   window.location.reload();
 });
 
+buttonEye.addEventListener('click', () => {
+  if(iconEye.getAttribute('name') == 'eye-outline'){
+    newSearch.value = '*'
+  }else{
+    newSearch.value = ''
+  }
+  refreshData();
+  newSearch.value = ''
+});
 //######################## FUNCIONES ########################
 
 function disableItem(boolean) {
@@ -834,9 +843,11 @@ function disableItem(boolean) {
 function refreshData() {
   // OK
   if (newSearch.value) {
+    iconEye.setAttribute('name', 'eye-off-outline')
     buttonAdd2.setAttribute('style', 'margin-right: 0px');
-    buttonAdd.setAttribute('style', 'margin-bottom:-1000px');
+    buttonAdd.setAttribute('style', 'margin-bottom: 1000px');
   } else {
+    iconEye.setAttribute('name', 'eye-outline')
     buttonAdd2.setAttribute('style', 'margin-right: -80px');
     buttonAdd.setAttribute('style', 'margin-bottom:0px');
   }
