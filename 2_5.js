@@ -178,26 +178,11 @@ if (localStorage.getItem('L2')) {
     if (docB1 != localStorage.getItem('L2')) {
       function alertCompareData() {
         const alert = document.createElement('ion-alert');
-        alert.subHeader = 'Cambios en la base da datos';
-        alert.message = '¿Sincorinizar la base de datos?';
+        alert.header = 'Se detectaron cambios';
+        alert.message = '¿Sincorinizar con la base de datos?';
         alert.buttons = [
           {
-            text: 'No', //Memoria Local
-            handler: () => {
-              splitInit();
-              aTotalTOnewTotal();
-              localStorage.setItem('accessTempData',txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD');
-              document.getElementById('userName').innerHTML = deco(txt[0]);
-              showLogin.innerHTML = '';
-              disableItem(false);
-              updateDB('L2', 'B1');
-              newSearch.value = '';
-              refreshData();
-              presentToast('Usando memoria local', '1000');
-            },
-          },
-          {
-            text: 'Si', //Base de datos
+            text: 'Si',
             handler: () => {
               updateDB('B1', 'L1');
               splitInit();
@@ -210,6 +195,21 @@ if (localStorage.getItem('L2')) {
               newSearch.value = '';
               refreshData();
               presentToast('Base de datos sincronizada', '1000');
+            },
+          },
+          {
+            text: 'No',
+            handler: () => {
+              splitInit();
+              aTotalTOnewTotal();
+              localStorage.setItem('accessTempData',txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD');
+              document.getElementById('userName').innerHTML = deco(txt[0]);
+              showLogin.innerHTML = '';
+              disableItem(false);
+              updateDB('L2', 'B1');
+              newSearch.value = '';
+              refreshData();
+              presentToast('Usando memoria local', '1000');
             },
           },
         ];
@@ -820,7 +820,7 @@ function refreshData() {
   if (newSearch.value) {
     iconEye.setAttribute('name', 'eye-off-outline')
     buttonAdd2.setAttribute('style', 'margin-right: 0px');
-    buttonAdd.setAttribute('style', 'margin-bottom: 1000px');
+    buttonAdd.setAttribute('style', 'margin-bottom: -1000px');
   } else {
     iconEye.setAttribute('name', 'eye-outline')
     buttonAdd2.setAttribute('style', 'margin-right: -80px');
