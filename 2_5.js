@@ -133,9 +133,8 @@ localStorage.setItem('L1', 'GDGDGDGD');
 
 localStorage.getItem('L2') ? localStorage.setItem('L1', localStorage.getItem('L2')) : localStorage.setItem('L2', '');
 
-// if (localStorage.getItem('L2') != '') { //existen datos locales
-if (localStorage.getItem('L2')) {
   //existen datos locales
+if (localStorage.getItem('L2')) {
 
   showLogin.innerHTML = '';
   disableItem(false);
@@ -143,46 +142,21 @@ if (localStorage.getItem('L2')) {
   aTotalTOnewTotal();
   document.getElementById('userName').innerHTML = deco(txt[0]);
   
-  /*
-  // OP1 comparación local con base de datos
-  localStorage.setItem('us', userID);
-
-  db.collection('users').doc(localStorage.getItem('us')).get()
-  .then(function(doc) {
-    if (doc.exists) {
-        console.log("Document data:", doc.data());
-    } else {
-        console.log("No such document!");
-    }
-  })
-  .catch(function(error) {
-    console.log("Error getting document:", error);
-  });
-  */
+  
 
   // OP2 comprobación de local con base de datos
   var compare = false;
   db.collection('users').onSnapshot(querySnapshot => {
     querySnapshot.forEach(doc => {
     if(!compare){
-      console.log('Llamados');
+      //console.log('Llamados');
       if (doc.data().B1.includes(localStorage.getItem('accessTempData'))) {
-        console.log('Encontrado');
+        //console.log('Encontrado');
         docB1 = doc.data().B1;
         docB2 = doc.data().B2;
         userID = doc.id;
 
         //COMPROBANDO DATOS
-        // console.log('----------------------------------------------------');
-        // console.log('B1:     ' + docB1);
-        // console.log('Access: ' + localStorage.getItem('accessTempData'));
-        // console.log('L1:     ' + localStorage.getItem('L1'));
-        // console.log('L2:     ' + localStorage.getItem('L2'));
-        // if (docB1 == localStorage.getItem('L2')) {
-        //     console.log('coincide (primero)');
-        // } else {
-        //     console.log('no coincide (primero)');
-        // };
 
         compare = true;
         return;
@@ -261,9 +235,8 @@ refresher.addEventListener('ionRefresh', () => {
 });
 
 buttonLogin.addEventListener('click', () => {
-
   function presentAlertLogin() {
-    var accessTempData = [];
+    //var accessTempData = [];
     const alert = document.createElement('ion-alert');
     alert.header = 'Iniciar sesión';
     alert.inputs = [
@@ -274,15 +247,16 @@ buttonLogin.addEventListener('click', () => {
       { text: 'Cancelar', role: 'cancel' },
       {
         text: 'Ok',
-        handler: usNData => {
-          if (usNData.userEditName == '' || usNData.userEditUser == '' || usNData.userEditPass == '') {
+        handler: usData => {
+          if (usData.userEditName == '' || usData.userEditUser == '' || usData.userEditPass == '') {
             alertMsg('Error', 'Datos incorrectos o vacíos.');
             return;
           }
           enableItem = true;
-          accessTempData[0] = code(usNData.userEditUser);
-          accessTempData[1] = code(usNData.userEditPass);
-          localStorage.setItem('accessTempData',accessTempData[0] + 'GD' + accessTempData[1] + 'GD');
+          //accessTempData[0] = code(usData.userEditUser);
+          //accessTempData[1] = code(usData.userEditPass);
+          //localStorage.setItem('accessTempData',accessTempData[0] + 'GD' + accessTempData[1] + 'GD');
+          localStorage.setItem('accessTempData',code(usData.userEditUser) + 'GD' + code(usData.userEditPass) + 'GD');
 
           db.collection('users').onSnapshot(querySnapshot => {
             querySnapshot.forEach(doc => {
@@ -299,7 +273,7 @@ buttonLogin.addEventListener('click', () => {
                   aTotalTOnewTotal();
                   document.getElementById('userName').innerHTML = deco(txt[0]);
                   disableItem(false);
-                  window.location.reload();
+                  //window.location.reload();
                   return;
                 };
               };
@@ -316,13 +290,11 @@ buttonLogin.addEventListener('click', () => {
 });
 
 buttonCreate.addEventListener('click', () => {
-  // DESHABILItADO
-  //coincidencia = false;
-  docB1 = '';
-  docB2 = '';
-  userID = '';
+  //docB1 = '';
+  //docB2 = '';
+  //userID = '';
   function presentAlertCreate() {
-    var accessTempData = [];
+    //var accessTempData = [];
     const alert = document.createElement('ion-alert');
     alert.header = 'Registrarse';
     alert.inputs = [
@@ -334,16 +306,17 @@ buttonCreate.addEventListener('click', () => {
       { text: 'Cancelar', role: 'cancel' },
       {
         text: 'Ok',
-        handler: usNData => {
-          if ( usNData.userEditName == '' || usNData.userEditUser == '' || usNData.userEditPass == '') {
+        handler: usCData => {
+          if ( usCData.userEditName == '' || usCData.userEditUser == '' || usCData.userEditPass == '') {
             alertMsg('Error', 'Datos incorrectos o vacíos.');
             return;
           }
-          accessTempData[0] = code(usNData.userEditName);
-          accessTempData[1] = code(usNData.userEditUser);
-          accessTempData[2] = code(usNData.userEditPass);
-          localStorage.setItem( 'accessTempData',accessTempData[1] + 'GD' + accessTempData[2] + 'GD'          );
-
+          //accessTempData[0] = code(usCData.userEditName);
+          //accessTempData[1] = code(usCData.userEditUser);
+          //accessTempData[2] = code(usCData.userEditPass);
+          //localStorage.setItem( 'accessTempData',accessTempData[0] + 'GD' + accessTempData[1] + 'GD' + accessTempData[2] + 'GD');
+          localStorage.setItem('accessTempData', code(usCData.userEditName) + 'GD' + code(usCData.userEditUser) + 'GD' + code(usCData.userEditPass) + 'GD');
+          console.log('Datos ingresados: '+localStorage.getItem('accessTempData'));
           db.collection('users').onSnapshot(querySnapshot => {
             querySnapshot.forEach(doc => {
               if(!coincidencia){
@@ -360,11 +333,13 @@ buttonCreate.addEventListener('click', () => {
             });
             if (!coincidencia) {
               db.collection('users').add({
-                  B1:accessTempData[0] +'GD' +accessTempData[1] +'GD' +accessTempData[2] +'GD',
+                  //B1:accessTempData[0] +'GD' +accessTempData[1] +'GD' +accessTempData[2] +'GD',
+                  B1: localStorage.getItem('accessTempData'),
                   B2: '',
                 })
                 .then(function() {
                   // .then(function(docRef){
+                  console.log('Datos Agregados: '+localStorage.getItem('accessTempData'));
                   updateDB('B1', 'L1');
                   showLogin.innerHTML = '';
                   splitInit();
@@ -372,7 +347,7 @@ buttonCreate.addEventListener('click', () => {
                   document.getElementById('userName').innerHTML = deco(txt[0]);
                   updateDB('L1', 'L2');
                   disableItem(false);
-                  window.location.reload();
+                  //window.location.reload();
                 })
                 .catch(function(error) {
                   console.error('Error adding document: ', error);
@@ -391,8 +366,7 @@ buttonCreate.addEventListener('click', () => {
   return;
 });
 
-showSearch.addEventListener('long-press', e => {
-  // MANIPULATE CARDS (EDIT - DELETE) // OK OK
+showSearch.addEventListener('long-press', e => { // MANIPULATE CARDS (EDIT - DELETE) // OK OK
 
   e.preventDefault();
 
@@ -729,14 +703,13 @@ barEdit.addEventListener('click', () => {
 });
 
 barImport.addEventListener('click', () => {
-  // console.log('importar desde: ' + userID);
   document.getElementById('barMenuPrincipal').close();
   function alertImp() {
     const alert = document.createElement('ion-alert');
     alert.subHeader = 'Importar';
     alert.buttons = [
       {
-        text: 'Backup',
+        text: 'Base de datos',
         handler: () => {
           showSearch.innerHTML = '';
           newSearch.value = '';
@@ -795,7 +768,7 @@ barExport.addEventListener('click', () => {
     alert.subHeader = 'Exportar';
     alert.buttons = [
       {
-        text: 'Backup',
+        text: 'Base de datos',
         handler: () => {
           updateDB('L2', 'B2');
           presentToast('Datos exportados.', 500);
@@ -845,7 +818,7 @@ function refreshData() {
   if (newSearch.value) {
     iconEye.setAttribute('name', 'eye-off-outline')
     buttonAdd2.setAttribute('style', 'margin-right: 0px');
-    buttonAdd.setAttribute('style', 'margin-bottom: -1000px');
+    buttonAdd.setAttribute('style', 'margin-bottom: 1000px');
   } else {
     iconEye.setAttribute('name', 'eye-outline')
     buttonAdd2.setAttribute('style', 'margin-right: -80px');
@@ -954,7 +927,6 @@ function splitInit() {
   txt[3] == undefined ? (txt2 = txt.unshift('')) : null;
   aTotal = txt[3].split(txt[3].includes('Q0') ? 'Q0' : 'BO');
   aTotal.splice(-1, 1);
-  aTotal.sort();
 }
 
 function aTotalTOnewTotal() {
@@ -1022,11 +994,12 @@ function updateDB(send, receive) {
 }
 
 function save() {
-  aTotal.sort();
-  localStorage.setItem('L1',txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD' + aTotal.join('Q0') + 'Q0');
-  // updateDB('L1', 'B1');
-} //BO
-
+  if (aTotal.length > 0){
+    localStorage.setItem('L1',txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD' + aTotal.join('Q0') + 'Q0');
+  }else{
+    localStorage.setItem('L1',txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD');
+  }
+}
 //************************ END ************************
 // EXTRA (long tap)
 
