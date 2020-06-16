@@ -29,6 +29,7 @@ const iconEye =  document.getElementById('iconEye');
 titleName.setAttribute('disabled', true);
 newSearch.setAttribute('disabled', true);
 buttonAdd.setAttribute('disabled', true);
+buttonEye.setAttribute('disabled', true);
 refresher.setAttribute('disabled', true);
 
 const showLogin = document.getElementById('showLogin');
@@ -807,6 +808,7 @@ buttonEye.addEventListener('click', () => {
 
 function disableItem(boolean) {
   buttonAdd.setAttribute('disabled', boolean);
+  buttonEye.setAttribute('disabled', boolean);
   newSearch.setAttribute('disabled', boolean);
   barMenuPrincipal.setAttribute('disabled', boolean);
   titleName.setAttribute('disabled', boolean);
