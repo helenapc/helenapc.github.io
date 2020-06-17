@@ -170,10 +170,10 @@ if (localStorage.getItem('L2')) {
       function alertCompareData() {
         const alert = document.createElement('ion-alert');
         alert.header = 'Se detectaron cambios';
-        alert.message = '¿Sincorinizar con la base de datos?';
+        alert.message = '¿Aceptar y sincorinizar con la base de datos?';
         alert.buttons = [
           {
-            text: 'Si',
+            text: 'Aceptar',
             handler: () => {
               updateDB('B1', 'L1');
               splitInit();
@@ -189,7 +189,7 @@ if (localStorage.getItem('L2')) {
             },
           },
           {
-            text: 'No',
+            text: 'Rechazar',
             handler: () => {
               splitInit();
               aTotalTOnewTotal();
