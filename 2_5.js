@@ -136,29 +136,24 @@ localStorage.getItem('L2') ? localStorage.setItem('L1', localStorage.getItem('L2
 
   //existen datos locales
 if (localStorage.getItem('L2')) {
-
   showLogin.innerHTML = '';
   disableItem(false);
   splitInit();
   aTotalTOnewTotal();
   document.getElementById('userName').innerHTML = deco(txt[0]);
-  
-  
+
 
   // OP2 comprobación de local con base de datos
   var compare = false;
   db.collection('users').onSnapshot(querySnapshot => {
     querySnapshot.forEach(doc => {
     if(!compare){
-      //console.log('Llamados');
+
       if (doc.data().B1.includes(localStorage.getItem('accessTempData'))) {
-        //console.log('Encontrado');
+
         docB1 = doc.data().B1;
         docB2 = doc.data().B2;
         userID = doc.id;
-
-        //COMPROBANDO DATOS
-
         compare = true;
         return;
       }
@@ -170,10 +165,6 @@ if (localStorage.getItem('L2')) {
       window.location.reload();
     }
     compare = false;
-
-    // console.log(docB1);
-    // console.log(userID);
-    // console.log(localStorage.getItem('L2'));
 
     if (docB1 != localStorage.getItem('L2')) {
       function alertCompareData() {
@@ -210,6 +201,124 @@ if (localStorage.getItem('L2')) {
               newSearch.value = '';
               refreshData();
               presentToast('Usando memoria local', '1000');
+            },
+          },
+          {
+            text: 'Configurar',
+            handler: () => {
+              console.log('aTotal:' + aTotal);
+
+              var txtTemp = [];
+              var aTotalTemp = [];
+              var newa = [];
+              var metaObjAdd = [];
+              var metaObjDel = [];
+
+              txtTemp = docB1.split('GD');
+              aTotalTemp = txtTemp[3].split(txtTemp[3].includes('Q0') ? 'Q0' : 'BO');
+              aTotalTemp.splice(-1, 1);
+              aTotalTemp = aTotalTemp.concat(aTotal);
+              aTotalTemp.sort();
+
+
+              for (i = 0; i < aTotalTemp.length; i++) {
+                (aTotalTemp[i] == aTotalTemp[i + 1]) ? i++ : newa.push(aTotalTemp[i]);
+              };
+
+              for (i = 0 ; i < newa.length ; i++){
+                const newaName = newa[i].split('OG');
+                var myObj = {type: 'checkbox',label: deco(newaName[0]).toUpperCase(), value:newa[i], checked: true};
+                (txtTemp[3].includes(newa[i])) ? metaObjAdd.push(myObj) : metaObjDel.push(myObj);
+              }
+
+              if (metaObjAdd.length != ''){
+                function presentAlertCheckboxAdd() {
+                  const alert = document.createElement('ion-alert');
+                  alert.subHeader = 'Nuevas cuentas';
+                  alert.message = '¿Agregar?';
+                  alert.inputs = metaObjAdd;
+                  alert.buttons = [
+                    { text: 'Cancel', role: 'cancel'},
+                    { 
+                      text: 'Confirmar',
+                      handler: (data) => {
+                        aTotal = aTotal.concat(data);
+
+                        if (metaObjDel.length != '') {
+                          function presentAlertCheckboxDel() {
+                            const alert = document.createElement('ion-alert');
+                            alert.header = 'Cuentas eliminadas';
+                            alert.message = 'Confirmar eliminados';
+                            alert.inputs = metaObjDel;
+                            alert.buttons = [
+                              { text: 'Cancel', role: 'cancel'},
+                              { 
+                                text: 'Confirmar',
+                                handler: (data2) => {
+                                  aTotal = aTotal.concat(data2);
+                                  aTotal.sort();
+                                  newa = [];
+                                  for (i = 0; i < aTotal.length; i++) {
+                                    (aTotal[i] == aTotal[i + 1]) ? i++ : newa.push(aTotal[i]);
+                                  };
+                                  aTotal = newa;
+                                  aTotalTOnewTotal();
+                                  save();
+                                  updateDB('L1', 'B1');
+                                  updateDB('L1', 'L2');
+                                },
+                              },
+                            ];
+                            document.body.appendChild(alert);
+                            return alert.present();
+                          }
+                          presentAlertCheckboxDel();
+                        }else{
+                          console.log('No hay datos borrados');
+                          aTotalTOnewTotal();
+                          save();
+                          updateDB('L1', 'B1');
+                          updateDB('L1', 'L2');
+                        };
+
+                      },
+                    },
+                  ];
+
+                  document.body.appendChild(alert);
+                  return alert.present();
+                }
+                presentAlertCheckboxAdd();
+              }else{
+                function presentAlertCheckboxDel() {
+                  const alert = document.createElement('ion-alert');
+                  alert.header = 'Cuentas eliminadas';
+                  alert.message = 'Confirmar eliminados';
+                  alert.inputs = metaObjDel;
+                  alert.buttons = [
+                    { text: 'Cancel', role: 'cancel'},
+                    { 
+                      text: 'Confirmar',
+                      handler: (data2) => {
+                        aTotal = aTotal.concat(data2);
+                        aTotal.sort();
+                        newa = [];
+                        for (i = 0; i < aTotal.length; i++) {
+                          (aTotal[i] == aTotal[i + 1]) ? i++ : newa.push(aTotal[i]);
+                        };
+                        aTotal = newa;
+                        aTotalTOnewTotal();
+                        save();
+                        updateDB('L1', 'B1');
+                        updateDB('L1', 'L2');
+                      },
+                    },
+                  ];
+                  document.body.appendChild(alert);
+                  return alert.present();
+                }
+                presentAlertCheckboxDel();
+              };
             },
           },
         ];
