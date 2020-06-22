@@ -825,6 +825,7 @@ barImport.addEventListener('click', () => {
           showSearch.innerHTML = '';
           newSearch.value = '';
           updateDB('B2', 'L1');
+          presentToast('Copia cargada.', 500);
           updateDB('L1', 'L2');
           splitInit();
           aTotalTOnewTotal();
