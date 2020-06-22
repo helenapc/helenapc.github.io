@@ -64,7 +64,7 @@ barMenuPrincipal.appendChild(barHeader);
 
 // ITEM
 const barItem01 = document.createElement('ion-item');
-barItem01.textContent = 'Importar';
+barItem01.textContent = 'Cargar copia de seguridad'; //IMPORTAR
 barItem01.setAttribute('button', 'click-btn');
 barItem01.setAttribute('id', 'barImport');
 const barIcon01 = document.createElement('ion-icon');
@@ -74,7 +74,7 @@ barItem01.appendChild(barIcon01);
 
 // ITEM
 const barItem02 = document.createElement('ion-item');
-barItem02.textContent = 'Exportar';
+barItem02.textContent = 'Crear copia de seguridad'; //EXPORTAR
 barItem02.setAttribute('button', 'click-btn');
 barItem02.setAttribute('id', 'barExport');
 const barIcon02 = document.createElement('ion-icon');
@@ -816,10 +816,11 @@ barImport.addEventListener('click', () => {
   document.getElementById('barMenuPrincipal').close();
   function alertImp() {
     const alert = document.createElement('ion-alert');
-    alert.subHeader = 'Importar';
+    alert.subHeader = '¿Cargar copia de seguridad?';
     alert.buttons = [
+      { text: 'cancelar', role: 'cancel' },
       {
-        text: 'Base de datos',
+        text: 'Confirmar', // Base de datos
         handler: () => {
           showSearch.innerHTML = '';
           newSearch.value = '';
@@ -830,7 +831,7 @@ barImport.addEventListener('click', () => {
           document.getElementById('userName').innerHTML = deco(txt[0]);
         },
       },
-      {
+      /*{
         text: 'Manual',
         handler: () => {
           function alertImpManual() {
@@ -862,8 +863,8 @@ barImport.addEventListener('click', () => {
           }
           alertImpManual();
         },
-      },
-      { text: 'cancelar', role: 'cancel' },
+      },*/
+      
     ];
     document.body.appendChild(alert);
     return alert.present();
@@ -875,22 +876,22 @@ barExport.addEventListener('click', () => {
   document.getElementById('barMenuPrincipal').close();
   function alertExp() {
     const alert = document.createElement('ion-alert');
-    alert.subHeader = 'Exportar';
+    alert.subHeader = '¿Crear copia de seguridad?';
     alert.buttons = [
+      { text: 'cancelar', role: 'cancel' },
       {
-        text: 'Base de datos',
+        text: 'Confirmar',
         handler: () => {
           updateDB('L2', 'B2');
-          presentToast('Datos exportados.', 500);
+          presentToast('Copia creada.', 500);
         },
       },
-      {
+      /*{
         text: 'Descargar',
         handler: () => {
           downloadFile(localStorage.getItem('L2'), 'bk-' + fecha());
         },
-      },
-      { text: 'cancelar', role: 'cancel' },
+      },*/
     ];
     document.body.appendChild(alert);
     return alert.present();
