@@ -506,6 +506,7 @@ showSearch.addEventListener('long-press', e => { // MANIPULATE CARDS (EDIT - DEL
       async function presentToastC(msg) {
         const toast = document.createElement('ion-toast');
         toast.message = msg;
+        //toast.animated = true;
         toast.duration = 1250;
         toast.buttons = [
           {
@@ -825,7 +826,7 @@ barImport.addEventListener('click', () => {
           showSearch.innerHTML = '';
           newSearch.value = '';
           updateDB('B2', 'L1');
-          presentToast('Copia cargada.', 500);
+          presentToast('Copia de seguridad cargada.', 800);
           updateDB('L1', 'L2');
           splitInit();
           aTotalTOnewTotal();
@@ -1071,7 +1072,7 @@ function updateDB(send, receive) {
   // ('B -> L');
   if (send == 'B1') localStorage.setItem(receive, docB1);
   if (send == 'B2') localStorage.setItem(receive, docB2);
-  if (send == 'B2') presentToast('Datos importados.', 1000);
+  //if (send == 'B2') presentToast('Datos importados.', 1000);
 
   //('L -> L')
   if (send.includes('L') && receive.includes('L')) {
