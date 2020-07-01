@@ -64,7 +64,7 @@ barMenuPrincipal.appendChild(barHeader);
 
 // ITEM
 const barItem01 = document.createElement('ion-item');
-barItem01.textContent = 'Importar';
+barItem01.textContent = 'Cargar copia de seguridad'; //IMPORTAR
 barItem01.setAttribute('button', 'click-btn');
 barItem01.setAttribute('id', 'barImport');
 const barIcon01 = document.createElement('ion-icon');
@@ -74,7 +74,7 @@ barItem01.appendChild(barIcon01);
 
 // ITEM
 const barItem02 = document.createElement('ion-item');
-barItem02.textContent = 'Exportar';
+barItem02.textContent = 'Crear copia de seguridad'; //EXPORTAR
 barItem02.setAttribute('button', 'click-btn');
 barItem02.setAttribute('id', 'barExport');
 const barIcon02 = document.createElement('ion-icon');
@@ -136,29 +136,24 @@ localStorage.getItem('L2') ? localStorage.setItem('L1', localStorage.getItem('L2
 
   //existen datos locales
 if (localStorage.getItem('L2')) {
-
   showLogin.innerHTML = '';
   disableItem(false);
   splitInit();
   aTotalTOnewTotal();
   document.getElementById('userName').innerHTML = deco(txt[0]);
-  
-  
+
 
   // OP2 comprobación de local con base de datos
   var compare = false;
   db.collection('users').onSnapshot(querySnapshot => {
     querySnapshot.forEach(doc => {
     if(!compare){
-      //console.log('Llamados');
+
       if (doc.data().B1.includes(localStorage.getItem('accessTempData'))) {
-        //console.log('Encontrado');
+
         docB1 = doc.data().B1;
         docB2 = doc.data().B2;
         userID = doc.id;
-
-        //COMPROBANDO DATOS
-
         compare = true;
         return;
       }
@@ -171,18 +166,14 @@ if (localStorage.getItem('L2')) {
     }
     compare = false;
 
-    // console.log(docB1);
-    // console.log(userID);
-    // console.log(localStorage.getItem('L2'));
-
     if (docB1 != localStorage.getItem('L2')) {
       function alertCompareData() {
         const alert = document.createElement('ion-alert');
         alert.header = 'Se detectaron cambios';
-        alert.message = '¿Sincorinizar con la base de datos?';
+        alert.message = '¿Aceptar y sincorinizar con la base de datos?';
         alert.buttons = [
           {
-            text: 'Si',
+            text: 'Aceptar',
             handler: () => {
               updateDB('B1', 'L1');
               splitInit();
@@ -198,7 +189,7 @@ if (localStorage.getItem('L2')) {
             },
           },
           {
-            text: 'No',
+            text: 'Rechazar',
             handler: () => {
               splitInit();
               aTotalTOnewTotal();
@@ -210,6 +201,124 @@ if (localStorage.getItem('L2')) {
               newSearch.value = '';
               refreshData();
               presentToast('Usando memoria local', '1000');
+            },
+          },
+          {
+            text: 'Configurar',
+            handler: () => {
+              console.log('aTotal:' + aTotal);
+
+              var txtTemp = [];
+              var aTotalTemp = [];
+              var newa = [];
+              var metaObjAdd = [];
+              var metaObjDel = [];
+
+              txtTemp = docB1.split('GD');
+              aTotalTemp = txtTemp[3].split(txtTemp[3].includes('Q0') ? 'Q0' : 'BO');
+              aTotalTemp.splice(-1, 1);
+              aTotalTemp = aTotalTemp.concat(aTotal);
+              aTotalTemp.sort();
+
+
+              for (i = 0; i < aTotalTemp.length; i++) {
+                (aTotalTemp[i] == aTotalTemp[i + 1]) ? i++ : newa.push(aTotalTemp[i]);
+              };
+
+              for (i = 0 ; i < newa.length ; i++){
+                const newaName = newa[i].split('OG');
+                var myObj = {type: 'checkbox',label: deco(newaName[0]).toUpperCase(), value:newa[i], checked: true};
+                (txtTemp[3].includes(newa[i])) ? metaObjAdd.push(myObj) : metaObjDel.push(myObj);
+              }
+
+              if (metaObjAdd.length != ''){
+                function presentAlertCheckboxAdd() {
+                  const alert = document.createElement('ion-alert');
+                  alert.subHeader = 'Nuevas cuentas';
+                  alert.message = '¿Agregar?';
+                  alert.inputs = metaObjAdd;
+                  alert.buttons = [
+                    { text: 'Cancel', role: 'cancel'},
+                    { 
+                      text: 'Confirmar',
+                      handler: (data) => {
+                        aTotal = aTotal.concat(data);
+
+                        if (metaObjDel.length != '') {
+                          function presentAlertCheckboxDel() {
+                            const alert = document.createElement('ion-alert');
+                            alert.header = 'Cuentas eliminadas';
+                            alert.message = 'Confirmar eliminados';
+                            alert.inputs = metaObjDel;
+                            alert.buttons = [
+                              { text: 'Cancel', role: 'cancel'},
+                              { 
+                                text: 'Confirmar',
+                                handler: (data2) => {
+                                  aTotal = aTotal.concat(data2);
+                                  aTotal.sort();
+                                  newa = [];
+                                  for (i = 0; i < aTotal.length; i++) {
+                                    (aTotal[i] == aTotal[i + 1]) ? i++ : newa.push(aTotal[i]);
+                                  };
+                                  aTotal = newa;
+                                  aTotalTOnewTotal();
+                                  save();
+                                  updateDB('L1', 'B1');
+                                  updateDB('L1', 'L2');
+                                },
+                              },
+                            ];
+                            document.body.appendChild(alert);
+                            return alert.present();
+                          }
+                          presentAlertCheckboxDel();
+                        }else{
+                          console.log('No hay datos borrados');
+                          aTotalTOnewTotal();
+                          save();
+                          updateDB('L1', 'B1');
+                          updateDB('L1', 'L2');
+                        };
+
+                      },
+                    },
+                  ];
+
+                  document.body.appendChild(alert);
+                  return alert.present();
+                }
+                presentAlertCheckboxAdd();
+              }else{
+                function presentAlertCheckboxDel() {
+                  const alert = document.createElement('ion-alert');
+                  alert.header = 'Cuentas eliminadas';
+                  alert.message = 'Confirmar eliminados';
+                  alert.inputs = metaObjDel;
+                  alert.buttons = [
+                    { text: 'Cancel', role: 'cancel'},
+                    { 
+                      text: 'Confirmar',
+                      handler: (data2) => {
+                        aTotal = aTotal.concat(data2);
+                        aTotal.sort();
+                        newa = [];
+                        for (i = 0; i < aTotal.length; i++) {
+                          (aTotal[i] == aTotal[i + 1]) ? i++ : newa.push(aTotal[i]);
+                        };
+                        aTotal = newa;
+                        aTotalTOnewTotal();
+                        save();
+                        updateDB('L1', 'B1');
+                        updateDB('L1', 'L2');
+                      },
+                    },
+                  ];
+                  document.body.appendChild(alert);
+                  return alert.present();
+                }
+                presentAlertCheckboxDel();
+              };
             },
           },
         ];
@@ -397,6 +506,7 @@ showSearch.addEventListener('long-press', e => { // MANIPULATE CARDS (EDIT - DEL
       async function presentToastC(msg) {
         const toast = document.createElement('ion-toast');
         toast.message = msg;
+        //toast.animated = true;
         toast.duration = 1250;
         toast.buttons = [
           {
@@ -707,21 +817,23 @@ barImport.addEventListener('click', () => {
   document.getElementById('barMenuPrincipal').close();
   function alertImp() {
     const alert = document.createElement('ion-alert');
-    alert.subHeader = 'Importar';
+    alert.subHeader = '¿Cargar copia de seguridad?';
     alert.buttons = [
+      { text: 'cancelar', role: 'cancel' },
       {
-        text: 'Base de datos',
+        text: 'Confirmar', // Base de datos
         handler: () => {
           showSearch.innerHTML = '';
           newSearch.value = '';
           updateDB('B2', 'L1');
+          presentToast('Copia de seguridad cargada.', 800);
           updateDB('L1', 'L2');
           splitInit();
           aTotalTOnewTotal();
           document.getElementById('userName').innerHTML = deco(txt[0]);
         },
       },
-      {
+      /*{
         text: 'Manual',
         handler: () => {
           function alertImpManual() {
@@ -753,8 +865,8 @@ barImport.addEventListener('click', () => {
           }
           alertImpManual();
         },
-      },
-      { text: 'cancelar', role: 'cancel' },
+      },*/
+      
     ];
     document.body.appendChild(alert);
     return alert.present();
@@ -766,22 +878,22 @@ barExport.addEventListener('click', () => {
   document.getElementById('barMenuPrincipal').close();
   function alertExp() {
     const alert = document.createElement('ion-alert');
-    alert.subHeader = 'Exportar';
+    alert.subHeader = '¿Crear copia de seguridad?';
     alert.buttons = [
+      { text: 'cancelar', role: 'cancel' },
       {
-        text: 'Base de datos',
+        text: 'Confirmar',
         handler: () => {
           updateDB('L2', 'B2');
-          presentToast('Datos exportados.', 500);
+          presentToast('Copia creada.', 500);
         },
       },
-      {
+      /*{
         text: 'Descargar',
         handler: () => {
           downloadFile(localStorage.getItem('L2'), 'bk-' + fecha());
         },
-      },
-      { text: 'cancelar', role: 'cancel' },
+      },*/
     ];
     document.body.appendChild(alert);
     return alert.present();
@@ -960,7 +1072,7 @@ function updateDB(send, receive) {
   // ('B -> L');
   if (send == 'B1') localStorage.setItem(receive, docB1);
   if (send == 'B2') localStorage.setItem(receive, docB2);
-  if (send == 'B2') presentToast('Datos importados.', 1000);
+  //if (send == 'B2') presentToast('Datos importados.', 1000);
 
   //('L -> L')
   if (send.includes('L') && receive.includes('L')) {
