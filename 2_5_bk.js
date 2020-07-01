@@ -1,7 +1,7 @@
 firebase.initializeApp({
-  apiKey: 'AIzaSyAZW5fuFF8X3zoUWddiAg2IPEodtNSX33c',
-  authDomain: 'helena-db-5c523.firebaseapp.com',
-  projectId: 'helena-db-5c523',
+  apiKey: deco("464E7F66587E465F5C3A6B7A4B4B3D5D387F745A5C69696E466C374E554A74697953585D383868"),
+  authDomain: deco("6D6A716A7366326967323A683A3738336B6E776A6766786A66757533687472"),
+  projectId: deco("6D6A716A7366326967323A683A3738"),
 });
 
 var db = firebase.firestore();
