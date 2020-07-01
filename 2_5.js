@@ -51,6 +51,13 @@ const barLabel = document.createElement('ion-title');
 barLabel.textContent = 'Configuración';
 
 const barContent = document.createElement('ion-content');
+
+/*
+const aa = document.createElement('ion-label');
+aa.textContent = 'test'
+barMenuPrincipal.appendChild(aa);
+*/
+
 barMenuPrincipal.appendChild(barContent);
 
 const barIcon00 = document.createElement('ion-icon'); // ICON
@@ -97,10 +104,22 @@ barIcon03.setAttribute('name', 'log-out-outline');
 barIcon03.setAttribute('slot', 'start');
 barItem03.appendChild(barIcon03);
 
+
+const veri = document.createElement('ion-item-divider');
+veri.setAttribute('lines', 'none');
+veri.setAttribute('style', 'padding-bottom:1000px');
+const ver = document.createElement('ion-label');
+ver.setAttribute('slot', 'end');
+ver.innerHTML = 'Versión: 2.5.1720';
+veri.appendChild(ver);
+
+
 //BLOCK02
+//barContent.appendChild(ver);
 barContent.appendChild(barItem01);
 barContent.appendChild(barItem02);
 barContent.appendChild(barItem03);
+barContent.appendChild(veri);
 
 //BUTTONS NAV BAR
 const barEdit = document.getElementById('barEdit');
