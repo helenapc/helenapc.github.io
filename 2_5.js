@@ -1,7 +1,12 @@
 firebase.initializeApp({
-  apiKey: 'AIzaSyAZW5fuFF8X3zoUWddiAg2IPEodtNSX33c',
-  authDomain: 'helena-db-5c523.firebaseapp.com',
-  projectId: 'helena-db-5c523',
+  apiKey: "AIzaSyAZW5fuFF8X3zoUWddiAg2IPEodtNSX33c",
+  authDomain: "helena-db-5c523.firebaseapp.com",
+  databaseURL: "https://helena-db-5c523.firebaseio.com",
+  projectId: "helena-db-5c523",
+  storageBucket: "helena-db-5c523.appspot.com",
+  messagingSenderId: "429653034510",
+  appId: "1:429653034510:web:c1dc15abe948287f2a1e5f",
+  measurementId: "G-B2108RVPQ8"
 });
 
 var db = firebase.firestore();
