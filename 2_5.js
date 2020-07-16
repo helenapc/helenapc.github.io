@@ -110,7 +110,7 @@ veri.setAttribute('lines', 'none');
 veri.setAttribute('style', 'padding-bottom:1000px');
 const ver = document.createElement('ion-label');
 ver.setAttribute('slot', 'end');
-ver.innerHTML = 'Versión: 2.5.2071';
+ver.innerHTML = 'Versión: 2.5.20715';
 veri.appendChild(ver);
 
 
@@ -259,12 +259,12 @@ if (localStorage.getItem('L2')) {
                 function presentAlertCheckboxAdd() {
                   const alert = document.createElement('ion-alert');
                   alert.subHeader = 'Nuevas cuentas';
-                  alert.message = '¿Agregar?';
+                  alert.message = 'Seleccionar para agregar';
                   alert.inputs = metaObjAdd;
                   alert.buttons = [
                     { text: 'Cancel', role: 'cancel'},
                     { 
-                      text: 'Confirmar',
+                      text: 'Terminar',
                       handler: (data) => {
                         aTotal = aTotal.concat(data);
 
@@ -272,12 +272,12 @@ if (localStorage.getItem('L2')) {
                           function presentAlertCheckboxDel() {
                             const alert = document.createElement('ion-alert');
                             alert.header = 'Cuentas eliminadas';
-                            alert.message = 'Confirmar eliminados';
+                            alert.message = 'Seleccionar para eliminar';
                             alert.inputs = metaObjDel;
                             alert.buttons = [
                               { text: 'Cancel', role: 'cancel'},
                               { 
-                                text: 'Confirmar',
+                                text: 'Terminar',
                                 handler: (data2) => {
                                   aTotal = aTotal.concat(data2);
                                   aTotal.sort();
@@ -317,12 +317,12 @@ if (localStorage.getItem('L2')) {
                 function presentAlertCheckboxDel() {
                   const alert = document.createElement('ion-alert');
                   alert.header = 'Cuentas eliminadas';
-                  alert.message = 'Confirmar eliminados';
+                  alert.message = 'Seleccionar para eliminar';
                   alert.inputs = metaObjDel;
                   alert.buttons = [
                     { text: 'Cancel', role: 'cancel'},
                     { 
-                      text: 'Confirmar',
+                      text: 'Terminar',
                       handler: (data2) => {
                         aTotal = aTotal.concat(data2);
                         aTotal.sort();
