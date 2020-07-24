@@ -258,13 +258,13 @@ if (localStorage.getItem('L2')) {
               if (metaObjAdd.length != ''){
                 function presentAlertCheckboxAdd() {
                   const alert = document.createElement('ion-alert');
-                  alert.subHeader = 'Nuevas cuentas';
-                  alert.message = 'Seleccionar para agregar';
+                  alert.header = 'Nuevas cuentas';
+                  alert.message = 'Seleccionar para agregar.';
                   alert.inputs = metaObjAdd;
                   alert.buttons = [
                     { text: 'Cancel', role: 'cancel'},
                     { 
-                      text: 'Terminar',
+                      text: 'Listo',
                       handler: (data) => {
                         aTotal = aTotal.concat(data);
 
@@ -272,12 +272,12 @@ if (localStorage.getItem('L2')) {
                           function presentAlertCheckboxDel() {
                             const alert = document.createElement('ion-alert');
                             alert.header = 'Cuentas eliminadas';
-                            alert.message = 'Seleccionar para eliminar';
+                            alert.message = 'Seleccionar para eliminar.';
                             alert.inputs = metaObjDel;
                             alert.buttons = [
                               { text: 'Cancel', role: 'cancel'},
                               { 
-                                text: 'Terminar',
+                                text: 'Listo',
                                 handler: (data2) => {
                                   aTotal = aTotal.concat(data2);
                                   aTotal.sort();
@@ -317,12 +317,12 @@ if (localStorage.getItem('L2')) {
                 function presentAlertCheckboxDel() {
                   const alert = document.createElement('ion-alert');
                   alert.header = 'Cuentas eliminadas';
-                  alert.message = 'Seleccionar para eliminar';
+                  alert.message = 'Seleccionar para eliminar.';
                   alert.inputs = metaObjDel;
                   alert.buttons = [
                     { text: 'Cancel', role: 'cancel'},
                     { 
-                      text: 'Terminar',
+                      text: 'Listo',
                       handler: (data2) => {
                         aTotal = aTotal.concat(data2);
                         aTotal.sort();
