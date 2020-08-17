@@ -452,8 +452,6 @@ buttonCreate.addEventListener('click', () => {
                                     docB1 = doc.data().B1;
                                     docB2 = doc.data().B2;
                                     userID = doc.id;
-                                    console.log('Una coincidencia en: ' + userID);
-                                    console.log('coincidencia: ' + coincidencia);
                                     return
                                 };
                             });
