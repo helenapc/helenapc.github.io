@@ -17,6 +17,7 @@ var newTotal = [];
 var docB1 = '';
 var docB2 = '';
 var userID = '';
+const coll = 'users2';
 
 // Init components
 const refresher = document.getElementById('refresher');
@@ -152,7 +153,7 @@ const showCardAll = (account, user, pass, notes) => {
 
 // ------------------ START ------------------ //
 
-//db.collection('users').onSnapshot(querySnapshot => {querySnapshot.forEach(() => {})});
+
 
 localStorage.setItem('L1', 'GDGDGDGD');
 
@@ -169,7 +170,7 @@ if (localStorage.getItem('L2')) {
 
   // OP2 comprobación de local con base de datos
   var compare = false;
-  db.collection('users').onSnapshot(querySnapshot => {
+  db.collection(coll).onSnapshot(querySnapshot => {
     querySnapshot.forEach(doc => {
     if(!compare){
 
@@ -392,7 +393,7 @@ buttonLogin.addEventListener('click', () => {
           //localStorage.setItem('accessTempData',accessTempData[0] + 'GD' + accessTempData[1] + 'GD');
           localStorage.setItem('accessTempData',code(usData.userEditUser) + 'GD' + code(usData.userEditPass) + 'GD');
 
-          db.collection('users').onSnapshot(querySnapshot => {
+          db.collection(coll).onSnapshot(querySnapshot => {
             querySnapshot.forEach(doc => {
               if(!coincidencia){
                 docB1 = doc.data().B1;
@@ -451,7 +452,7 @@ buttonCreate.addEventListener('click', () => {
           //localStorage.setItem( 'accessTempData',accessTempData[0] + 'GD' + accessTempData[1] + 'GD' + accessTempData[2] + 'GD');
           localStorage.setItem('accessTempData', code(usCData.userEditName) + 'GD' + code(usCData.userEditUser) + 'GD' + code(usCData.userEditPass) + 'GD');
           console.log('Datos ingresados: '+localStorage.getItem('accessTempData'));
-          db.collection('users').onSnapshot(querySnapshot => {
+          db.collection(coll).onSnapshot(querySnapshot => {
             querySnapshot.forEach(doc => {
               if(!coincidencia){
                 if (doc.data().B1.includes(localStorage.getItem('accessTempData'))) {
@@ -466,7 +467,7 @@ buttonCreate.addEventListener('click', () => {
               };
             });
             if (!coincidencia) {
-              db.collection('users').add({
+              db.collection(coll).add({
                   //B1:accessTempData[0] +'GD' +accessTempData[1] +'GD' +accessTempData[2] +'GD',
                   B1: localStorage.getItem('accessTempData'),
                   B2: '',
@@ -1105,7 +1106,7 @@ function updateDB(send, receive) {
 
   // ('L -> B1');
   if (receive == 'B1') {
-    return db.collection('users').doc(userID).update({
+    return db.collection(coll).doc(userID).update({
         B1: localStorage.getItem(send),
         //si se agrega nueva source se agrega nueva en firebase
         // }).then(function () {
@@ -1120,7 +1121,7 @@ function updateDB(send, receive) {
 
   // ('L -> B2');
   if (receive == 'B2') {
-    return db.collection('users').doc(userID).update({
+    return db.collection(coll).doc(userID).update({
         B2: localStorage.getItem(send),
       })
       .catch(function(error) {
