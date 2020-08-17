@@ -425,80 +425,82 @@ buttonLogin.addEventListener('click', () => {
 });
 
 buttonCreate.addEventListener('click', () => {
-  //docB1 = '';
-  //docB2 = '';
-  //userID = '';
-  function presentAlertCreate() {
-    //var accessTempData = [];
-    const alert = document.createElement('ion-alert');
-    alert.header = 'Registrarse';
-    alert.inputs = [
-      { name: 'userEditName', placeholder: 'Nombre' },
-      { name: 'userEditUser', placeholder: 'Email' },
-      { name: 'userEditPass', placeholder: 'Contraseña', type: 'password' },
-    ];
-    alert.buttons = [
-      { text: 'Cancelar', role: 'cancel' },
-      {
-        text: 'Ok',
-        handler: usCData => {
-          if ( usCData.userEditName == '' || usCData.userEditUser == '' || usCData.userEditPass == '') {
-            alertMsg('Error', 'Datos incorrectos o vacíos.');
-            return;
-          }
-          //accessTempData[0] = code(usCData.userEditName);
-          //accessTempData[1] = code(usCData.userEditUser);
-          //accessTempData[2] = code(usCData.userEditPass);
-          //localStorage.setItem( 'accessTempData',accessTempData[0] + 'GD' + accessTempData[1] + 'GD' + accessTempData[2] + 'GD');
-          localStorage.setItem('accessTempData', code(usCData.userEditName) + 'GD' + code(usCData.userEditUser) + 'GD' + code(usCData.userEditPass) + 'GD');
-          console.log('Datos ingresados: '+localStorage.getItem('accessTempData'));
-          db.collection(coll).onSnapshot(querySnapshot => {
-            querySnapshot.forEach(doc => {
-              if(!coincidencia){
-                if (doc.data().B1.includes(localStorage.getItem('accessTempData'))) {
-                  // console.log('Una coincidencia en: ' + userID);
-                  docB1 = doc.data().B1;
-                  docB2 = doc.data().B2;
-                  userID = doc.id;
-                  coincidencia = true;
-                  localStorage.removeItem('accessTempData');
-                  return;
-                };
-              };
-            });
-            if (!coincidencia) {
-              db.collection(coll).add({
-                  //B1:accessTempData[0] +'GD' +accessTempData[1] +'GD' +accessTempData[2] +'GD',
-                  B1: localStorage.getItem('accessTempData'),
-                  B2: '',
-                })
-                .then(function() {
-                  // .then(function(docRef){
-                  console.log('Datos Agregados: '+localStorage.getItem('accessTempData'));
-                  updateDB('B1', 'L1');
-                  showLogin.innerHTML = '';
-                  splitInit();
-                  aTotalTOnewTotal();
-                  document.getElementById('userName').innerHTML = deco(txt[0]);
-                  updateDB('L1', 'L2');
-                  disableItem(false);
-                  //window.location.reload();
-                })
-                .catch(function(error) {
-                  console.error('Error adding document: ', error);
-                  return;
-                });
-              return;
-            }
-          });
-        },
-      },
-    ];
-    document.body.appendChild(alert);
-    return alert.present();
-  }
-  presentAlertCreate();
-  return;
+    function presentAlertCreate() {
+        const alert = document.createElement('ion-alert');
+        alert.header = 'Registrarse';
+        alert.inputs = [
+            { name: 'userEditName', placeholder: 'Nombre' },
+            { name: 'userEditUser', placeholder: 'Email' },
+            { name: 'userEditPass', placeholder: 'Contraseña', type: 'password' },
+        ];
+        alert.buttons = [
+            { text: 'Cancelar', role: 'cancel' },
+            {
+                text: 'Ok',
+                handler: usCData => {
+                    if (usCData.userEditName == '' || usCData.userEditUser == '' || usCData.userEditPass == '') {
+                        alertMsg('Error', 'Datos incorrectos o vacíos.');
+                        return;
+                    }
+                    localStorage.setItem('accessTempData', code(usCData.userEditName) + 'GD' + code(usCData.userEditUser) + 'GD' + code(usCData.userEditPass) + 'GD');
+                    db.collection(coll).onSnapshot(querySnapshot => {
+                        if (!coincidencia) {
+                            querySnapshot.forEach(doc => {
+                                uCA = doc.data().B1.split('GD');
+                                if (!coincidencia && uCA[1] == code(usCData.userEditUser)) {
+                                    coincidencia = true;
+                                    docB1 = doc.data().B1;
+                                    docB2 = doc.data().B2;
+                                    userID = doc.id;
+                                    console.log('Una coincidencia en: ' + userID);
+                                    console.log('coincidencia: ' + coincidencia);
+                                    return
+                                };
+                            });
+                        };
+                        if (coincidencia) {
+                            localStorage.removeItem('accessTempData');
+                            if (localStorage.getItem('alrt')){
+                                localStorage.removeItem('alrt');
+                            }else{
+                                alertMsgReset('Error', 'Ya hay una cuenta registrada con este email.');
+                            }
+                            return
+
+                        } else {
+                            localStorage.setItem('alrt', code(usCData.userEditUser))
+                            db.collection(coll).add({
+                                B1: localStorage.getItem('accessTempData'),
+                                B2: '',
+                            })
+                                .then(function () {
+                                    // .then(function(docRef){
+                                    console.log('Datos Agregados: ' + localStorage.getItem('accessTempData'));
+                                    updateDB('B1', 'L1');
+                                    showLogin.innerHTML = '';
+                                    splitInit();
+                                    aTotalTOnewTotal();
+                                    document.getElementById('userName').innerHTML = deco(txt[0]);
+                                    updateDB('L1', 'L2');
+                                    disableItem(false);
+                                    return;
+                                })
+                                .catch(function (error) {
+                                    console.error('Error adding document: ', error);
+                                    return;
+                                });
+
+                            return
+                        };
+                    });
+                }
+            },
+        ];
+        document.body.appendChild(alert);
+        return alert.present();
+    }
+    presentAlertCreate();
+    return;
 });
 
 showSearch.addEventListener('long-press', e => { // MANIPULATE CARDS (EDIT - DELETE) // OK OK
