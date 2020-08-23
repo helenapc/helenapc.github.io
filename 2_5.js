@@ -132,7 +132,6 @@ const item = (id, ico, text, color = '', show = true) => {
 
 item('barExport', 'arrow-up-circle-outline', 'Crear copia de Seguridad')
 item('barImport', 'arrow-down-circle-outline', 'Cargar copia de Seguridad');
-item('barNew', 'construct-outline', 'Nuevas Funciones');
 item('barThemes', 'color-palette-outline', 'Temas');
 item('barLogout', 'log-out-outline', 'Cerrar Sesión');
 /////////////////////////////////////////////////////////
@@ -144,7 +143,6 @@ ver.innerHTML = 'Versión 2.6';
 veri.appendChild(ver);
 barContent.appendChild(veri);
 /////////////////////////////////////////////////////////
-item('barClear', 'trash-bin-outline', 'Vaciar Cuenta(DEV)', 'medium', false);
 item('barDelAcc', 'close-outline', 'Eliminar Cuenta', 'danger');
 
 
@@ -429,54 +427,7 @@ barThemes.addEventListener('click', () => { // ACTIVAR OP 1
     alertThemes();
 })
 
-// ********************************* DEV *********************************
-if (localStorage.getItem('accessTempData') == '596A787925466868747A7379GD7DGD7DGD') {
 
-    barClear.addEventListener('click', () => {
-        document.getElementById('barMenuPrincipal').close();
-        function clearData() {
-            // barProgressF('danger', 'determinate');
-            const alert = document.createElement('ion-alert');
-            // alert.header = '¡Advertencia!';
-            // alert.subHeader = '¿Desea eliminar la cuenta y todos sus datos permanentemente?';
-            alert.buttons = [
-                { text: 'cancelar', role: 'cancel', handler: () => { barProgressF('light', 'determinate') } },
-                {
-                    text: 'db.clearData();',
-                    handler: () => {
-                        // function clearData2() {
-                        //     const alert = document.createElement('ion-alert');
-                        //     alert.inputs = [{ name: 'avoid', placeholder: 'avoid();', type: 'password' }],
-                        //         alert.buttons = [
-                        //             {
-                        //                 text: 'Ok',
-                        //                 handler: (x) => {
-                                            // if (txt[2] == code(x.avoid)) {
-                                                barProgressF('danger', 'indeterminate')
-                                                localStorage.setItem('L1', txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD');
-                                                updateDB('L1', 'B1');
-                                                setTimeout(() => { window.location.reload(); }, 2500); //probar
-                                            // } else {
-                                                // presentToast('Incorrecto.', '500', 'warning');
-                                            // };
-                        //                 }
-                        //             }
-                        //         ];
-                        //     document.body.appendChild(alert);
-                        //     return alert.present();
-                        // }
-                        // clearData2();
-                    }
-                },
-            ];
-            document.body.appendChild(alert);
-            return alert.present();
-        }
-        clearData()
-    });
-
-
-};
 
 barDelAcc.addEventListener('click', () => {
     document.getElementById('barMenuPrincipal').close();
@@ -565,36 +516,8 @@ barDelAcc.addEventListener('click', () => {
     deleteData();
 });
 
-barNew.addEventListener('click', () => {
-    document.getElementById('barMenuPrincipal').close();
-    function construct() {
-        const alert = document.createElement('ion-alert');
-        // alert.setAttribute('backdrop-dismiss', 'true');
-        alert.header = 'Agregadas:';
-        alert.message = `
-        <ion-list>
-            <ion-item>
-                <ion-label>( ✔ ) 😎👌</ion-label>
-            </ion-item>
-            <ion-item>
-                <ion-label>( ✔ ) 'no hay datos'.</ion-label>
-            </ion-item>
-            <ion-item>
-                <ion-label>( ✔ ) Eliminar cuenta.</ion-label>
-            </ion-item>
-            <ion-item>
-                <ion-label>( ✔ ) Vaciar cuenta(DEV).</ion-label>
-            </ion-item>
-        </ion-list>
-        `;
-        document.body.appendChild(alert);
-        return alert.present();
-    }
-    construct();
-})
 
 newSearch.addEventListener('ionInput', () => { refreshData() });
-
 
 refresher.addEventListener('ionRefresh', () => {
     setTimeout(() => {
