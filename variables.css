@@ -201,7 +201,7 @@ body.pink2 {
   --ion-background-color: #FCCFD0; /*FONDO 'GESTOR DE DESCARGA*/
   --ion-text-color: #474747; /*TEXTO UI (NO CARDs)*/
   --ion-border-color: #cccccc; /*LÍNEA ITEMS*/
-  --ion-item-background: #FCCFD0;  /*fondo 'CARDs e ITEM*/
+  --ion-item-background: #fbdbdc;  /*fondo 'CARDs e ITEM*/
   --ion-toolbar-background: #FFFFFF;  /*NOMBRE*/
   
   --ion-item-background-activated: #00ffea;
