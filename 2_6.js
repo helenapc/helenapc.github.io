@@ -130,7 +130,7 @@ const item = (id, ico, text, color = '', show = true) => {
     id = document.getElementById(id);
 }
 
-item('barNew', 'construct-outline', 'Nuevas Funciones');
+// item('barNew', 'construct-outline', 'Nuevas Funciones');
 item('barExport', 'arrow-up-circle-outline', 'Crear copia de Seguridad')
 item('barImport', 'arrow-down-circle-outline', 'Cargar copia de Seguridad');
 item('barThemes', 'color-palette-outline', 'Temas');
@@ -627,27 +627,27 @@ barDelAcc.addEventListener('click', () => {
     deleteData();
 });
 
-barNew.addEventListener('click', () => {
-    document.getElementById('barMenuPrincipal').close();
-    function construct() {
-        const alert = document.createElement('ion-alert');
-        // alert.setAttribute('backdrop-dismiss', 'true');
-        alert.header = 'Agregadas:';
-        alert.message = `
-        <ion-list>
-            <ion-item>
-                <ion-label>( ✔ ) Temas 🎨 (4)</ion-label>
-            </ion-item>
-            <ion-item>
-                <ion-label>( - ) 👁‍🗨 Mostrar contraseña.</ion-label>
-            </ion-item>
-        </ion-list>
-        `;
-        document.body.appendChild(alert);
-        return alert.present();
-    }
-    construct();
-})
+// barNew.addEventListener('click', () => {
+//     document.getElementById('barMenuPrincipal').close();
+//     function construct() {
+//         const alert = document.createElement('ion-alert');
+//         // alert.setAttribute('backdrop-dismiss', 'true');
+//         alert.header = 'Agregadas:';
+//         alert.message = `
+//         <ion-list>
+//             <ion-item>
+//                 <ion-label>( ✔ ) Temas 🎨 (4)</ion-label>
+//             </ion-item>
+//             <ion-item>
+//                 <ion-label>( - ) 👁‍🗨 Mostrar contraseña.</ion-label>
+//             </ion-item>
+//         </ion-list>
+//         `;
+//         document.body.appendChild(alert);
+//         return alert.present();
+//     }
+//     construct();
+// })
 
 newSearch.addEventListener('ionInput', () => { refreshData() });
 
