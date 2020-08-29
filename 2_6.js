@@ -578,28 +578,6 @@ barDelAcc.addEventListener('click', () => {
     deleteData();
 });
 
-barNew.addEventListener('click', () => {
-    document.getElementById('barMenuPrincipal').close();
-    function construct() {
-        const alert = document.createElement('ion-alert');
-        // alert.setAttribute('backdrop-dismiss', 'true');
-        alert.header = 'Agregadas:';
-        alert.message = `
-        <ion-list>
-            <ion-item>
-                <ion-label>( ✔ ) Temas 🎨 (4)</ion-label>
-            </ion-item>
-            <ion-item>
-                <ion-label>( - ) 👁‍🗨 Mostrar contraseña.</ion-label>
-            </ion-item>
-        </ion-list>
-        `;
-        document.body.appendChild(alert);
-        return alert.present();
-    }
-    construct();
-})
-
 newSearch.addEventListener('ionInput', () => { refreshData() });
 
 
