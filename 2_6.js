@@ -36,8 +36,6 @@ const buttonAdd2 = document.getElementById('buttonAdd2');
 const buttonEye = document.getElementById('buttonEye');
 const iconEye = document.getElementById('iconEye');
 
-// titleName.setAttribute('disabled', true);
-// titleName.setAttribute('style', 'margin-top: 15px');
 setAttributes(titleName, { style: 'opacity:0', disabled: true });
 setAttributes(newSearch, { style: 'opacity:0', disabled: true });
 setAttributes(buttonAdd, { style: 'opacity:0', disabled: true });
@@ -57,7 +55,6 @@ const barProgress = document.getElementById('barProgress');
 const barProgress01 = document.createElement('ion-progress-bar');
 barProgress01.setAttribute('color', 'light');
 barProgress01.setAttribute('style', 'height:8px');
-// barProgress.setAttribute('style', 'margin-top:-10px'); //hide progress
 barProgress.setAttribute('style', 'opacity:0');
 barProgress.appendChild(barProgress01);
 
@@ -130,12 +127,10 @@ const item = (id, ico, text, color = '', show = true) => {
     id = document.getElementById(id);
 }
 
-item('barNew', 'construct-outline', 'Nuevas Funciones');
 item('barExport', 'arrow-up-circle-outline', 'Crear copia de Seguridad')
 item('barImport', 'arrow-down-circle-outline', 'Cargar copia de Seguridad');
 item('barThemes', 'color-palette-outline', 'Temas');
 item('barLogout', 'log-out-outline', 'Cerrar Sesión');
-// item('barTest', 'pencil', 'test');
 /////////////////////////////////////////////////////////
 const veri = document.createElement('ion-item-divider');
 const ver = document.createElement('ion-label');
@@ -145,7 +140,6 @@ ver.innerHTML = 'Versión 2.622';
 veri.appendChild(ver);
 barContent.appendChild(veri);
 /////////////////////////////////////////////////////////
-item('barClear', 'trash-bin-outline', 'Vaciar Cuenta(DEV)', 'medium', false);
 item('barDelAcc', 'close-outline', 'Eliminar Cuenta', 'danger');
 
 
@@ -526,7 +520,6 @@ barDelAcc.addEventListener('click', () => {
                         `,
                     }).then(function () {
                         console.log("correo enviado");
-                        // setTimeout(() => { presentToast('Borrando.', '800', 'danger'); }, 2500); //probar
                     }).catch(function (error) {
                         console.error("Error removing document: ", error);
                     });
@@ -728,7 +721,6 @@ buttonCreate.addEventListener('click', () => {
     function presentAlertCreate() {
         const alert = document.createElement('ion-alert');
         alert.header = 'Registrarse';
-        // alert.message = '(Email es necesario para restablecer contraseña)';
         alert.inputs = [
             { name: 'userEditName', placeholder: 'Nombre (Opcional)' },
             { name: 'userEditUser', placeholder: 'Email' },
@@ -812,7 +804,6 @@ buttonCreate.addEventListener('click', () => {
 showSearch.addEventListener('long-press', e => { // TAP
 
     e.preventDefault();
-    // console.log(e.path);
     var xPath = 3;
     var cuPath = [];
 
@@ -1050,40 +1041,6 @@ barImport.addEventListener('click', () => {
                     }, 800);
                 },
             },
-            // {
-            //   text: 'Manual',
-            //   handler: () => {
-            //     function alertImpManual() {
-            //       const alert = document.createElement('ion-alert');
-            //       alert.subHeader = 'Importación manual';
-            //       alert.inputs = [{ name: 'input1', placeholder: 'Inserte datos' }];
-            //       alert.buttons = [
-            //         { text: 'cancelar', role: 'cancel' },
-            //         {
-            //           text: 'ok',
-            //           handler: dataImp => {
-            //             if (dataImp.input1 == '' || dataImp.input1.length < 16) {
-            //               alertMsg('Error', 'Datos incorrectos o vacíos.');
-            //               return;
-            //             }
-            //             showSearch.innerHTML = '';
-            //             newSearch.value = '';
-            //             presentToast('Datos importados.', 500);
-            //             localStorage.setItem('L1', dataImp.input1);
-            //             updateDB('L1', 'L2');
-            //             splitInit();
-            //             aTotalTOnewTotal();
-            //             document.getElementById('userName').innerHTML = deco(txt[0]);
-            //           },
-            //         },
-            //       ];
-            //       document.body.appendChild(alert);
-            //       return alert.present();
-            //     }
-            //     alertImpManual();
-            //   },
-            // },
-
         ];
         document.body.appendChild(alert);
         return alert.present();
@@ -1110,12 +1067,6 @@ barExport.addEventListener('click', () => {
                     }, 800);
                 },
             },
-            // {
-            //   text: 'Descargar',
-            //   handler: () => {
-            //     downloadFile(localStorage.getItem('L2'), 'bk-' + fecha());
-            //   },
-            // },
         ];
         document.body.appendChild(alert);
         return alert.present();
@@ -1204,7 +1155,7 @@ function delete_spaces(v1) {
     for (let i = 0; i < v1.length; i++) {
         if (v1[i] == " ") {
             v1.shift();
-            i--
+            i--;
         } else {
             while (true) {
                 if (v1[v1.length - 1] == " ") {
@@ -1337,7 +1288,6 @@ function code_bk(cod) {
     let hexCod = '';
     let hexF = '';
     for (let i = 0; i < cod.length; i++) {
-        // hexCod = '' + cod.charCodeAt(i).toString(16);
         hexCod = '' + cod.codePointAt(i).toString(16);
         hexCod = (parseInt(hexCod, 16) + parseInt('05', 16)).toString(16).toUpperCase();
         hexF += '' + hexCod;
@@ -1408,7 +1358,6 @@ function splitInit() {
 }
 
 function aTotalTOnewTotal() {
-    // Separa txt[3] y decodifica individual
     aTotal.sort();
     newTotal = [];
     for (b = 0; b < aTotal.length; b++) {
@@ -1421,17 +1370,11 @@ function aTotalTOnewTotal() {
 }
 
 function updateDB(send, receive) {
-    // ('B -> L');
     if (send == 'B1') localStorage.setItem(receive, docB1);
     if (send == 'B2') localStorage.setItem(receive, docB2);
-
-    // ('L -> B1');
-    //si se agrega nueva source se agrega nueva en firebase
     if (receive == 'B1') {
         return db.collection(coll).doc(userID).update({
             B1: localStorage.getItem(send),
-            // }).then(function () {
-            // console.log("Document B2 successfully updated!");
         })
             .catch(function (error) {
                 presentToast('Error updating document.', 1000, 'danger');
@@ -1440,7 +1383,6 @@ function updateDB(send, receive) {
             });
     }
 
-    // ('L -> B2');
     if (receive == 'B2') {
         return db.collection(coll).doc(userID).update({
             B2: localStorage.getItem(send),
