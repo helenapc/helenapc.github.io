@@ -130,7 +130,7 @@ const item = (id, ico, text, color = '', show = true) => {
     id = document.getElementById(id);
 }
 
-// item('barNew', 'construct-outline', 'Nuevas Funciones');
+item('barNew', 'construct-outline', 'Nuevas Funciones');
 item('barExport', 'arrow-up-circle-outline', 'Crear copia de Seguridad')
 item('barImport', 'arrow-down-circle-outline', 'Cargar copia de Seguridad');
 item('barThemes', 'color-palette-outline', 'Temas');
@@ -141,7 +141,7 @@ const veri = document.createElement('ion-item-divider');
 const ver = document.createElement('ion-label');
 ver.setAttribute('slot', 'end');
 ver.setAttribute('style', 'margin-right:10px');
-ver.innerHTML = 'Versión 2.621';
+ver.innerHTML = 'Versión 2.622';
 veri.appendChild(ver);
 barContent.appendChild(veri);
 /////////////////////////////////////////////////////////
@@ -405,57 +405,7 @@ if (!txt[3] && showLogin.innerHTML == '') {
 
 
 
-// ********************************* DEV *********************************
-if (localStorage.getItem('accessTempData') == '596A787925466868747A7379GD7DGD7DGD') {
-
-    barClear.addEventListener('click', () => {
-        document.getElementById('barMenuPrincipal').close();
-        function clearData() {
-            const alert = document.createElement('ion-alert');
-            // alert.header = '¡Advertencia!';
-            // alert.subHeader = '¿Desea eliminar la cuenta y todos sus datos permanentemente?';
-            alert.buttons = [
-                { text: 'cancelar', role: 'cancel', handler: () => { barProgressF('light', 'determinate') } },
-                {
-                    text: 'db.clearData();',
-                    handler: () => {
-                        // function clearData2() {
-                        //     const alert = document.createElement('ion-alert');
-                        //     alert.inputs = [{ name: 'avoid', placeholder: 'avoid();', type: 'password' }],
-                        //         alert.buttons = [
-                        //             {
-                        //                 text: 'Ok',
-                        //                 handler: (x) => {
-                        // if (txt[2] == code(x.avoid)) {
-                        barProgressF('danger', 'indeterminate')
-                        localStorage.setItem('L1', txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD');
-                        updateDB('L1', 'B1');
-                        setTimeout(() => { window.location.reload(); }, 2500); //probar
-                        // } else {
-                        // presentToast('Incorrecto.', '500', 'warning');
-                        // };
-                        //                 }
-                        //             }
-                        //         ];
-                        //     document.body.appendChild(alert);
-                        //     return alert.present();
-                        // }
-                        // clearData2();
-                    }
-                },
-            ];
-            document.body.appendChild(alert);
-            return alert.present();
-        }
-        clearData()
-    });
-
-
-};
-
-// barTest.addEventListener('click', () => { // ACTIVAR OP 1
-//     barMenuPrincipal.close();
-// });
+// ********************************* BUTTONS *********************************
 
 barThemes.addEventListener('click', () => {
     barMenuPrincipal.close();
@@ -501,6 +451,14 @@ barThemes.addEventListener('click', () => {
             },
             {
                 type: 'radio', label: 'Azul', value: 'blue', checked: false,
+                handler: (input) => {
+                    document.body.classList.toggle(changeTheme);
+                    document.body.classList.toggle(input.value);
+                    changeTheme = input.value;
+                },
+            },
+            {
+                type: 'radio', label: 'Verde', value: 'green', checked: false,
                 handler: (input) => {
                     document.body.classList.toggle(changeTheme);
                     document.body.classList.toggle(input.value);
@@ -627,27 +585,27 @@ barDelAcc.addEventListener('click', () => {
     deleteData();
 });
 
-// barNew.addEventListener('click', () => {
-//     document.getElementById('barMenuPrincipal').close();
-//     function construct() {
-//         const alert = document.createElement('ion-alert');
-//         // alert.setAttribute('backdrop-dismiss', 'true');
-//         alert.header = 'Agregadas:';
-//         alert.message = `
-//         <ion-list>
-//             <ion-item>
-//                 <ion-label>( ✔ ) Temas 🎨 (4)</ion-label>
-//             </ion-item>
-//             <ion-item>
-//                 <ion-label>( - ) 👁‍🗨 Mostrar contraseña.</ion-label>
-//             </ion-item>
-//         </ion-list>
-//         `;
-//         document.body.appendChild(alert);
-//         return alert.present();
-//     }
-//     construct();
-// })
+barNew.addEventListener('click', () => {
+    document.getElementById('barMenuPrincipal').close();
+    function construct() {
+        const alert = document.createElement('ion-alert');
+        // alert.setAttribute('backdrop-dismiss', 'true');
+        alert.header = 'Agregadas:';
+        alert.message = `
+        <ion-list>
+            <ion-item>
+                <ion-label>( ✔ ) Temas 🎨 (4)</ion-label>
+            </ion-item>
+            <ion-item>
+                <ion-label>( - ) 👁‍🗨 Mostrar contraseña.</ion-label>
+            </ion-item>
+        </ion-list>
+        `;
+        document.body.appendChild(alert);
+        return alert.present();
+    }
+    construct();
+})
 
 newSearch.addEventListener('ionInput', () => { refreshData() });
 
@@ -1204,11 +1162,6 @@ function presentAlertAdd() {
         {
             text: 'Ok',
             handler: newData2 => {
-                console.log(code(newData2.name1a));
-                console.log(code(newData2.name2a));
-                console.log(code(newData2.name3a));
-                console.log(code(newData2.name4a));
-
                 if (
                     newData2.name1a == '' ||
                     newData2.name2a == '' ||
@@ -1286,7 +1239,6 @@ function disableItem(boolean) {
 function barProgressF(color, state) {
     setAttributes(barProgress01, { color: color, type: state, value: '100' });
     if (color == 'light' && state == 'determinate') {
-
         barProgress.setAttribute('style', 'opacity:0');
     } else {
         barProgress.setAttribute('style', 'opacity:1');
