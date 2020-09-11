@@ -3,64 +3,12 @@
   /* transition: 0.1s linear; */
 }
 
-/*TOGGLE*/
-.label{
-  background-color: #111;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-radius: 50px;
-  padding: 5px;
-  height: 26px;
-  width: 50px;
-}
-
-.checkbox {
-  opacity: 0;
-  position: absolute;
-}
-
-
-.checkbox:checked + .label .ball{
-  transform: translate(21px); 
-  
-}
-
-
-.checkbox + .label{
-  background-color:var(--ion-color-medium);
-  margin-left: -10px;
-}
-
-.ball{
-  background-color:var(--ion-color-light);
-  transform: translate(-2px);
-  border-radius: 50px;
-  position: absolute;
-  height: 22px;
-  width: 22px;
-  transition: transform 0.1s linear;;
-}
-
-.fa-moon{
-  color: #414141;
-}
-
-.fa-color{
-  color: #ffffff;
-}
-
-
 
 /*ITEMS*/
-
-
-
 
 #eyePass{
   margin-top: 18px;
 }
-
 
 #content{
   --background:var(--val);
@@ -93,8 +41,6 @@ ion-icon, .item .sc-ion-label-md-h { /*icon, inputbox.alert, version*/
   color:var(--ion-text-color);
 }
 
-
-
 .restoreText{
   color:var(--ion-text-color);
 }
@@ -104,22 +50,28 @@ ion-icon, .item .sc-ion-label-md-h { /*icon, inputbox.alert, version*/
   border-top-right-radius: 4px;
   border-top-left-radius: 4px;
 }
+
 .bordeInf{
   --background: #ffffff50;
   border-bottom-right-radius: 4px;
   border-bottom-left-radius: 4px;
 }
- .add{
-   color:var(--ion-color-light);
- }
+
+.add{
+  color: #2f3136;
+}
 
 #offline{
   transform: scale(1.5,1.5) translate(-5px, 45px);
 }
 
+.ion-text-wrap .title{
+  margin-right: -100px;
+  padding: -100px;
+}
+
 
 /*THEMES*/
-
 body.light {
   --val: #ffffff70;
   background: url('bg1.jpg') no-repeat 52% center/cover;
@@ -182,3 +134,47 @@ body.dark {
   --color-toolbar-text: #00ffea;
 }
 
+/*TOGGLE*/
+.label{
+  background-color: #111;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 50px;
+  padding: 5px;
+  height: 26px;
+  width: 50px;
+}
+
+.checkbox {
+  opacity: 0;
+  position: absolute;
+}
+
+.checkbox:checked + .label .ball{
+  transform: translate(21px); 
+  
+}
+
+.checkbox + .label{
+  background-color:var(--ion-color-medium);
+  margin-left: -10px;
+}
+
+.ball{
+  background-color:var(--ion-color-light);
+  transform: translate(-2px);
+  border-radius: 50px;
+  position: absolute;
+  height: 22px;
+  width: 22px;
+  transition: transform 0.1s linear;;
+}
+
+.fa-moon{
+  color: #414141;
+}
+
+.fa-color{
+  color: #ffffff;
+}

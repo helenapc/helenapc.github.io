@@ -21,16 +21,19 @@
 <body>
   <ion-app class="fondo">
     <ion-menu side="start" content-id="main-content" max-edge-start="0" id="barMenuPrincipal"></ion-menu>
-    
     <div class="ion-page" id="main-content">
-      <ion-header>
+      <ion-header >
         <ion-row id="barProgress"></ion-row>
         <ion-toolbar>
           <ion-buttons style="margin-right: -30px;" slot="start">
-            <ion-menu-button style="margin-left: -10px;"><ion-icon name="ellipsis-vertical-outline"></ion-icon></ion-menu-button>
+            <ion-menu-button style="margin-left: -10px;">
+              <ion-icon name="ellipsis-vertical-outline"></ion-icon>
+            </ion-menu-button>
           </ion-buttons>
 
-          <ion-title id="title" slot="start">Gestor de Contraseñas</ion-title>
+          <ion-title id="title">
+            <ion-label class="ion-text-wrap">Gestor de Contraseñas</ion-label>
+          </ion-title>
 
           <div slot="end" style="margin-right:20px;">
             <input type="checkbox" class="checkbox" id="checkbox">
@@ -44,26 +47,22 @@
         </ion-toolbar>
       </ion-header>
 
-
-
       <ion-row>
-        <ion-col  size-md="5" offset-md="3.5">
-          <ion-searchbar size-md="5" offset-md="3.5" id="new-s" debounce="3" placeholder="Buscar.."></ion-searchbar>
+        <ion-col size="9" offset="1.5" size-md="5" offset-md="3.5">
+          <ion-searchbar id="new-s" debounce="3" placeholder="Buscar.."></ion-searchbar>
         </ion-col>
       </ion-row>
-            
+
       <ion-content id='content'>
+
         <ion-refresher slot="fixed" id="refresher" pull-factor="0.5" pull-min="50" pull-max="200">
           <ion-refresher-content pulling-icon="chevron-down-outline" refreshing-spinner="circular">
           </ion-refresher-content>
         </ion-refresher>
 
-
-
         <ion-row>
-          <ion-col id="show-accounts1" size="9" offset="1.35" size-md="5" offset-md="3.5"></ion-col>
+          <ion-col id="show-accounts1" size="9" offset="1.5" size-md="5" offset-md="3.5"></ion-col>
         </ion-row>
-
 
         <ion-row id="showLogin" style="margin-top: 50px;">
           <ion-col size="8" offset="2" size-md="5" offset-md="3.5">
@@ -79,8 +78,7 @@
               <ion-input type="password" id="passLog"></ion-input>
             </ion-item>
 
-
-            <ion-button fill="outline" expand="block" id="buttonLogin">Iniciar sesión</ion-button>
+            <ion-button fill="outline" expand="block" id="buttonLogin" strong="true">Iniciar sesión</ion-button>
             <ion-button expand="block" id="buttonCreate">Registrarse</ion-button>
             <ion-button id="restorePass" style="text-transform: none" ; fill="clear" expand="block" button
               onclick="sendEmail()">
@@ -88,13 +86,13 @@
             </ion-button>
           </ion-col>
         </ion-row>
-      </ion-content>
-      
-      <ion-fab id="offline" vertical="top" horizontal="end" style="opacity: 0;">
-        <ion-icon  name="cloud-offline-outline" size="large"></ion-icon>
-      </ion-fab>
-    
 
+      </ion-content>
+
+      <ion-fab id="offline" vertical="top" horizontal="end" style="opacity: 0;">
+        <ion-icon name="cloud-offline-outline" size="large"></ion-icon>
+      </ion-fab>
+      
       <ion-fab vertical="bottom" horizontal="start" style="margin-left:-8px">
         <ion-fab-button id="buttonSearch" color="light" size="small">
           <ion-icon name="search"></ion-icon>
@@ -109,11 +107,14 @@
           <ion-icon name="add" class="add"></ion-icon>
         </ion-fab-button>
       </ion-fab>
-      
+
     </div>
-    
+
   </ion-app>
+  <script src="fun.js"></script>
+  <script src="extra.js"></script>
   <script src="2_7.js"></script>
+  <script src="btn.js"></script>
   <script nomodule src="https://cdn.jsdelivr.net/npm/ionicons@4.7.4/dist/ionicons/ionicons.js"></script>
 </body>
 
