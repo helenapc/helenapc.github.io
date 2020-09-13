@@ -85,6 +85,7 @@ const barContent = document.createElement('ion-content');
 barMenuPrincipal.appendChild(barContent);
 barMenuPrincipal.setAttribute('disabled', true);
 barLabel.setAttribute('id', 'userName');
+barTitle.setAttribute('lines', 'none');
 
 const barIcon00 = document.createElement('ion-icon'); // ICON
 const barIcon01 = document.createElement('ion-icon'); // ICON
@@ -104,7 +105,7 @@ item('barExport', 'arrow-up-circle-outline', 'Crear copia de Seguridad')
 item('barImport', 'arrow-down-circle-outline', 'Cargar copia de Seguridad');
 item('barLogout', 'log-out-outline', 'Cerrar Sesión');
 const ver = document.createElement('ion-item-divider');
-setAttributes(ver, {innerHTML: 'Versión 2.74'});
+setAttributes(ver, {innerHTML: 'Versión 2.741'});
 barContent.appendChild(ver);
 item('barDelAcc', 'close-outline', 'Eliminar Cuenta', 'danger');
 

@@ -42,69 +42,6 @@ const item = (id, ico, text, color = '', show = true) => {
 
 //######################## FUNCIONES ########################
 
-function presentAlertCheckboxAdd(metaObjAdd, metaObjDel) {
-    const alert = document.createElement('ion-alert');
-    alert.subHeader = 'Cuentas agregadas';
-    alert.message = 'Seleccione para confirmar';
-    alert.inputs = metaObjAdd;
-    alert.buttons = [
-        { text: 'Cancelar', role: 'cancel' },
-        {
-            text: 'Terminar',
-            handler: (data) => {
-                aTotal = aTotal.concat(data);
-                alertcompare = true;
-                if (metaObjDel.length != '') {
-                    presentAlertCheckboxDel(metaObjDel);
-                    metaObjDel = [];
-                } else {
-                    console.log('No hay datos borrados');
-                    aTotalTOnewTotal();
-                    save();
-                    updateDB('L1', 'B1');
-                    alertcompare = false;
-                    window.location.reload();
-                };
-            },
-        },
-    ];
-    document.body.appendChild(alert);
-    return alert.present();
-}
-
-function presentAlertCheckboxDel(metaObjDel) {
-    if (metaObjDel.length != '') {
-        const alert = document.createElement('ion-alert');
-        alert.header = 'Cuentas eliminadas';
-        alert.message = 'Seleccionar para confirmar';
-        alert.inputs = metaObjDel;
-        alert.buttons = [
-            { text: 'Cancelar', role: 'cancel' },
-            {
-                text: 'Terminar',
-                handler: (data2) => {
-                    aTotal = aTotal.concat(data2);
-                    aTotal.sort();
-                    newa = [];
-                    for (i = 0; i < aTotal.length; i++) {
-                        (aTotal[i] == aTotal[i + 1]) ? i++ : newa.push(aTotal[i]);
-                    };
-                    aTotal = newa;
-                    aTotalTOnewTotal();
-                    save();
-                    updateDB('L1', 'B1');
-                    alertcompare = false;
-
-                    window.location.reload();
-                },
-            },
-        ];
-        document.body.appendChild(alert);
-        return alert.present();
-    }
-};
-
-
 function setAttributes(elem, obj) {
     for (var prop in obj) {
         if (obj.hasOwnProperty(prop)) elem[prop] = obj[prop];
@@ -402,3 +339,68 @@ function sendEmail() {
     document.body.appendChild(alert);
     return alert.present();
 }
+
+
+// ALERTS
+
+function presentAlertCheckboxAdd(metaObjAdd, metaObjDel) {
+    const alert = document.createElement('ion-alert');
+    alert.subHeader = 'Cuentas agregadas';
+    alert.message = 'Seleccione para confirmar';
+    alert.inputs = metaObjAdd;
+    alert.buttons = [
+        { text: 'Cancelar', role: 'cancel' },
+        {
+            text: 'Terminar',
+            handler: (data) => {
+                aTotal = aTotal.concat(data);
+                alertcompare = true;
+                if (metaObjDel.length != '') {
+                    presentAlertCheckboxDel(metaObjDel);
+                    metaObjDel = [];
+                } else {
+                    console.log('No hay datos borrados');
+                    aTotalTOnewTotal();
+                    save();
+                    updateDB('L1', 'B1');
+                    alertcompare = false;
+                    window.location.reload();
+                };
+            },
+        },
+    ];
+    document.body.appendChild(alert);
+    return alert.present();
+}
+
+function presentAlertCheckboxDel(metaObjDel) {
+    if (metaObjDel.length != '') {
+        const alert = document.createElement('ion-alert');
+        alert.header = 'Cuentas eliminadas';
+        alert.message = 'Seleccionar para confirmar';
+        alert.inputs = metaObjDel;
+        alert.buttons = [
+            { text: 'Cancelar', role: 'cancel' },
+            {
+                text: 'Terminar',
+                handler: (data2) => {
+                    aTotal = aTotal.concat(data2);
+                    aTotal.sort();
+                    newa = [];
+                    for (i = 0; i < aTotal.length; i++) {
+                        (aTotal[i] == aTotal[i + 1]) ? i++ : newa.push(aTotal[i]);
+                    };
+                    aTotal = newa;
+                    aTotalTOnewTotal();
+                    save();
+                    updateDB('L1', 'B1');
+                    alertcompare = false;
+
+                    window.location.reload();
+                },
+            },
+        ];
+        document.body.appendChild(alert);
+        return alert.present();
+    }
+};
