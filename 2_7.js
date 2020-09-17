@@ -1,4 +1,3 @@
-// import '/fun.js';
 
 
 
@@ -28,7 +27,7 @@ const coll = 'users2';
 var alertcompare = true;
 var resetLogin = false;
 var offline = true;
-
+var closeAlert = false;
 
 // // Init components
 const nameLog = document.getElementById('nameLog');
@@ -36,6 +35,8 @@ const passLog = document.getElementById('passLog');
 const eyePass = document.getElementById('eyePass');
 
 const title = document.getElementById('title');
+
+
 
 const showLogin = document.getElementById('showLogin');
 const buttonLogin = document.getElementById('buttonLogin');
@@ -45,19 +46,27 @@ const refresher = document.getElementById('refresher');
 const showSearch = document.getElementById('show-accounts1');
 const newSearch = document.getElementById('new-s');
 
+const nameSetting = document.getElementById('nameSetting');
+const barLogoutF = document.getElementById('barLogoutF');
+
+
 const buttonAdd = document.getElementById('buttonAdd');
-const buttonEye = document.getElementById('buttonEye');
+const expandCard = document.getElementById('expandCard');
+const showCard = document.getElementById('showCard');
 const buttonSearch = document.getElementById('buttonSearch');
-const iconEye = document.getElementById('iconEye');
+
+
 
 const buttonFocus = document.getElementById('buttonFocus');
 const content = document.getElementById('content');
 //******************************************* */
 
 
-// setAttributes(newSearch, { style: 'opacity:0', disabled: true });
+setAttributes(barLogoutF, { style: 'opacity:0', disabled: true });
+setAttributes(nameSetting, { style: 'opacity:0', disabled: true });
 setAttributes(buttonAdd, { style: 'opacity:1', style: 'margin-bottom:-200px' });
-setAttributes(buttonEye, { style: 'opacity:0', disabled: true });
+setAttributes(expandCard, { style: 'opacity:0', disabled: true });
+setAttributes(showCard, { style: 'opacity:0', disabled: true });
 setAttributes(buttonSearch, { style: 'opacity:0', disabled: true });
 setAttributes(refresher, { style: 'opacity:0', disabled: true });
 title.setAttribute('style', 'margin-left:38px');
@@ -81,6 +90,8 @@ const barHeader = document.createElement('ion-header');
 const barToolbar = document.createElement('ion-toolbar');
 const barTitle = document.createElement('ion-item');
 const barLabel = document.createElement('ion-title');
+
+
 const barContent = document.createElement('ion-content');
 barMenuPrincipal.appendChild(barContent);
 barMenuPrincipal.setAttribute('disabled', true);
@@ -89,8 +100,8 @@ barTitle.setAttribute('lines', 'none');
 
 const barIcon00 = document.createElement('ion-icon'); // ICON
 const barIcon01 = document.createElement('ion-icon'); // ICON
-setAttributes(barIcon00, {button: 'click-btn', name: 'arrow-back-outline', slot: 'start', id: 'barClose'})
-setAttributes(barIcon01, {button: 'click-btn', name: 'build-outline', slot: 'end', id: 'barEdit'})
+setAttributes(barIcon00, {button: 'click-btn', name: 'arrow-forward-outline', slot: 'start', id: 'barClose'})
+setAttributes(barIcon01, {button: 'click-btn', name: 'options-outline', slot: 'end', id: 'barEdit'})
 
 //BLOCK 01
 barTitle.appendChild(barIcon00);
@@ -100,12 +111,11 @@ barToolbar.appendChild(barTitle);
 barHeader.appendChild(barToolbar);
 barMenuPrincipal.appendChild(barHeader);
 
-
 item('barExport', 'arrow-up-circle-outline', 'Crear copia de Seguridad')
 item('barImport', 'arrow-down-circle-outline', 'Cargar copia de Seguridad');
 item('barLogout', 'log-out-outline', 'Cerrar Sesión');
 const ver = document.createElement('ion-item-divider');
-setAttributes(ver, {innerHTML: 'Versión 2.741'});
+setAttributes(ver, {innerHTML: 'Versión 2.7.42'});
 barContent.appendChild(ver);
 item('barDelAcc', 'close-outline', 'Eliminar Cuenta', 'danger');
 
@@ -138,6 +148,7 @@ if (eyePass) {
 // ------------------ START ------------------ //
 
 
+
 localStorage.removeItem('alrt');
 
 if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
@@ -146,6 +157,7 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
     splitInit();
     aTotalTOnewTotal();
     document.getElementById('userName').innerHTML = deco(txt[0]);
+    document.getElementById('nameSettingText').innerHTML = deco(txt[0]).slice(0, 1).toUpperCase()
     compare = false;
 
 
@@ -242,6 +254,8 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
                                 (txtTemp[3].includes(newa[i])) ? metaObjAdd.push(myObj) : metaObjDel.push(myObj);
                             }
 
+                            console.log(metaObjAdd);
+
                             if (metaObjAdd.length != '') {
                                 presentAlertCheckboxAdd(metaObjAdd, metaObjDel);
                             } else {
@@ -283,11 +297,13 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
 
 // welcome();
 if (!txt[3] && showLogin.innerHTML == '') {
+    expandIcon.setAttribute('name', 'contract-outline')
     showSearch.innerHTML = `
-    <div style="text-align:center"><br>Hola! No hay datos guardados. </div>
+    <div style="text-align:center"><br>No hay datos guardados. </div>
     <div style="text-align:center"><br> Aquí hay unos ejemplos de lo que se puede hacer. </div>
     <div style="text-align:center">⬇</div>
     `;
     showCardAll('facebook', 'prueba@hotmail.com', '1234abcd', 'Las notas son opcionales 😎');
     showCardAll('google 👍', 'tucuenta@gmail.com', 'prueba1234', '');
+    expandIcon.setAttribute('name', 'expand-outline')
 };

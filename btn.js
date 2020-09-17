@@ -168,8 +168,11 @@ buttonCreate.addEventListener('click', () => {
 //CONTENT
 newSearch.addEventListener('ionInput', () => { refreshData() });
 
-showSearch.addEventListener('long-press', e => { // TAP
 
+
+
+showSearch.addEventListener('click', e => {  //editCard
+    
     e.preventDefault();
     var xPath = 3;
     var cuPath = [];
@@ -185,8 +188,6 @@ showSearch.addEventListener('long-press', e => { // TAP
 
     if (cuPath[3] == 'Notas:') cuPath[3] = '';
 
-    // console.log(cuPath);
-
     for (i = 0; i < newTotal.length; i += 5) {
         if (
             cuPath[0].toLowerCase() == newTotal[i].toLowerCase() &&
@@ -194,105 +195,41 @@ showSearch.addEventListener('long-press', e => { // TAP
             cuPath[2] == newTotal[i + 2] &&
             cuPath[3] == newTotal[i + 3]
         ) {
+            const reemplace = i
 
+            if (expandIcon.getAttribute('name') == 'expand-outline') {
+                alertView(cuPath);
+            }
             function presentToastC(msg) {
+                
                 const toast = document.createElement('ion-toast');
                 toast.setAttribute('style', `--background:var(--ion-color-toastC)`);
                 toast.style.color = 'var(--ion-text-toastC)';
+                toast.translucent = true;
                 toast.message = msg;
-                toast.duration = 1250;
+                toast.duration = 1000;
                 toast.buttons = [
                     {
                         icon: 'pencil',
                         handler: () => {
-                            function alertEdit() {
-                                const toRemplace = i / 5;
-                                const alert = document.createElement('ion-alert');
-                                alert.setAttribute('backdrop-dismiss', 'false');
-                                alert.header = 'Editar cuenta';
-                                alert.inputs = [
-                                    { name: 'name1', placeholder: 'Cuenta(Nombre)', value: newTotal[i] },
-                                    { name: 'name2', placeholder: 'Usuario/email', value: newTotal[i + 1] },
-                                    { name: 'name3', placeholder: 'Contraseña', value: newTotal[i + 2] },
-                                    { name: 'name4', placeholder: 'Notas(Opcional)', value: newTotal[i + 3] },
-                                ];
-                                alert.buttons = [
-                                    { text: 'Cancelar', role: 'cancel' },
-                                    {
-                                        text: 'Ok',
-                                        handler: newData => {
-                                            if (newData.name1 == '' || newData.name2 == '' || newData.name3 == '') {
-                                                alertMsg('Error', 'Datos incorrectos o vacíos.');
-                                                return;
-                                            }
-
-                                            newData.name1 = delete_spaces(newData.name1);
-                                            newData.name2 = delete_spaces(newData.name2);
-                                            newData.name3 = delete_spaces(newData.name3);
-                                            newData.name4 = delete_spaces(newData.name4);
-
-                                            for (i = 0; i < newTotal.length; i += 5) {
-                                                if (
-                                                    newData.name1 == newTotal[i] &&
-                                                    newData.name2 == newTotal[i + 1] &&
-                                                    newData.name3 == newTotal[i + 2] &&
-                                                    newData.name4 == newTotal[i + 3]
-                                                ) {
-                                                    alertMsg('Error', `La cuenta ${newTotal[i]} ya existe.`);
-                                                    return;
-                                                }
-                                            }
-
-
-                                            // aTotal.splice(toRemplace, 1,code(newData.name1) +'OG' +code(newData.name2) +'OG' +code(newData.name3) +'OG' +code(newData.name4));
-                                            aTotal.splice(toRemplace, 1, `${code(newData.name1)}OG${code(newData.name2)}OG${code(newData.name3)}OG${code(newData.name4)}`);
-                                            aTotalTOnewTotal();
-                                            refreshData();
-                                            presentToast(`"${msg}" editado.`, 500, 'dark');
-                                            save();
-                                            updateDB('L1', 'B1');
-                                        },
-                                    },
-                                ];
-                                document.body.appendChild(alert);
-                                return alert.present();
-                            }
-                            alertEdit();
-                        },
+                            closeAlert = true;
+                            // return alert.dismiss();
+                            alertEdit(cuPath, reemplace);
+                        }
                     },
                     {
                         icon: 'trash',
                         handler: () => {
-                            function alertDel() {
-                                const alert = document.createElement('ion-alert');
-                                alert.message = `¿Eliminar ${msg}?`;
-                                alert.buttons = [
-                                    { text: 'cancelar', role: 'cancel' },
-                                    {
-                                        text: 'ok',
-                                        handler: () => {
-                                            aTotal.splice(i / 5, 1);
-                                            aTotalTOnewTotal();
-                                            save();
-                                            refreshData();
-                                            presentToast(`"${msg}" eliminado.`, 500, 'danger');
-                                            updateDB('L1', 'B1');
-                                            if (showSearch.value == '') newSearch.value = '';
-                                        },
-                                    },
-                                ];
-                                document.body.appendChild(alert);
-                                return alert.present();
-                            }
-                            alertDel();
-                        },
+                            closeAlert = true;
+                            alertDel(cuPath, reemplace)
+                        }
                     },
                 ];
                 document.body.appendChild(toast);
                 return toast.present();
+
             }
             presentToastC(cuPath[0]);
-            return;
         }
     }
 });
@@ -307,83 +244,12 @@ refresher.addEventListener('ionRefresh', () => {
 
 
 //NAV BAR
-barClose.addEventListener('click', ()=>{barMenuPrincipal.close()});
+barClose.addEventListener('click', () => { barMenuPrincipal.close() });
+
+nameSetting.addEventListener('click', () => { alertPass() });
 
 barEdit.addEventListener('click', () => {
     barMenuPrincipal.close();
-    function alertPass() {
-        const alertPassItem = document.createElement('ion-alert');
-        alertPassItem.message = 'Inserte contraseña para continuar..';
-        alertPassItem.inputs = [
-            { name: 'uEPass', placeholder: 'Contraseña', type: 'password' },
-        ];
-        alertPassItem.buttons = [
-            {
-                text: 'Ok',
-                handler: u => {
-                    if (u.uEPass == deco(txt[2])) {
-                        if (txt[0] == '25') txt[0] = '';
-                        function presentAlertEditUserData() {
-                            const alert = document.createElement('ion-alert');
-                            alert.header = 'Editar cuenta';
-                            alert.inputs = [
-                                { name: 'userEditName', placeholder: 'Nombre (Opcional)', value: deco(txt[0]) },
-                                { name: 'userEditUser', placeholder: 'Email', value: deco(txt[1]) },
-                                { name: 'userEditPass', placeholder: 'Contraseña', value: deco(txt[2]) },
-                            ];
-                            alert.buttons = [
-                                { text: 'Cancelar', role: 'cancel' },
-                                {
-                                    text: 'Ok',
-                                    handler: usNData => {
-                                        if (usNData.userEditUser == '' || usNData.userEditPass == '') {
-                                            barProgressF('danger', 'determinate');
-                                            alertMsg('Error', 'Datos vacíos.');
-                                            setTimeout(() => { barProgressF('light', 'determinate'); }, 1500);
-                                            return;
-                                        }
-
-                                        function presentAlertConfirmEdit() {
-                                            const alert = document.createElement('ion-alert');
-                                            alert.header = 'ADVERTENCIA!';
-                                            alert.subHeader = 'Al cambiar estos datos se cerrará la sesión en otros dispositivos';
-                                            alert.message = '¿Confirmar?';
-                                            alert.buttons = [
-                                                { text: 'Cancelar', role: 'cancel' },
-                                                {
-                                                    text: 'Ok',
-                                                    handler: () => {
-                                                        (code(usNData.userEditName) == '') ? txt[0] = '25' : txt[0] = code(usNData.userEditName);
-                                                        txt[1] = code(usNData.userEditUser);
-                                                        txt[2] = code(usNData.userEditPass);
-                                                        document.getElementById('userName').innerHTML = deco(txt[0]);
-                                                        localStorage.setItem('accessTempData', txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD');
-                                                        save();
-                                                        updateDB('L1', 'B1');
-                                                        updateDB('L1', 'B2');
-                                                    },
-                                                },
-                                            ];
-                                            document.body.appendChild(alert);
-                                            return alert.present();
-                                        }
-                                        presentAlertConfirmEdit();
-                                    },
-                                },
-                            ];
-                            document.body.appendChild(alert);
-                            return alert.present();
-                        }
-                        presentAlertEditUserData();
-                    } else {
-                        presentToast('Incorrecto.', '800', 'warning');
-                    }
-                },
-            },
-        ];
-        document.body.appendChild(alertPassItem);
-        return alertPassItem.present();
-    }
     alertPass();
 });
 
@@ -402,7 +268,6 @@ barImport.addEventListener('click', () => {
                     showSearch.innerHTML = '';
                     newSearch.value = '';
                     updateDB('B2', 'L1');
-                    // presentToast('Copia de seguridad cargada.', 800, 'success');
                     splitInit();
                     aTotalTOnewTotal();
                     document.getElementById('userName').innerHTML = deco(txt[0]);
@@ -422,7 +287,6 @@ barImport.addEventListener('click', () => {
 });
 
 barExport.addEventListener('click', () => {
-    // document.getElementById('barMenuPrincipal').close();
     barMenuPrincipal.close();
     function alertExp() {
         const alert = document.createElement('ion-alert');
@@ -449,7 +313,16 @@ barExport.addEventListener('click', () => {
 });
 
 barLogout.addEventListener('click', () => {
+    barProgressF('success', 'indeterminate');
     barMenuPrincipal.close();
+    localStorage.removeItem('L1');
+    localStorage.removeItem('theme');
+    localStorage.removeItem('accessTempData');
+    window.location.reload();
+});
+
+barLogoutF.addEventListener('click', () => {
+    barProgressF('success', 'indeterminate');
     localStorage.removeItem('L1');
     localStorage.removeItem('theme');
     localStorage.removeItem('accessTempData');
@@ -545,6 +418,31 @@ barDelAcc.addEventListener('click', () => {
 
 
 //FAB
+const expandIcon = document.getElementById('expandIcon');
+const showIcon = document.getElementById('showIcon');
+
+document.getElementById('expandCard').addEventListener('click', () => {
+    if (expandIcon.getAttribute('name') == 'expand-outline') {
+        expandIcon.setAttribute('name', 'contract-outline')
+    } else {
+        expandIcon.setAttribute('name', 'expand-outline')
+    };
+    refreshData(false);
+});
+
+document.getElementById('showCard').addEventListener('click', () => {
+
+    if (showIcon.getAttribute('name') == 'eye-outline') {
+        showIcon.setAttribute('name', 'eye-off-outline');
+        newSearch.value = '*';
+        newSearch.setAttribute('style', 'margin-top:-60px');
+    } else {
+        showIcon.setAttribute('name', 'eye-outline');
+        newSearch.value = '';
+    };
+    refreshData();
+});
+
 buttonSearch.addEventListener('click', () => {
     if (!statSearchBar) {
         newSearch.value = '';
@@ -557,16 +455,6 @@ buttonSearch.addEventListener('click', () => {
     }
 
 })
-
-buttonEye.addEventListener('click', () => {
-    if (iconEye.getAttribute('name') == 'eye-outline') {
-        newSearch.value = '*';
-        newSearch.setAttribute('style', 'margin-top:-60px');
-    } else {
-        newSearch.value = '';
-    };
-    refreshData();
-});
 
 buttonAdd.addEventListener('click', () => {
     function presentAlertAdd() {
@@ -611,8 +499,9 @@ buttonAdd.addEventListener('click', () => {
                     save();
                     showSearch.innerHTML = '';
                     newSearch.value = newData2.name1a;
+                    expandIcon.setAttribute('name', 'contract-outline');
+                    refreshData();
                     presentToast(`"${newData2.name1a.toUpperCase()}" agregada`, 800, 'success');
-                    showCardAll(newData2.name1a.toUpperCase(), newData2.name2a, newData2.name3a, newData2.name4a);
                     updateDB('L1', 'B1');
                 },
             },
