@@ -51,7 +51,8 @@ const item = (id, ico, text, color = '', show = true) => {
     const ionIco = document.createElement('ion-icon');
     ionIco.setAttribute('name', ico);
     ionIco.setAttribute('slot', 'start');
-    ionIco.setAttribute('className', id);
+    ionIco.setAttribute('class', id);
+    ionIco.setAttribute('style', 'margin-right:10px;');
     ionItem.appendChild(ionIco);
     if (show) {
         barContent.appendChild(ionItem);
@@ -66,6 +67,20 @@ const item = (id, ico, text, color = '', show = true) => {
 }
 
 //######################## FUNCIONES ########################
+
+function helpFunction(opacity, activate) {
+    document.getElementById('help-config').setAttribute('style', `opacity:${opacity}`);
+    document.getElementById('help-show').setAttribute('style', `opacity:${opacity}`);
+    document.getElementById('help-search').setAttribute('style', `opacity:${opacity}`);
+    document.getElementById('help-add').setAttribute('style', `opacity:${opacity}`);
+
+    if (document.getElementById('expandCard').getAttribute('style').includes(`${opacity}`)) {
+        document.getElementById('help-exp-com').setAttribute('style', `opacity:${opacity}`);
+    }else{
+        document.getElementById('help-exp-com').setAttribute('style', `opacity:0`);
+    };
+    helpActivate = activate;
+}
 
 function setAttributes(elem, obj) {
     for (var prop in obj) {
@@ -98,13 +113,16 @@ function delete_spaces(v1) {
 
 function disableItem(boolean) {
     barMenuPrincipal.setAttribute('disabled', boolean);
-    title.setAttribute('style', 'margin-left:0px');
-    setAttributes(nameSetting, { style: 'opacity:1', disabled: boolean });
-    setAttributes(barLogoutF, { style: 'opacity:1', disabled: boolean });
-    setAttributes(buttonAdd, { style: 'opacity:1', style: 'margin-bottom:0px' });
-    setAttributes(showCard, { style: 'opacity:1', disabled: boolean });
-    setAttributes(buttonSearch, { style: 'opacity:1', disabled: boolean });
-    setAttributes(refresher, { style: 'opacity:1', disabled: boolean });
+    document.getElementById('title').setAttribute('style', 'margin-left:0px');
+    setAttributes(document.getElementById('buttonHelp'), { style: 'opacity:1; margin-top:58px; margin-right:-8px' ,disabled: boolean });
+    setAttributes(document.getElementById('nameSetting'), { style: 'opacity:1', disabled: boolean });
+    // expand
+    setAttributes(document.getElementById('showCard'), { style: 'opacity:1', disabled: boolean });
+    setAttributes(document.getElementById('buttonSearch'), { style: 'opacity:1', disabled: boolean });
+    // space
+    setAttributes(document.getElementById('buttonAdd'), { style: 'opacity:1; margin-bottom:0px; margin-right:-8px'});
+    setAttributes(document.getElementById('refresher'), { style: 'opacity:1', disabled: boolean });
+
     content.setAttribute('style', '--background: #ffffff00');
     if (!boolean) document.body.style.backgroundColor = "var(--ion-background-color)";
 }
@@ -121,13 +139,11 @@ function barProgressF(color, state) {
 function refreshData(toast = true) {
     aTotal.sort();
     if (newSearch.value) {
-        setAttributes(buttonAdd, { horizontal: 'end', style: 'margin-right:-3px' })
-        setAttributes(expandCard, { style: 'opacity:1', disabled: false });
+        setAttributes(document.getElementById('expandCard'), { style: 'opacity:1', disabled: false });
     } else {
         showIcon.setAttribute('name', 'eye-outline');
         expandIcon.setAttribute('name', 'expand-outline');
-        setAttributes(expandCard, { style: 'opacity:0', disabled: true });
-        setAttributes(buttonAdd, { horizontal: 'center', style: 'margin-right:0px' })
+        setAttributes(document.getElementById('expandCard'), { style: 'opacity:0', disabled: true });
     }
 
     showSearch.innerHTML = '';
@@ -236,11 +252,9 @@ function splitInit() {
 
 function aTotalTOnewTotal() {
     aTotal.sort();
-    // console.log(aTotal);
     newTotal = [];
     for (b = 0; b < aTotal.length; b++) {
         const final = aTotal[b].split('OG');
-        // console.log('Final = ' + final);
         for (n = 0; n < final.length; n++) {
             (n % 4 == 0) ? newTotal.push(deco(final[n]).toLowerCase()) : newTotal.push(deco(final[n]));
             if (n == 3) newTotal.push('oo');
@@ -275,11 +289,6 @@ function updateDB(send, receive) {
 }
 
 function save() {
-    // console.log('Save__');
-    // aTotal.sort();
-    // console.log(newTotal);
-    // console.log(aTotal);
-    // console.log(aTotal);
     if (aTotal.length > 0) {
         localStorage.setItem('L1', txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD' + aTotal.join('Q0') + 'Q0');
     } else {
@@ -421,6 +430,8 @@ function presentAlertCheckboxDel(metaObjDel) {
 
 
 
+
+
 function alertEdit(cuPath, reemplace) {
     const toRemplace = reemplace / 5;
     const alert = document.createElement('ion-alert');
@@ -545,6 +556,7 @@ function alertPass() {
     return alertPassItem.present();
 }
 
+
 function presentAlertEditUserData() {
     const alert = document.createElement('ion-alert');
     alert.header = 'Editar cuenta';
@@ -564,7 +576,8 @@ function presentAlertEditUserData() {
                     setTimeout(() => { barProgressF('light', 'determinate'); }, 1500);
                     return;
                 }
-                presentAlertConfirmEdit();
+                const confPersonal = [usNData.userEditName, usNData.userEditUser, usNData.userEditPass];
+                presentAlertConfirmEdit(confPersonal);
             },
         },
     ];
@@ -572,7 +585,7 @@ function presentAlertEditUserData() {
     return alert.present();
 }
 
-function presentAlertConfirmEdit() {
+function presentAlertConfirmEdit(confPersonal) {
     const alert = document.createElement('ion-alert');
     alert.header = 'ADVERTENCIA!';
     alert.subHeader = 'Al cambiar estos datos se cerrará la sesión en otros dispositivos';
@@ -582,10 +595,11 @@ function presentAlertConfirmEdit() {
         {
             text: 'Ok',
             handler: () => {
-                (code(usNData.userEditName) == '') ? txt[0] = '25' : txt[0] = code(usNData.userEditName);
-                txt[1] = code(usNData.userEditUser);
-                txt[2] = code(usNData.userEditPass);
+                (code(confPersonal[0]) == '') ? txt[0] = '25' : txt[0] = code(confPersonal[0]);
+                txt[1] = code(confPersonal[1]);
+                txt[2] = code(confPersonal[2]);
                 document.getElementById('userName').innerHTML = deco(txt[0]);
+                document.getElementById('nameSettingText').innerHTML = deco(txt[0]).slice(0, 1).toUpperCase();
                 localStorage.setItem('accessTempData', txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD');
                 save();
                 updateDB('L1', 'B1');
@@ -596,8 +610,6 @@ function presentAlertConfirmEdit() {
     document.body.appendChild(alert);
     return alert.present();
 }
-
-
 
 
 

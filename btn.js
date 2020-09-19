@@ -115,7 +115,6 @@ buttonCreate.addEventListener('click', () => {
                                     docB1 = doc.data().B1;
                                     docB2 = doc.data().B2;
                                     userID = doc.id;
-                                    // return
                                 };
                             });
                         };
@@ -144,13 +143,10 @@ buttonCreate.addEventListener('click', () => {
                                     disableItem(false);
                                     barProgressF('light', 'determinate');
                                     window.location.reload();
-                                    // return;
                                 })
                                 .catch(function (error) {
                                     console.error('Error adding document: ', error);
-                                    // return;
                                 });
-                            // return
                         };
                     });
                 }
@@ -168,11 +164,8 @@ buttonCreate.addEventListener('click', () => {
 //CONTENT
 newSearch.addEventListener('ionInput', () => { refreshData() });
 
-
-
-
 showSearch.addEventListener('click', e => {  //editCard
-    
+    helpFunction('0', false);
     e.preventDefault();
     var xPath = 3;
     var cuPath = [];
@@ -197,11 +190,10 @@ showSearch.addEventListener('click', e => {  //editCard
         ) {
             const reemplace = i
 
-            if (expandIcon.getAttribute('name') == 'expand-outline') {
+            if (document.getElementById('expandIcon').getAttribute('name') == 'expand-outline') {
                 alertView(cuPath);
             }
             function presentToastC(msg) {
-                
                 const toast = document.createElement('ion-toast');
                 toast.setAttribute('style', `--background:var(--ion-color-toastC)`);
                 toast.style.color = 'var(--ion-text-toastC)';
@@ -213,7 +205,6 @@ showSearch.addEventListener('click', e => {  //editCard
                         icon: 'pencil',
                         handler: () => {
                             closeAlert = true;
-                            // return alert.dismiss();
                             alertEdit(cuPath, reemplace);
                         }
                     },
@@ -234,24 +225,20 @@ showSearch.addEventListener('click', e => {  //editCard
     }
 });
 
-refresher.addEventListener('ionRefresh', () => {
+document.getElementById('refresher').addEventListener('ionRefresh', () => {
     setTimeout(() => {
         window.location.reload();
-        refresher.complete();
+        document.getElementById('refresher').complete();
     }, 150);
 });
 
 
 
 //NAV BAR
-barClose.addEventListener('click', () => { barMenuPrincipal.close() });
 
-nameSetting.addEventListener('click', () => { alertPass() });
+document.getElementById('barOpen').addEventListener('click', ()=>{ helpFunction('0', false) });
 
-barEdit.addEventListener('click', () => {
-    barMenuPrincipal.close();
-    alertPass();
-});
+document.getElementById('barClose').addEventListener('click', () => { barMenuPrincipal.close() });
 
 barImport.addEventListener('click', () => {
     barMenuPrincipal.close();
@@ -313,24 +300,12 @@ barExport.addEventListener('click', () => {
 });
 
 barLogout.addEventListener('click', () => {
-    barProgressF('success', 'indeterminate');
     barMenuPrincipal.close();
-    localStorage.removeItem('L1');
-    localStorage.removeItem('theme');
-    localStorage.removeItem('accessTempData');
-    window.location.reload();
-});
-
-barLogoutF.addEventListener('click', () => {
-    barProgressF('success', 'indeterminate');
-    localStorage.removeItem('L1');
-    localStorage.removeItem('theme');
-    localStorage.removeItem('accessTempData');
+    localStorage.clear();
     window.location.reload();
 });
 
 barDelAcc.addEventListener('click', () => {
-    // document.getElementById('barMenuPrincipal').close();
     barMenuPrincipal.close();
     function deleteData() {
         barProgressF('danger', 'determinate');
@@ -418,32 +393,41 @@ barDelAcc.addEventListener('click', () => {
 
 
 //FAB
-const expandIcon = document.getElementById('expandIcon');
-const showIcon = document.getElementById('showIcon');
+
+document.getElementById('buttonHelp').addEventListener('click', () => {
+    (!helpActivate) ? helpFunction('1', true) : helpFunction('0', false);
+})
+
+document.getElementById('nameSetting').addEventListener('click', () => {
+    helpFunction('0', false);
+    alertPass();
+});
 
 document.getElementById('expandCard').addEventListener('click', () => {
-    if (expandIcon.getAttribute('name') == 'expand-outline') {
-        expandIcon.setAttribute('name', 'contract-outline')
+    helpFunction('0', false);
+    if (document.getElementById('expandIcon').getAttribute('name') == 'expand-outline') {
+        document.getElementById('expandIcon').setAttribute('name', 'contract-outline')
     } else {
-        expandIcon.setAttribute('name', 'expand-outline')
+        document.getElementById('expandIcon').setAttribute('name', 'expand-outline')
     };
     refreshData(false);
 });
 
 document.getElementById('showCard').addEventListener('click', () => {
-
-    if (showIcon.getAttribute('name') == 'eye-outline') {
-        showIcon.setAttribute('name', 'eye-off-outline');
+    helpFunction('0', false);
+    if (document.getElementById('showIcon').getAttribute('name') == 'eye-outline') {
+        document.getElementById('showIcon').setAttribute('name', 'eye-off-outline');
         newSearch.value = '*';
         newSearch.setAttribute('style', 'margin-top:-60px');
     } else {
-        showIcon.setAttribute('name', 'eye-outline');
+        document.getElementById('showIcon').setAttribute('name', 'eye-outline');
         newSearch.value = '';
     };
     refreshData();
 });
 
-buttonSearch.addEventListener('click', () => {
+document.getElementById('buttonSearch').addEventListener('click', () => {
+    helpFunction('0', false);
     if (!statSearchBar) {
         newSearch.value = '';
         newSearch.setAttribute('style', 'margin-top:0px');
@@ -456,16 +440,17 @@ buttonSearch.addEventListener('click', () => {
 
 })
 
-buttonAdd.addEventListener('click', () => {
+document.getElementById('buttonAdd').addEventListener('click', () => {
+    helpFunction('0', false);
     function presentAlertAdd() {
         const alert = document.createElement('ion-alert');
         alert.setAttribute('backdrop-dismiss', 'false');
         alert.header = 'Agregar cuenta';
         alert.inputs = [
-            { name: 'name1a', placeholder: 'Cuenta(Nombre)', value: '' },
-            { name: 'name2a', placeholder: 'Usuario/email', value: '' },
-            { name: 'name3a', placeholder: 'Contraseña', value: '' },
-            { name: 'name4a', placeholder: 'Notas(Opcional)', value: '' },
+            { name: 'name1a', placeholder: 'Cuenta(Nombre):', value: '' },
+            { name: 'name2a', placeholder: 'Usuario/email:', value: '' },
+            { name: 'name3a', placeholder: 'Contraseña:', value: '' },
+            { name: 'name4a', placeholder: 'Notas(Opcional):', value: '' },
         ];
         alert.buttons = [
             { text: 'Cancelar', role: 'cancel' },
@@ -499,7 +484,7 @@ buttonAdd.addEventListener('click', () => {
                     save();
                     showSearch.innerHTML = '';
                     newSearch.value = newData2.name1a;
-                    expandIcon.setAttribute('name', 'contract-outline');
+                    document.getElementById('expandIcon').setAttribute('name', 'contract-outline');
                     refreshData();
                     presentToast(`"${newData2.name1a.toUpperCase()}" agregada`, 800, 'success');
                     updateDB('L1', 'B1');
@@ -514,8 +499,10 @@ buttonAdd.addEventListener('click', () => {
 
 
 
+
 //CHECK/TOGGLE
 checkbox.addEventListener('click', () => {
+    helpFunction('0', false);
     if (activeTheme[1] == 'dark') {
         document.body.classList.toggle('dark');
         document.body.classList.toggle(activeTheme[0]);

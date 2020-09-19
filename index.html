@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gestor de Contraseñas</title>
-  <link rel="shortcut icon" href="icopass.png" type="image/png">
+  <link rel="shortcut icon" href="icopass-beta.png" type="image/png">
   <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-firestore.js"></script>
 
@@ -15,25 +15,21 @@
 
   <script src="https://smtpjs.com/v3/smtp.js"></script> <!-- mail -->
   <link rel="stylesheet" href="variables.css">
-
-  <script type="module">
-    import { popoverController } from 'https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/index.esm.js';
-    window.popoverController = popoverController;
-  </script>
-
 </head>
 
 <body>
   <ion-app class="fondo">
+    <ion-menu side="start" content-id="main-content" max-edge-start="0" id="barMenuPrincipal"></ion-menu>
+
     <ion-fab id="offline" vertical="top" horizontal="end" style="opacity: 0;">
       <ion-icon name="cloud-offline-outline" size="large"></ion-icon>
     </ion-fab>
-    <ion-menu side="start" content-id="main-content" max-edge-start="0" id="barMenuPrincipal"></ion-menu>
+
     <div class="ion-page" id="main-content">
-      <ion-header >
+      <ion-header>
         <ion-row id="barProgress"></ion-row>
         <ion-toolbar>
-          <ion-buttons style="margin-right: -30px;" slot="start">
+          <ion-buttons id="barOpen" style="margin-right: -30px;" slot="start">
             <ion-menu-button style="margin-left: -10px;">
               <ion-icon name="ellipsis-vertical-outline"></ion-icon>
             </ion-menu-button>
@@ -51,7 +47,6 @@
               <div class="ball"></div>
             </label>
           </div>
-
         </ion-toolbar>
       </ion-header>
 
@@ -62,19 +57,17 @@
       </ion-row>
 
       <ion-content class="content" id='content'>
-
         <ion-refresher slot="fixed" id="refresher" pull-factor="0.5" pull-min="50" pull-max="200">
           <ion-refresher-content pulling-icon="chevron-down-outline" refreshing-spinner="circular">
           </ion-refresher-content>
         </ion-refresher>
 
-        <ion-row class="scroll">
+        <ion-row>
           <ion-col id="show-accounts1" size="9" offset="1.5" size-md="5" offset-md="3.5"></ion-col>
         </ion-row>
 
         <ion-row id="showLogin" style="margin-top: 50px;">
           <ion-col size="8" offset="2" size-md="5" offset-md="3.5">
-
             <ion-item class="bordeSup">
               <ion-label position="floating">Email</ion-label>
               <ion-input id="nameLog"></ion-input>
@@ -94,39 +87,47 @@
             </ion-button>
           </ion-col>
         </ion-row>
-
       </ion-content>
 
-      
 
+
+
+      <!-- FAB TOP-LEFT -->
       <ion-fab vertical="top" horizontal="start" style="margin-top: 58px; margin-left: -8px;">
-        <ion-fab-button  id="nameSetting" color="light" size="small">
+        <ion-label id="help-config" class="help help-configuracion">Configuración</ion-label>
+        <ion-fab-button id="nameSetting" color="light" size="small">
           <ion-label id="nameSettingText" style="font-size: 20px;"></ion-label>
-        </ion-fab-button>
-
-        <ion-fab-button  id="barLogoutF" color="light" size="small">
-          <ion-icon  class="logoutf"  name="log-out-outline"></ion-icon>
         </ion-fab-button>
       </ion-fab>
 
-      
-      <ion-fab vertical="bottom" horizontal="start" style="margin-left:-8px">
+      <!-- FAB TOP-RIGHT -->
+      <ion-fab vertical="top" horizontal="end" style="margin-top:58px; margin-right:-7px;" id="buttonHelp">
+        <ion-fab-button class="help-outline" color="light" size="small">
+          <ion-icon name="help-outline"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
 
+      <!-- FAB BOTTOM-LEFT -->
+      <ion-fab vertical="bottom" horizontal="start" style="margin-left:-8px">
+        <ion-label id="help-exp-com" class="help help-expandir-contraer">Expandir/Contraer</ion-label>
         <ion-fab-button id="expandCard" color="light" size="small">
           <ion-icon id="expandIcon" name="expand-outline"></ion-icon>
         </ion-fab-button>
 
+        <ion-label id="help-show" class="help help-mostrar-ocultar">Mostrar/Ocultar</ion-label>
         <ion-fab-button id="showCard" color="light" size="small">
           <ion-icon id="showIcon" name="eye-outline"></ion-icon>
         </ion-fab-button>
 
+        <ion-label id="help-search" class="help help-buscar">Buscar</ion-label>
         <ion-fab-button id="buttonSearch" color="light" size="small">
           <ion-icon name="search"></ion-icon>
         </ion-fab-button>
-
       </ion-fab>
 
-      <ion-fab vertical="bottom" horizontal="center" slot="fixed" id="buttonAdd">
+      <!-- FAB BOTTOM-RIGHT -->
+      <ion-fab vertical="bottom" horizontal="end" slot="end" id="buttonAdd">
+        <ion-label id="help-add" class="help help-agregar">Agregar</ion-label>
         <ion-fab-button class="add" color="success" size="small">
           <ion-icon name="add" class="add"></ion-icon>
         </ion-fab-button>
@@ -136,7 +137,6 @@
 
   </ion-app>
   <script src="fun.js"></script>
-  <!-- <script src="extra.js"></script> -->
   <script src="2_7.js"></script>
   <script src="btn.js"></script>
   <script nomodule src="https://cdn.jsdelivr.net/npm/ionicons@4.7.4/dist/ionicons/ionicons.js"></script>
