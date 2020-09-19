@@ -40,6 +40,15 @@
   padding-left: 2px;
 }
 
+
+ion-icon#barClose.md.hydrated{
+  margin-inline-end: 0px;
+}
+
+ion-title#userName.md.title-default.hydrated{
+  text-align: center;
+}
+
 .input-wrapper{
   --padding-start: 2px;
 }
