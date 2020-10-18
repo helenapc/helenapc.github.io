@@ -245,10 +245,21 @@ function deco(dec) {
 
 function splitInit() {
     txt = localStorage.getItem('L1').split('GD');
+    console.log(txt);
     txt[3] == undefined ? (txt2 = txt.unshift('')) : null;
     aTotal = txt[3].split(txt[3].includes('Q0') ? 'Q0' : 'BO');
     aTotal.splice(-1, 1);
 }
+
+// function splitInit() {
+//     txt = localStorage.getItem('L1').split('GD');
+//     if (txt[4] == undefined){
+//         txt.splice(3,0, 'pepe');
+//     }
+//     aTotal = txt[4].split(txt[4].includes('Q0') ? 'Q0' : 'BO');
+//     aTotal.splice(-1, 1);
+//     console.log(txt);
+// }
 
 function aTotalTOnewTotal() {
     aTotal.sort();
@@ -564,6 +575,7 @@ function presentAlertEditUserData() {
         { name: 'userEditName', placeholder: 'Nombre (Opcional)', value: deco(txt[0]) },
         { name: 'userEditUser', placeholder: 'Email', value: deco(txt[1]) },
         { name: 'userEditPass', placeholder: 'Contraseña', value: deco(txt[2]) },
+        { name: 'userPin', placeholder: 'PIN', value: localStorage.getItem('Bpin') },
     ];
     alert.buttons = [
         { text: 'Cancelar', role: 'cancel' },
@@ -577,6 +589,7 @@ function presentAlertEditUserData() {
                     return;
                 }
                 const confPersonal = [usNData.userEditName, usNData.userEditUser, usNData.userEditPass];
+                // localStorage.setItem('Bpin', usNData.userPin);
                 presentAlertConfirmEdit(confPersonal);
             },
         },

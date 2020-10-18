@@ -12,6 +12,8 @@ firebase.initializeApp({
     measurementId: deco("4C32473736353D575B55563D")
 });
 
+var Tpin = Date.now();
+
 
 var db = firebase.firestore();
 var coincidencia = false;
@@ -19,8 +21,8 @@ var txt = [];
 var aTotal = [];
 var newTotal = [];
 var compare = false;
-var docB1 = '';
-var docB2 = '';
+// var docB1 = '';
+// var docB2 = '';
 var uCA = [];
 var userID = '';
 const coll = 'users2';
@@ -88,7 +90,7 @@ barTitle.setAttribute('lines', 'none');
 
 const barIcon00 = document.createElement('ion-icon'); // ICON
 const barIcon01 = document.createElement('ion-icon'); // ICON
-setAttributes(barIcon00, {button: 'click-btn', name: 'arrow-back-outline', slot: 'start', id: 'barClose'})
+setAttributes(barIcon00, { button: 'click-btn', name: 'arrow-back-outline', slot: 'start', id: 'barClose' })
 
 //BLOCK 01
 barTitle.appendChild(barIcon00);
@@ -102,14 +104,14 @@ item('barExport', 'arrow-up-circle-outline', 'Crear copia de Seguridad')
 item('barImport', 'arrow-down-circle-outline', 'Cargar copia de Seguridad');
 item('barLogout', 'log-out-outline', 'Cerrar Sesión');
 const ver = document.createElement('ion-item-divider');
-setAttributes(ver, {innerHTML: 'Versión 2.7.5'});
+setAttributes(ver, { innerHTML: 'Versión 2.7.5' });
 barContent.appendChild(ver);
 item('barDelAcc', 'close-outline', 'Eliminar Cuenta', 'danger');
 
 //DARK THEME
 const lTheme = localStorage.getItem('theme');
 const checkbox = document.getElementById('checkbox');
-if (lTheme == null || lTheme == 'dark' || lTheme == 'light' || lTheme == '' ) localStorage.setItem('theme', ['light', '']);
+if (lTheme == null || lTheme == 'dark' || lTheme == 'light' || lTheme == '') localStorage.setItem('theme', ['light', '']);
 var activeTheme = localStorage.getItem('theme').split(',');
 if (activeTheme[1] == 'dark') {
     document.body.classList.toggle(activeTheme[1]);
@@ -152,13 +154,25 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
         querySnapshot.forEach(doc => {
             offline = false;
             if (!compare && doc.data().B1.includes(localStorage.getItem('accessTempData'))) {
+                // localStorage.setItem('Bpin', doc.data().Bpin);
                 docB1 = doc.data().B1;
                 docB2 = doc.data().B2;
+                docBpin = doc.data().Bpin;
                 userID = doc.id;
                 compare = true;
                 return;
             }
         });
+
+
+        // PIN
+        // console.log(Tpin);
+        // localStorage.setItem('Bpin', docBpin);
+        // localStorage.setItem('Tpin', (Tpin + 60000));
+        // console.log(localStorage.getItem('Tpin'));
+        // console.log(localStorage.getItem('Bpin'));
+        // console.log(`Resta= ${(localStorage.getItem('Tpin') - Tpin)}` );
+
 
         if (!compare && !offline) {
             localStorage.removeItem('accessTempData')
@@ -277,10 +291,10 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
         }
     })
 
-
 } else {
     localStorage.setItem('L1', 'GDGDGDGD');
 };
+
 
 // welcome();
 if (!txt[3] && showLogin.innerHTML == '') {
