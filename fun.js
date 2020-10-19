@@ -575,7 +575,7 @@ function presentAlertEditUserData() {
         { name: 'userEditName', placeholder: 'Nombre (Opcional)', value: deco(txt[0]) },
         { name: 'userEditUser', placeholder: 'Email', value: deco(txt[1]) },
         { name: 'userEditPass', placeholder: 'Contraseña', value: deco(txt[2]) },
-        { name: 'userPin', placeholder: 'PIN', value: localStorage.getItem('Bpin') },
+        // { name: 'userPin', placeholder: 'PIN', value: localStorage.getItem('Bpin') },
     ];
     alert.buttons = [
         { text: 'Cancelar', role: 'cancel' },
