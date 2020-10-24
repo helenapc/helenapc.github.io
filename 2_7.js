@@ -1,31 +1,12 @@
 
-// test
-
-firebase.initializeApp({
-    apyKey: deco("464E7F66587E465F5C3A6B7A4B4B3D5D387F745A5C69696E466C374E554A74697953585D383868"),
-    authDomain: deco("6D6A716A7366326967323A683A3738336B6E776A6766786A66757533687472"),
-    databaseURL: deco("6D797975783F34346D6A716A7366326967323A683A3738336B6E776A6766786A6E7433687472"),
-    projectId: deco("6D6A716A7366326967323A683A3738"),
-    storageBucket: deco("6D6A716A7366326967323A683A3738336675757875747933687472"),
-    messagingSenderId: deco("39373E3B3A383538393A3635"),
-    appId: deco("363F39373E3B3A383538393A36353F7C6A673F68366968363A66676A3E393D373D3C6B3766366A3A6B"),
-    measurementId: deco("4C32473736353D575B55563D")
-});
-
-var Tpin = Date.now();
-
-
-var db = firebase.firestore();
+const coll = 'users2';
 var coincidencia = false;
 var txt = [];
 var aTotal = [];
 var newTotal = [];
 var compare = false;
-// var docB1 = '';
-// var docB2 = '';
 var uCA = [];
 var userID = '';
-const coll = 'users2';
 var alertcompare = true;
 var resetLogin = false;
 var offline = true;
@@ -51,14 +32,15 @@ const content = document.getElementById('content');
 
 
 document.getElementById('title').setAttribute('style', 'margin-left:38px');
-setAttributes(document.getElementById('buttonHelp'), { style: 'opacity:0', disabled: true });
-setAttributes(document.getElementById('nameSetting'), { style: 'opacity:0', disabled: true });
-setAttributes(document.getElementById('expandCard'), { style: 'opacity:0', disabled: true });
-setAttributes(document.getElementById('showCard'), { style: 'opacity:0', disabled: true });
-setAttributes(document.getElementById('buttonSearch'), { style: 'opacity:0', disabled: true });
+document.getElementById('buttonAdd').setAttribute('style', 'pointer-events: none; opacity: 0');
+document.getElementById('buttonHelp').setAttribute('style', 'pointer-events: none; opacity: 0');
+document.getElementById('nameSetting').setAttribute('style', 'pointer-events: none; opacity: 0');
+document.getElementById('expandCard').setAttribute('style', 'pointer-events: none; opacity: 0');
+document.getElementById('showCard').setAttribute('style', 'pointer-events: none; opacity: 0');
+document.getElementById('buttonSearch').setAttribute('style', 'pointer-events: none; opacity: 0');
 // space
-setAttributes(document.getElementById('buttonAdd'), { style: 'opacity:0; margin-bottom:-200px' });
 setAttributes(document.getElementById('refresher'), { style: 'opacity:0', disabled: true });
+
 
 
 
@@ -104,7 +86,7 @@ item('barExport', 'arrow-up-circle-outline', 'Crear copia de Seguridad')
 item('barImport', 'arrow-down-circle-outline', 'Cargar copia de Seguridad');
 item('barLogout', 'log-out-outline', 'Cerrar Sesión');
 const ver = document.createElement('ion-item-divider');
-setAttributes(ver, { innerHTML: 'Versión 2.7.5' });
+setAttributes(ver, { innerHTML: 'Versión 2.7.1' });
 barContent.appendChild(ver);
 item('barDelAcc', 'close-outline', 'Eliminar Cuenta', 'danger');
 
@@ -134,10 +116,25 @@ if (eyePass) {
     })
 }
 
+
+
+document.getElementById('cardPin').setAttribute('style', 'pointer-events: none; opacity: 0');
+
+
+
+firebase.initializeApp({
+    apyKey: deco("464E7F66587E465F5C3A6B7A4B4B3D5D387F745A5C69696E466C374E554A74697953585D383868"),
+    authDomain: deco("6D6A716A7366326967323A683A3738336B6E776A6766786A66757533687472"),
+    databaseURL: deco("6D797975783F34346D6A716A7366326967323A683A3738336B6E776A6766786A6E7433687472"),
+    projectId: deco("6D6A716A7366326967323A683A3738"),
+    storageBucket: deco("6D6A716A7366326967323A683A3738336675757875747933687472"),
+    messagingSenderId: deco("39373E3B3A383538393A3635"),
+    appId: deco("363F39373E3B3A383538393A36353F7C6A673F68366968363A66676A3E393D373D3C6B3766366A3A6B"),
+    measurementId: deco("4C32473736353D575B55563D")
+});
+var db = firebase.firestore();
+
 // ------------------ START ------------------ //
-
-
-
 localStorage.removeItem('alrt');
 
 if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
@@ -145,16 +142,44 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
     disableItem(false);
     splitInit();
     aTotalTOnewTotal();
+    localStorage.setItem('bp', txt[4]);
     document.getElementById('userName').innerHTML = deco(txt[0]);
     document.getElementById('nameSettingText').innerHTML = deco(txt[0]).slice(0, 1).toUpperCase();
     compare = false;
 
 
+    // PIN;
+    document.getElementById('cardPin').setAttribute('style', 'pointer-events: none; opacity: 0');
+    if (txt[4] != '') {
+        if (localStorage.getItem('tPin')) {
+            if (Date.now() - localStorage.getItem('tPin') > 300000) {
+                document.getElementById('cardPin').setAttribute('style', 'opacity: 1');
+                disableItem(true);
+                document.getElementById('title').setAttribute('style', 'margin-left:38px');
+                document.getElementById('buttonAdd').setAttribute('style', 'pointer-events: none; opacity: 0');
+                document.getElementById('buttonHelp').setAttribute('style', 'pointer-events: none; opacity: 0');
+                document.getElementById('nameSetting').setAttribute('style', 'pointer-events: none; opacity: 0');
+                document.getElementById('expandCard').setAttribute('style', 'pointer-events: none; opacity: 0');
+                document.getElementById('showCard').setAttribute('style', 'pointer-events: none; opacity: 0');
+                document.getElementById('buttonSearch').setAttribute('style', 'pointer-events: none; opacity: 0');
+            }
+        }
+
+        document.getElementById('pin').addEventListener('ionInput', () => {
+            if (pin.value == deco(txt[4])) {
+                localStorage.setItem('tPin', Date.now());
+                document.getElementById('cardPin').setAttribute('style', 'pointer-events: none; opacity: 0');
+                disableItem(false);
+            }
+        });
+    }
+
+
+    // DB
     db.collection(coll).onSnapshot(querySnapshot => {
         querySnapshot.forEach(doc => {
             offline = false;
             if (!compare && doc.data().B1.includes(localStorage.getItem('accessTempData'))) {
-                // localStorage.setItem('Bpin', doc.data().Bpin);
                 docB1 = doc.data().B1;
                 docB2 = doc.data().B2;
                 docBpin = doc.data().Bpin;
@@ -165,32 +190,32 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
         });
 
 
-        // PIN
-        // console.log(Tpin);
-        // localStorage.setItem('Bpin', docBpin);
-        // localStorage.setItem('Tpin', (Tpin + 60000));
-        // console.log(localStorage.getItem('Tpin'));
-        // console.log(localStorage.getItem('Bpin'));
-        // console.log(`Resta= ${(localStorage.getItem('Tpin') - Tpin)}` );
 
+        const newCompareData = localStorage.getItem('L1');
+        updateDB('B1', 'L1');
+        splitInit();
 
-        if (!compare && !offline) {
+        if (!compare && !offline && localStorage.getItem('bp') != txt[4]) {
+            localStorage.removeItem('bp');
             localStorage.removeItem('accessTempData')
             localStorage.setItem('L1', 'GDGDGDGD');
             window.location.reload();
         }
 
-        if (offline) {
-            localStorage.setItem('offline', '(Sin conexión)');
-            document.getElementById('offline').setAttribute('style', 'opacity:1');
-        } else {
-            document.getElementById('offline').setAttribute('style', 'opacity:0'); //0
-        };
+        // 
+        if (offline) localStorage.setItem('offline', 'offlineee');
+        // 
+
 
         compare = false;
-
-        if (docB1 != localStorage.getItem('L1') && alertcompare && !offline) {
+        console.log(localStorage.getItem('offline'));
+        if (docB1 != newCompareData && alertcompare && !offline) {
             showSearch.innerHTML = '';
+
+            // 
+            localStorage.removeItem('offline');
+            // 
+
             function alertCompareData() {
                 alertcompare = false
                 const alert = document.createElement('ion-alert');
@@ -198,48 +223,21 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
                 alert.header = 'Se detectaron cambios';
                 alert.message = '¿Aceptar y sincorinizar con la base de datos?';
                 alert.buttons = [
+                    { text: 'Aceptar', handler: () => { updateData('Aceptar', newCompareData) } },
+                    { text: 'Rechazar/Offline', handler: () => { updateData('Rechazar', newCompareData) } },
                     {
-                        text: 'Aceptar',
+                        text: 'Detalles',
                         handler: () => {
-                            updateDB('B1', 'L1');
-                            splitInit();
-                            aTotalTOnewTotal();
-                            localStorage.setItem('accessTempData', txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD');
-                            document.getElementById('userName').innerHTML = deco(txt[0]);
-                            showLogin.innerHTML = '';
-                            disableItem(false);
-                            newSearch.value = '';
-                            refreshData();
-                            presentToast('Base de datos sincronizada.', '1000', 'dark');
-                            setTimeout(() => { window.location.reload() }, 1000);
-                        },
-                    },
-                    {
-                        text: 'Rechazar',
-                        handler: () => {
-                            splitInit();
-                            aTotalTOnewTotal();
-                            localStorage.setItem('accessTempData', txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD');
-                            document.getElementById('userName').innerHTML = deco(txt[0]);
-                            showLogin.innerHTML = '';
-                            disableItem(false);
-                            updateDB('L1', 'B1')
-                            newSearch.value = '';
-                            refreshData();
-                            presentToast('Cancelando cambios.', '1000', 'dark');
-                            setTimeout(() => { window.location.reload() }, 1000);
-                        },
-                    },
-                    {
-                        text: 'Mas..',
-                        handler: () => {
+
                             var txtTemp = [];
                             var aTotalTemp = [];
                             var newa = [];
                             var metaObjAdd = [];
                             var metaObjDel = [];
+                            var myObj = '';
+                            var metaObj = '';
 
-                            txtTemp = docB1.split('GD');
+                            txtTemp = newCompareData.split('GD');
                             aTotalTemp = txtTemp[3].split(txtTemp[3].includes('Q0') ? 'Q0' : 'BO');
                             aTotalTemp.splice(-1, 1);
                             aTotalTemp = aTotalTemp.concat(aTotal);
@@ -250,39 +248,21 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
                             };
 
                             for (i = 0; i < newa.length; i++) {
+
                                 const newaName = newa[i].split('OG');
-                                var myObj = { type: 'checkbox', label: deco(newaName[0]).toUpperCase(), value: newa[i], checked: true };
-                                (txtTemp[3].includes(newa[i])) ? metaObjAdd.push(myObj) : metaObjDel.push(myObj);
+                                if (txtTemp[3].includes(newa[i])) {
+                                    myObj = { value: '(–) ' + deco(newaName[0]).toUpperCase(), disabled: true };
+                                    metaObjDel.push(myObj)
+                                } else {
+                                    myObj = { value: '(+) ' + deco(newaName[0]).toUpperCase(), disabled: true };
+                                    metaObjAdd.push(myObj)
+                                };
                             }
-
-                            console.log(metaObjAdd);
-
-                            if (metaObjAdd.length != '') {
-                                presentAlertCheckboxAdd(metaObjAdd, metaObjDel);
-                            } else {
-                                presentAlertCheckboxDel(metaObjDel);
-                            };
+                            metaObj = metaObjAdd.concat(metaObjDel);
+                            presentCompareData(metaObj, newCompareData);
                         },
                     },
-                    {
-                        text: localStorage.getItem('offline'),
-                        handler: () => {
-                            if (localStorage.getItem('offline') != '') {
-                                localStorage.setItem('offline', '');
-                                splitInit();
-                                aTotalTOnewTotal();
-                                localStorage.setItem('accessTempData', txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD');
-                                document.getElementById('userName').innerHTML = deco(txt[0]);
-                                showLogin.innerHTML = '';
-                                disableItem(false);
-                                updateDB('L1', 'B1')
-                                newSearch.value = '';
-                                refreshData();
-                                presentToast('Sincronizando datos.', '1000', 'dark');
-                                setTimeout(() => { window.location.reload() }, 1000);
-                            };
-                        },
-                    },
+
                 ];
                 document.body.appendChild(alert);
                 return alert.present();
@@ -294,6 +274,8 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
 } else {
     localStorage.setItem('L1', 'GDGDGDGD');
 };
+
+
 
 
 // welcome();

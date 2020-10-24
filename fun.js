@@ -47,7 +47,6 @@ const item = (id, ico, text, color = '', show = true) => {
     ionItem.setAttribute('color', color);
     ionItem.setAttribute('button', 'click-btn');
     ionItem.setAttribute('id', id);
-    // ionItem.setAttribute('ClassName', id);
     const ionIco = document.createElement('ion-icon');
     ionIco.setAttribute('name', ico);
     ionIco.setAttribute('slot', 'start');
@@ -62,9 +61,9 @@ const item = (id, ico, text, color = '', show = true) => {
         };
     };
     id = document.getElementById(id);
-    // id = document.getElementsByClassName(id);
-    // id = document.querySelector(id);
 }
+
+
 
 //######################## FUNCIONES ########################
 
@@ -76,7 +75,7 @@ function helpFunction(opacity, activate) {
 
     if (document.getElementById('expandCard').getAttribute('style').includes(`${opacity}`)) {
         document.getElementById('help-exp-com').setAttribute('style', `opacity:${opacity}`);
-    }else{
+    } else {
         document.getElementById('help-exp-com').setAttribute('style', `opacity:0`);
     };
     helpActivate = activate;
@@ -114,13 +113,13 @@ function delete_spaces(v1) {
 function disableItem(boolean) {
     barMenuPrincipal.setAttribute('disabled', boolean);
     document.getElementById('title').setAttribute('style', 'margin-left:0px');
-    setAttributes(document.getElementById('buttonHelp'), { style: 'opacity:1; margin-top:58px; margin-right:-8px' ,disabled: boolean });
+    document.getElementById('buttonAdd').setAttribute('style', 'opacity:1; margin-bottom:0px; margin-right:-8px');
+    setAttributes(document.getElementById('buttonHelp'), { style: 'opacity:1; margin-top:58px; margin-right:-8px', disabled: boolean });
     setAttributes(document.getElementById('nameSetting'), { style: 'opacity:1', disabled: boolean });
     // expand
     setAttributes(document.getElementById('showCard'), { style: 'opacity:1', disabled: boolean });
     setAttributes(document.getElementById('buttonSearch'), { style: 'opacity:1', disabled: boolean });
     // space
-    setAttributes(document.getElementById('buttonAdd'), { style: 'opacity:1; margin-bottom:0px; margin-right:-8px'});
     setAttributes(document.getElementById('refresher'), { style: 'opacity:1', disabled: boolean });
 
     content.setAttribute('style', '--background: #ffffff00');
@@ -245,21 +244,10 @@ function deco(dec) {
 
 function splitInit() {
     txt = localStorage.getItem('L1').split('GD');
-    console.log(txt);
-    txt[3] == undefined ? (txt2 = txt.unshift('')) : null;
     aTotal = txt[3].split(txt[3].includes('Q0') ? 'Q0' : 'BO');
     aTotal.splice(-1, 1);
+    if (txt.length == 4) txt.push('');
 }
-
-// function splitInit() {
-//     txt = localStorage.getItem('L1').split('GD');
-//     if (txt[4] == undefined){
-//         txt.splice(3,0, 'pepe');
-//     }
-//     aTotal = txt[4].split(txt[4].includes('Q0') ? 'Q0' : 'BO');
-//     aTotal.splice(-1, 1);
-//     console.log(txt);
-// }
 
 function aTotalTOnewTotal() {
     aTotal.sort();
@@ -272,6 +260,42 @@ function aTotalTOnewTotal() {
         }
     }
 }
+
+function updateData(text, newCompareData) {
+    let mensaje = 'Base de datos sincronizada.';
+    splitInit();
+    aTotalTOnewTotal();
+
+    localStorage.setItem('accessTempData', txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD');
+    document.getElementById('userName').innerHTML = deco(txt[0]);
+    showLogin.innerHTML = '';
+    disableItem(false);
+    if (text != 'Aceptar') {
+        mensaje = 'Cancelando cambios.';
+        localStorage.setItem('L1', newCompareData);
+        updateDB('L1', 'B1');
+    };
+
+    newSearch.value = '';
+    refreshData();
+    presentToast(mensaje, '1000', 'dark');
+    setTimeout(() => { window.location.reload() }, 1000);
+}
+
+function presentCompareData(metaObj, newCompareData) {
+    const alert = document.createElement('ion-alert');
+    alert.setAttribute('backdrop-dismiss', 'false');
+    alert.header = 'Se detectaron cambios';
+    alert.message = `¿Aceptar y sincorinizar con la base de datos? </br></br> DETALLES:`;
+    alert.inputs = metaObj;
+    alert.buttons = [
+        { text: 'Rechazar', handler: () => { updateData('Rechazar', newCompareData) } },
+        { text: 'Aceptar', handler: () => { updateData('Aceptar', newCompareData) } },
+    ];
+    document.body.appendChild(alert);
+    return alert.present();
+}
+
 
 function updateDB(send, receive) {
     if (send == 'B1') localStorage.setItem(receive, docB1);
@@ -301,9 +325,9 @@ function updateDB(send, receive) {
 
 function save() {
     if (aTotal.length > 0) {
-        localStorage.setItem('L1', txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD' + aTotal.join('Q0') + 'Q0');
+        localStorage.setItem('L1', txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD' + aTotal.join('Q0') + 'Q0' + 'GD' + txt[4]);
     } else {
-        localStorage.setItem('L1', txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD');
+        localStorage.setItem('L1', txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD' + txt[4]);
     }
 }
 
@@ -377,67 +401,68 @@ function sendEmail() {
 
 // ALERTS
 
-function presentAlertCheckboxAdd(metaObjAdd, metaObjDel) {
-    const alert = document.createElement('ion-alert');
-    alert.subHeader = 'Cuentas agregadas';
-    alert.message = 'Seleccione para confirmar';
-    alert.inputs = metaObjAdd;
-    alert.buttons = [
-        { text: 'Cancelar', role: 'cancel' },
-        {
-            text: 'Terminar',
-            handler: (data) => {
-                aTotal = aTotal.concat(data);
-                alertcompare = true;
-                if (metaObjDel.length != '') {
-                    presentAlertCheckboxDel(metaObjDel);
-                    metaObjDel = [];
-                } else {
-                    console.log('No hay datos borrados');
-                    aTotalTOnewTotal();
-                    save();
-                    updateDB('L1', 'B1');
-                    alertcompare = false;
-                    window.location.reload();
-                };
-            },
-        },
-    ];
-    document.body.appendChild(alert);
-    return alert.present();
-}
+// function presentAlertCheckboxAdd(metaObjAdd, metaObjDel) {
+//     const alert = document.createElement('ion-alert');
+//     alert.subHeader = 'Cuentas agregadas';
+//     alert.message = 'Seleccione para confirmar';
+//     alert.inputs = metaObjAdd;
+//     alert.buttons = [
+//         { text: 'Cancelar', role: 'cancel' },
+//         {
+//             text: 'Terminar',
+//             handler: (data) => {
+//                 aTotal = aTotal.concat(data);
+//                 alertcompare = true;
+//                 if (metaObjDel.length != '') {
+//                     presentAlertCheckboxDel(metaObjDel);
+//                     metaObjDel = [];
+//                 } else {
+//                     console.log('No hay datos borrados');
+//                     aTotalTOnewTotal();
+//                     save();
+//                     updateDB('L1', 'B1');
+//                     alertcompare = false;
+//                     window.location.reload();
+//                 };
+//             },
+//         },
+//     ];
+//     document.body.appendChild(alert);
+//     return alert.present();
+// }
 
-function presentAlertCheckboxDel(metaObjDel) {
-    if (metaObjDel.length != '') {
-        const alert = document.createElement('ion-alert');
-        alert.header = 'Cuentas eliminadas';
-        alert.message = 'Seleccionar para confirmar';
-        alert.inputs = metaObjDel;
-        alert.buttons = [
-            { text: 'Cancelar', role: 'cancel' },
-            {
-                text: 'Terminar',
-                handler: (data2) => {
-                    aTotal = aTotal.concat(data2);
-                    aTotal.sort();
-                    newa = [];
-                    for (i = 0; i < aTotal.length; i++) {
-                        (aTotal[i] == aTotal[i + 1]) ? i++ : newa.push(aTotal[i]);
-                    };
-                    aTotal = newa;
-                    aTotalTOnewTotal();
-                    save();
-                    updateDB('L1', 'B1');
-                    alertcompare = false;
+// function presentAlertCheckboxDel(metaObjDel) {
+//     if (metaObjDel.length != '') {
+//         const alert = document.createElement('ion-alert');
+//         alert.header = 'Cuentas eliminadas';
+//         alert.message = 'Seleccionar para confirmar';
+//         alert.inputs = metaObjDel;
+//         alert.buttons = [
+//             { text: 'Cancelar', role: 'cancel' },
+//             {
+//                 text: 'Terminar',
+//                 handler: (data2) => {
+//                     aTotal = aTotal.concat(data2);
+//                     aTotal.sort();
+//                     newa = [];
+//                     for (i = 0; i < aTotal.length; i++) {
+//                         (aTotal[i] == aTotal[i + 1]) ? i++ : newa.push(aTotal[i]);
+//                     };
+//                     aTotal = newa;
+//                     aTotalTOnewTotal();
+//                     save();
+//                     updateDB('L1', 'B1');
 
-                    window.location.reload();
-                },
-            },
-        ];
-        document.body.appendChild(alert);
-        return alert.present();
-    }
-};
+//                     alertcompare = false;
+
+//                     window.location.reload();
+//                 },
+//             },
+//         ];
+//         document.body.appendChild(alert);
+//         return alert.present();
+//     }
+// };
 
 
 
@@ -567,7 +592,6 @@ function alertPass() {
     return alertPassItem.present();
 }
 
-
 function presentAlertEditUserData() {
     const alert = document.createElement('ion-alert');
     alert.header = 'Editar cuenta';
@@ -575,7 +599,7 @@ function presentAlertEditUserData() {
         { name: 'userEditName', placeholder: 'Nombre (Opcional)', value: deco(txt[0]) },
         { name: 'userEditUser', placeholder: 'Email', value: deco(txt[1]) },
         { name: 'userEditPass', placeholder: 'Contraseña', value: deco(txt[2]) },
-        // { name: 'userPin', placeholder: 'PIN', value: localStorage.getItem('Bpin') },
+        { name: 'userPin', placeholder: 'PIN', value: deco(txt[4]) },
     ];
     alert.buttons = [
         { text: 'Cancelar', role: 'cancel' },
@@ -588,8 +612,7 @@ function presentAlertEditUserData() {
                     setTimeout(() => { barProgressF('light', 'determinate'); }, 1500);
                     return;
                 }
-                const confPersonal = [usNData.userEditName, usNData.userEditUser, usNData.userEditPass];
-                // localStorage.setItem('Bpin', usNData.userPin);
+                const confPersonal = [usNData.userEditName, usNData.userEditUser, usNData.userEditPass, usNData.userPin];
                 presentAlertConfirmEdit(confPersonal);
             },
         },
@@ -611,9 +634,18 @@ function presentAlertConfirmEdit(confPersonal) {
                 (code(confPersonal[0]) == '') ? txt[0] = '25' : txt[0] = code(confPersonal[0]);
                 txt[1] = code(confPersonal[1]);
                 txt[2] = code(confPersonal[2]);
+                // 
+                txt[4] = code(confPersonal[3]);
+                // 
+
                 document.getElementById('userName').innerHTML = deco(txt[0]);
                 document.getElementById('nameSettingText').innerHTML = deco(txt[0]).slice(0, 1).toUpperCase();
                 localStorage.setItem('accessTempData', txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD');
+
+                // 
+                localStorage.setItem('bp', txt[4]);
+                // 
+
                 save();
                 updateDB('L1', 'B1');
                 updateDB('L1', 'B2');
