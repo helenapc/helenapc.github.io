@@ -1,17 +1,21 @@
 
-const coll = 'users2';
 var coincidencia = false;
 var txt = [];
 var aTotal = [];
 var newTotal = [];
 var compare = false;
+// var docB1 = '';
+// var docB2 = '';
 var uCA = [];
 var userID = '';
+const coll = 'users2';
 var alertcompare = true;
 var resetLogin = false;
 var offline = true;
 var closeAlert = false;
 var helpActivate = false;
+const timePin = 300000;
+
 
 // // Init components
 const nameLog = document.getElementById('nameLog');
@@ -32,13 +36,13 @@ const content = document.getElementById('content');
 
 
 document.getElementById('title').setAttribute('style', 'margin-left:38px');
+// document.getElementById('buttonAdd').setAttribute('style', 'opacity:0; margin-bottom:-200px');
 document.getElementById('buttonAdd').setAttribute('style', 'pointer-events: none; opacity: 0');
 document.getElementById('buttonHelp').setAttribute('style', 'pointer-events: none; opacity: 0');
 document.getElementById('nameSetting').setAttribute('style', 'pointer-events: none; opacity: 0');
 document.getElementById('expandCard').setAttribute('style', 'pointer-events: none; opacity: 0');
 document.getElementById('showCard').setAttribute('style', 'pointer-events: none; opacity: 0');
 document.getElementById('buttonSearch').setAttribute('style', 'pointer-events: none; opacity: 0');
-// space
 setAttributes(document.getElementById('refresher'), { style: 'opacity:0', disabled: true });
 
 
@@ -82,11 +86,12 @@ barToolbar.appendChild(barTitle);
 barHeader.appendChild(barToolbar);
 barMenuPrincipal.appendChild(barHeader);
 
+//NAVBAR
+const ver = document.createElement('ion-item-divider');
+ver.innerHTML= 'Versión 2.7.1';
 item('barExport', 'arrow-up-circle-outline', 'Crear copia de Seguridad')
 item('barImport', 'arrow-down-circle-outline', 'Cargar copia de Seguridad');
 item('barLogout', 'log-out-outline', 'Cerrar Sesión');
-const ver = document.createElement('ion-item-divider');
-setAttributes(ver, { innerHTML: 'Versión 2.7.1' });
 barContent.appendChild(ver);
 item('barDelAcc', 'close-outline', 'Eliminar Cuenta', 'danger');
 
@@ -143,6 +148,7 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
     splitInit();
     aTotalTOnewTotal();
     localStorage.setItem('bp', txt[4]);
+    // localStorage.setItem('tPin', Date.now());
     document.getElementById('userName').innerHTML = deco(txt[0]);
     document.getElementById('nameSettingText').innerHTML = deco(txt[0]).slice(0, 1).toUpperCase();
     compare = false;
@@ -152,7 +158,7 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
     document.getElementById('cardPin').setAttribute('style', 'pointer-events: none; opacity: 0');
     if (txt[4] != '') {
         if (localStorage.getItem('tPin')) {
-            if (Date.now() - localStorage.getItem('tPin') > 300000) {
+            if (Date.now() - localStorage.getItem('tPin') > timePin) {
                 document.getElementById('cardPin').setAttribute('style', 'opacity: 1');
                 disableItem(true);
                 document.getElementById('title').setAttribute('style', 'margin-left:38px');
@@ -162,6 +168,7 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
                 document.getElementById('expandCard').setAttribute('style', 'pointer-events: none; opacity: 0');
                 document.getElementById('showCard').setAttribute('style', 'pointer-events: none; opacity: 0');
                 document.getElementById('buttonSearch').setAttribute('style', 'pointer-events: none; opacity: 0');
+
             }
         }
 
@@ -195,12 +202,25 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
         updateDB('B1', 'L1');
         splitInit();
 
+        // if (!compare && !offline || localStorage.getItem('bp') != txt[4]) {
         if (!compare && !offline && localStorage.getItem('bp') != txt[4]) {
             localStorage.removeItem('bp');
             localStorage.removeItem('accessTempData')
             localStorage.setItem('L1', 'GDGDGDGD');
             window.location.reload();
         }
+
+        // var msgRechazar = '';
+        // document.getElementById('offline').setAttribute('style', 'opacity:1');
+        // document.getElementById('offline').setAttribute('style', 'opacity:0');
+        // if (offline) localStorage.setItem('offline', 'offlineee');
+        // document.getElementById('offline').setAttribute('style', 'opacity:1');
+        // msgRechazar = localStorage.getItem('offline');
+        // } else {
+        // document.getElementById('offline').setAttribute('style', 'opacity:0'); //0
+        // msgRechazar = 'Rechazarr';
+        // };
+
 
         // 
         if (offline) localStorage.setItem('offline', 'offlineee');
@@ -209,6 +229,7 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
 
         compare = false;
         console.log(localStorage.getItem('offline'));
+        // if (docB1 != localStorage.getItem('L1') && alertcompare && !offline) {
         if (docB1 != newCompareData && alertcompare && !offline) {
             showSearch.innerHTML = '';
 
@@ -280,6 +301,7 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
 
 // welcome();
 if (!txt[3] && showLogin.innerHTML == '') {
+    // if (!txt[4] && showLogin.innerHTML == '') {
     expandIcon.setAttribute('name', 'contract-outline')
     showSearch.innerHTML = `
     <div style="text-align:center"><br>No hay datos guardados. </div>

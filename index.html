@@ -14,7 +14,9 @@
   <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
 
   <script src="https://smtpjs.com/v3/smtp.js"></script> <!-- mail -->
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
   <link rel="stylesheet" href="variables.css">
+
 </head>
 
 <body>
@@ -61,7 +63,7 @@
           <ion-refresher-content pulling-icon="chevron-down-outline" refreshing-spinner="circular">
           </ion-refresher-content>
         </ion-refresher>
-
+        
         <ion-row>
           <ion-col id="show-accounts1" size="9" offset="1.5" size-md="5" offset-md="3.5"></ion-col>
         </ion-row>
@@ -96,12 +98,14 @@
             </ion-card>
            </ion-col>
         </ion-row>
-
       </ion-content>
 
+      
+      <!-- MODAL -->
+      <div id="bkmodal" class="bkpopup"></div>
+      <div id="modal" class="popup_box"></div>
 
-
-
+      
       <!-- FAB TOP-LEFT -->
       <ion-fab vertical="top" horizontal="start" style="margin-top: 58px; margin-left: -8px;">
         <ion-label id="help-config" class="help help-configuracion">Configuración</ion-label>

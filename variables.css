@@ -1,15 +1,9 @@
-
-
-*{
-  box-sizing: border-box;
-}
+*{ box-sizing: border-box; }
 
 /* ICONS */
 .add{ color: #2f3136; }
 
-#offline{
-  transform: scale(-1.5,1.5) translate(2px, 80px);
-}
+#offline{  transform: scale(-1.5,1.5) translate(2px, 80px);}
 
 @media screen and (min-width: 600px) {
   #buttonAdd, #buttonHelp, #offline {
@@ -17,6 +11,67 @@
   }
 }
 
+
+
+/* ********* */
+.cct{
+  margin: auto;
+  font-weight: bold;
+  text-align: center;
+  color: var(--ion-text-color);
+}
+
+.cce{
+  color: var(--ion-color-primary);
+  font-size: 0.7rem;
+  
+}
+
+.ccse{
+  color: var(--ion-color-step-550);
+  margin: 0px 0px 10px 0px;
+  
+}
+
+li{
+  color: var(--ion-color-step-550)
+}
+
+.bkpopup{
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background: black;
+
+  opacity: 0;
+  pointer-events: none;
+}
+
+
+
+.popup_box{
+  position: absolute;
+  left: 50%;
+  top: 30%;
+  width: 250px;
+  transform: translateX(-125px);
+
+  background: var(--ion-background-color);
+  text-align: left;
+  align-items: center;
+  padding: 12px 20px 0px 20px;
+  
+  border-radius: 5px;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+
+  /*CAMBIAR*/
+  opacity: 0;
+  pointer-events: none;
+}
+
+
+/* ********* */
 
 
 .help{

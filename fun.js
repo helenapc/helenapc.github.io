@@ -1,14 +1,14 @@
 
-
-
 const showCardAll = (account, user, pass, notes) => {
     const ionCard = document.createElement('ion-card');
     ionCard.setAttribute('button', 'click-btn');
     const newHeader = document.createElement('ion-card-header');
     const newSub1 = document.createElement('ion-card-subtitle');
+    // newSub1.setAttribute('style','font-weight: bold; margin-bottom:0px');
     const newSub2 = document.createElement('ion-card-subtitle');
     const newSub3 = document.createElement('ion-card-subtitle');
     const newSub4 = document.createElement('ion-card-subtitle');
+    const sep = document.createElement('ion-item');
 
     newSub1.textContent = account.toUpperCase();
     newSub2.textContent = 'Usuario: ' + user;
@@ -24,10 +24,12 @@ const showCardAll = (account, user, pass, notes) => {
     newSub4.setAttribute('class', 'hide');
 
     if (expandIcon.getAttribute('name') == 'expand-outline') {
+        newSub1.setAttribute('style','font-weight: bold; margin-bottom:0px');
         newSub2.classList.add("hide");
         newSub3.classList.add("hide");
         newSub4.classList.add("hide");
     } else {
+        newSub1.setAttribute('style','font-weight: bold; margin-bottom:15px;');
         newSub2.classList.remove("hide");
         newSub3.classList.remove("hide");
         newSub4.classList.remove("hide");
@@ -37,7 +39,7 @@ const showCardAll = (account, user, pass, notes) => {
     newHeader.appendChild(newSub2);
     newHeader.appendChild(newSub3);
     newHeader.appendChild(newSub4);
-
+    
     ionCard.appendChild(newHeader);
     showSearch.appendChild(ionCard);
 };
@@ -47,6 +49,7 @@ const item = (id, ico, text, color = '', show = true) => {
     ionItem.setAttribute('color', color);
     ionItem.setAttribute('button', 'click-btn');
     ionItem.setAttribute('id', id);
+    // ionItem.setAttribute('ClassName', id);
     const ionIco = document.createElement('ion-icon');
     ionIco.setAttribute('name', ico);
     ionIco.setAttribute('slot', 'start');
@@ -61,7 +64,40 @@ const item = (id, ico, text, color = '', show = true) => {
         };
     };
     id = document.getElementById(id);
+    // id = document.getElementsByClassName(id);
+    // id = document.querySelector(id);
 }
+
+// document.getElementById('cardPin').setAttribute('style', 'opacity: 0');
+
+// console.log(Date.now() - localStorage.getItem('tPin'));
+// if (localStorage.getItem('tPin')) {
+//     if (Date.now() - localStorage.getItem('tPin') > 10000) {
+//         console.log('Tiempo');
+
+//         document.getElementById('cardPin').setAttribute('style', 'opacity: 1');
+
+//         // disableItem(true);
+//         // document.getElementById('title').setAttribute('style', 'margin-left:38px');
+//         // setAttributes(document.getElementById('buttonHelp'), { style: 'opacity:0', disabled: true });
+//         // setAttributes(document.getElementById('nameSetting'), { style: 'opacity:0', disabled: true });
+//         // setAttributes(document.getElementById('expandCard'), { style: 'opacity:0', disabled: true });
+//         // setAttributes(document.getElementById('showCard'), { style: 'opacity:0', disabled: true });
+//         // setAttributes(document.getElementById('buttonSearch'), { style: 'opacity:0', disabled: true });
+//         // // space
+//         // setAttributes(document.getElementById('buttonAdd'), { style: 'opacity:0; margin-bottom:-200px' });
+//         // setAttributes(document.getElementById('refresher'), { style: 'opacity:0', disabled: true });
+//     }
+// }
+
+// document.getElementById('pin').addEventListener('ionInput', () => {
+//     if (pin.value == deco(txt[4])) {
+//         console.log('coincide');
+//         localStorage.setItem('tPin', Date.now());
+//         document.getElementById('cardPin').setAttribute('style', 'pointer-events: none; opacity: 0');
+//         disableItem(false);
+//     }
+// });
 
 
 
@@ -200,6 +236,8 @@ function presentToast(msg, time, color) {
 }
 
 
+
+
 function code(cod) {
     let hexCod = '';
     let hexF = '';
@@ -244,6 +282,7 @@ function deco(dec) {
 
 function splitInit() {
     txt = localStorage.getItem('L1').split('GD');
+    // txt[3] == undefined ? (txt2 = txt.unshift('')) : null;
     aTotal = txt[3].split(txt[3].includes('Q0') ? 'Q0' : 'BO');
     aTotal.splice(-1, 1);
     if (txt.length == 4) txt.push('');
@@ -263,8 +302,16 @@ function aTotalTOnewTotal() {
 
 function updateData(text, newCompareData) {
     let mensaje = 'Base de datos sincronizada.';
+    // console.log(text);
+    // console.log(localStorage.getItem('L1'));
+    // console.log(newCompareData);
+    // console.log(txt);
+    // if (text == 'Aceptar') updateDB('B1', 'L1');
+    // (text == 'Aceptar') ? updateDB('B1', 'L1') : updateDB('L1', 'B1');
     splitInit();
     aTotalTOnewTotal();
+
+
 
     localStorage.setItem('accessTempData', txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD');
     document.getElementById('userName').innerHTML = deco(txt[0]);
@@ -399,76 +446,14 @@ function sendEmail() {
 }
 
 
+
 // ALERTS
-
-// function presentAlertCheckboxAdd(metaObjAdd, metaObjDel) {
-//     const alert = document.createElement('ion-alert');
-//     alert.subHeader = 'Cuentas agregadas';
-//     alert.message = 'Seleccione para confirmar';
-//     alert.inputs = metaObjAdd;
-//     alert.buttons = [
-//         { text: 'Cancelar', role: 'cancel' },
-//         {
-//             text: 'Terminar',
-//             handler: (data) => {
-//                 aTotal = aTotal.concat(data);
-//                 alertcompare = true;
-//                 if (metaObjDel.length != '') {
-//                     presentAlertCheckboxDel(metaObjDel);
-//                     metaObjDel = [];
-//                 } else {
-//                     console.log('No hay datos borrados');
-//                     aTotalTOnewTotal();
-//                     save();
-//                     updateDB('L1', 'B1');
-//                     alertcompare = false;
-//                     window.location.reload();
-//                 };
-//             },
-//         },
-//     ];
-//     document.body.appendChild(alert);
-//     return alert.present();
-// }
-
-// function presentAlertCheckboxDel(metaObjDel) {
-//     if (metaObjDel.length != '') {
-//         const alert = document.createElement('ion-alert');
-//         alert.header = 'Cuentas eliminadas';
-//         alert.message = 'Seleccionar para confirmar';
-//         alert.inputs = metaObjDel;
-//         alert.buttons = [
-//             { text: 'Cancelar', role: 'cancel' },
-//             {
-//                 text: 'Terminar',
-//                 handler: (data2) => {
-//                     aTotal = aTotal.concat(data2);
-//                     aTotal.sort();
-//                     newa = [];
-//                     for (i = 0; i < aTotal.length; i++) {
-//                         (aTotal[i] == aTotal[i + 1]) ? i++ : newa.push(aTotal[i]);
-//                     };
-//                     aTotal = newa;
-//                     aTotalTOnewTotal();
-//                     save();
-//                     updateDB('L1', 'B1');
-
-//                     alertcompare = false;
-
-//                     window.location.reload();
-//                 },
-//             },
-//         ];
-//         document.body.appendChild(alert);
-//         return alert.present();
-//     }
-// };
-
-
 
 
 
 function alertEdit(cuPath, reemplace) {
+    document.getElementById('bkmodal').setAttribute('style', 'opacity:0; pointer-events: none');
+    document.getElementById('modal').setAttribute('style', 'opacity:0; pointer-events: none');
     const toRemplace = reemplace / 5;
     const alert = document.createElement('ion-alert');
     alert.setAttribute('backdrop-dismiss', 'false');
@@ -484,6 +469,8 @@ function alertEdit(cuPath, reemplace) {
         {
             text: 'Ok',
             handler: newData => {
+                document.getElementById('modal').setAttribute('style', 'opacity:0; pointer-events: none');
+
                 if (newData.name1 == '' || newData.name2 == '' || newData.name3 == '') {
                     alertMsg('Error', 'Datos incorrectos o vacíos.');
                     return;
@@ -513,6 +500,7 @@ function alertEdit(cuPath, reemplace) {
                 save();
                 updateDB('L1', 'B1');
                 closeAlert = false;
+
             },
         },
     ];
@@ -521,6 +509,8 @@ function alertEdit(cuPath, reemplace) {
 }
 
 function alertDel(cuPath, reemplace) {
+    document.getElementById('bkmodal').setAttribute('style', 'opacity:0; pointer-events: none');
+    document.getElementById('modal').setAttribute('style', 'opacity:0; pointer-events: none');
     const alert = document.createElement('ion-alert');
     alert.message = `¿Eliminar ${cuPath[0]}?`;
     alert.buttons = [
@@ -551,11 +541,13 @@ async function alertView(cuPath) {
     alert.translucent = true;
     alert.message =
         `
+        <p>
         <ul>
         <li>Usuario:</br>${cuPath[1]}</li>
         <li>Contraseña:</br>${cuPath[2]}</li>
         <li>Notas:</br>${cuPath[3]}</li>
         </ul>
+        </p>
         `;
     document.body.appendChild(alert);
     await alert.present();
@@ -565,6 +557,35 @@ async function alertView(cuPath) {
         closeAlert = false;
     }, 1200);
 }
+
+async function alertView2(cuPath) {
+    document.getElementById('modal').innerHTML =
+    `
+    <p id="op1" class="cct">${cuPath[0]}</br></p>
+    <hr style="height:1px; border-width:0; color:gray;background-color:gray">
+    <p style="margin: 0px 0px 0px 0px;">
+        <label class="cce" > Usuario: </label>
+        <p class="ccse" > ${cuPath[1]} </p>
+        <label class="cce" > Contraseña: </label>
+        <p class="ccse" > ${cuPath[2]} </p>
+        <label class="cce" > Notas: </label>
+        <p class="ccse" > ${cuPath[3]} </p>
+    </p>
+    `;
+
+    document.getElementById('modal').setAttribute('style', 'opacity:1; pointer-events: auto');
+    document.getElementById('bkmodal').setAttribute('style', 'opacity:0.3; pointer-events: auto');
+}
+
+/*
+
+        <ul>
+        <li><b>Usuario: </b>${cuPath[1]}</li>
+        <li><b>Contraseña: </b>${cuPath[2]}</li>
+        <li><b>Notas: </b>${cuPath[3]}</li>
+        </ul>
+*/
+
 
 
 // EDIT NM/US/PS/NO
@@ -592,6 +613,7 @@ function alertPass() {
     return alertPassItem.present();
 }
 
+
 function presentAlertEditUserData() {
     const alert = document.createElement('ion-alert');
     alert.header = 'Editar cuenta';
@@ -599,7 +621,9 @@ function presentAlertEditUserData() {
         { name: 'userEditName', placeholder: 'Nombre (Opcional)', value: deco(txt[0]) },
         { name: 'userEditUser', placeholder: 'Email', value: deco(txt[1]) },
         { name: 'userEditPass', placeholder: 'Contraseña', value: deco(txt[2]) },
-        { name: 'userPin', placeholder: 'PIN', value: deco(txt[4]) },
+        {
+            name: 'userPin', placeholder: 'PIN', value: deco(txt[4]),
+        },
     ];
     alert.buttons = [
         { text: 'Cancelar', role: 'cancel' },
@@ -613,6 +637,7 @@ function presentAlertEditUserData() {
                     return;
                 }
                 const confPersonal = [usNData.userEditName, usNData.userEditUser, usNData.userEditPass, usNData.userPin];
+                // localStorage.setItem('Bpin', usNData.userPin);
                 presentAlertConfirmEdit(confPersonal);
             },
         },
