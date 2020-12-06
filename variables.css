@@ -3,7 +3,7 @@
 /* ICONS */
 .add{ color: #2f3136; }
 
-#offline{  transform: scale(-1.5,1.5) translate(2px, 80px);}
+/* #offline{  transform: scale(-1.5,1.5) translate(2px, 80px);} */
 
 @media screen and (min-width: 600px) {
   #buttonAdd, #buttonHelp, #offline {
@@ -33,9 +33,10 @@
   
 }
 
-li{
-  color: var(--ion-color-step-550)
-}
+/* li{
+  color: var(--ion-color-step-550);
+  padding-bottom: 10px;
+} */
 
 .bkpopup{
   position: absolute;
@@ -74,6 +75,7 @@ li{
 /* ********* */
 
 
+
 .help{
   opacity: 0;
   padding: 8px;
@@ -84,11 +86,15 @@ li{
   position: absolute;
 }
 
+
 .help-configuracion{ left: 100%; top: 18%; }
-.help-expandir-contraer{ left: 100%; top: 6%; }
-.help-mostrar-ocultar{ left: 100%; top: 38%; }
-.help-buscar{ left: 100%; top: 69%; }
+.help-editar{ left: 100%; top: 5%; }
+.help-borrar{ left: 100%; top: 24%; }
+.help-expandir-contraer{ left: 100%; top: 43%; }
+.help-mostrar-ocultar{ left: 100%; top: 62%; }
+.help-buscar{ left: 100%; top: 81%; }
 .help-agregar{ right: 100%; top: 16%; }
+
 
 .barLogout{
   transform: scaleX(-1);
@@ -116,29 +122,31 @@ ion-title#userName.md.title-default.hydrated{
   margin-left: 20px;
 }
 
-#see{
+/* #see{
   position: absolute;
   display: flexbox;
   justify-content: flex-end;
   align-self: flex-end;
   transform: translate( 0px , -15px);
   
-}
+} */
 
-ul{
+/* ul{
   list-style-type: disc;
   padding-left: 10px;
-}
+} */
 
-li{
+/* li{
   padding-bottom: 10px;
-}
+} */
 
 .hide{
   display: none;
 }
 
-
+/* p{
+  user-select: all;
+} */
 
 /*ITEMS*/
 
@@ -244,13 +252,9 @@ ion-icon, .item .sc-ion-label-md-h , .restoreText , #nameSettingText{ /*icon, in
   transition: transform 0.1s linear;;
 }
 
-.fa-moon{
-  color: #414141;
-}
+.fa-moon{ color: #414141; }
 
-.fa-color{
-  color: #ffffff;
-}
+.fa-color{ color: #ffffff; }
 
 /*THEMES*/
 body.light {

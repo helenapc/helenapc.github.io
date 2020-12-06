@@ -14,15 +14,17 @@
   <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
 
   <script src="https://smtpjs.com/v3/smtp.js"></script> <!-- mail -->
-  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="variables.css">
 
 </head>
 
 <body>
   <ion-app class="fondo">
+    
     <ion-menu side="start" content-id="main-content" max-edge-start="0" id="barMenuPrincipal"></ion-menu>
 
+    
     <!-- <ion-fab id="offline" vertical="top" horizontal="end" style="opacity: 0;">
       <ion-icon name="cloud-offline-outline" size="large"></ion-icon>
     </ion-fab> -->
@@ -66,6 +68,7 @@
         
         <ion-row>
           <ion-col id="show-accounts1" size="9" offset="1.5" size-md="5" offset-md="3.5"></ion-col>
+          
         </ion-row>
 
         <ion-row id="showLogin" style="margin-top: 50px;">
@@ -123,6 +126,17 @@
 
       <!-- FAB BOTTOM-LEFT -->
       <ion-fab vertical="bottom" horizontal="start" style="margin-left:-8px">
+
+        <ion-label id="help-edit" class="help help-editar">Editar</ion-label>
+        <ion-fab-button id="buttonEdit" color="light" size="small">
+          <ion-icon name="pencil" color="primary"></ion-icon>
+        </ion-fab-button>
+
+        <ion-label id="help-delete" class="help help-borrar">Borrar</ion-label>
+        <ion-fab-button id="buttonDelete" color="light" size="small">
+          <ion-icon name="trash" color="danger"></ion-icon>
+        </ion-fab-button>
+
         <ion-label id="help-exp-com" class="help help-expandir-contraer">Expandir/Contraer</ion-label>
         <ion-fab-button id="expandCard" color="light" size="small">
           <ion-icon id="expandIcon" name="expand-outline"></ion-icon>

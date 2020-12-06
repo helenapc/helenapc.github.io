@@ -14,7 +14,9 @@ var resetLogin = false;
 var offline = true;
 var closeAlert = false;
 var helpActivate = false;
-const timePin = 300000;
+var cuPath = [];
+var reemplace;
+// const timePin = 300000;
 
 
 // // Init components
@@ -37,12 +39,24 @@ const content = document.getElementById('content');
 
 document.getElementById('title').setAttribute('style', 'margin-left:38px');
 // document.getElementById('buttonAdd').setAttribute('style', 'opacity:0; margin-bottom:-200px');
-document.getElementById('buttonAdd').setAttribute('style', 'pointer-events: none; opacity: 0');
-document.getElementById('buttonHelp').setAttribute('style', 'pointer-events: none; opacity: 0');
+
 document.getElementById('nameSetting').setAttribute('style', 'pointer-events: none; opacity: 0');
+
+document.getElementById('buttonEdit').setAttribute('style', 'opacity:0; pointer-events: none');
+document.getElementById('buttonDelete').setAttribute('style', 'opacity:0; pointer-events: none');
 document.getElementById('expandCard').setAttribute('style', 'pointer-events: none; opacity: 0');
 document.getElementById('showCard').setAttribute('style', 'pointer-events: none; opacity: 0');
 document.getElementById('buttonSearch').setAttribute('style', 'pointer-events: none; opacity: 0');
+
+document.getElementById('buttonHelp').setAttribute('style', 'pointer-events: none; opacity: 0');
+document.getElementById('buttonAdd').setAttribute('style', 'pointer-events: none; opacity: 0');
+
+// setAttributes(document.getElementById('buttonHelp'), { style: 'opacity:0', disabled: true });
+// setAttributes(document.getElementById('nameSetting'), { style: 'opacity:0', disabled: true });
+// setAttributes(document.getElementById('expandCard'), { style: 'opacity:0', disabled: true });
+// setAttributes(document.getElementById('showCard'), { style: 'opacity:0', disabled: true });
+// setAttributes(document.getElementById('buttonSearch'), { style: 'opacity:0', disabled: true });
+// space
 setAttributes(document.getElementById('refresher'), { style: 'opacity:0', disabled: true });
 
 
@@ -86,12 +100,11 @@ barToolbar.appendChild(barTitle);
 barHeader.appendChild(barToolbar);
 barMenuPrincipal.appendChild(barHeader);
 
-//NAVBAR
-const ver = document.createElement('ion-item-divider');
-ver.innerHTML= 'Versión 2.7.1';
 item('barExport', 'arrow-up-circle-outline', 'Crear copia de Seguridad')
 item('barImport', 'arrow-down-circle-outline', 'Cargar copia de Seguridad');
 item('barLogout', 'log-out-outline', 'Cerrar Sesión');
+const ver = document.createElement('ion-item-divider');
+ver.innerHTML = 'Versión 2.7.1';
 barContent.appendChild(ver);
 item('barDelAcc', 'close-outline', 'Eliminar Cuenta', 'danger');
 

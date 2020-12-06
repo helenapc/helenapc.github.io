@@ -7,10 +7,20 @@ document.getElementById('bkmodal').addEventListener('click', () => {
     console.log('hola');
     document.getElementById('bkmodal').setAttribute('style', 'opacity:0; pointer-events: none');
     document.getElementById('modal').setAttribute('style', 'opacity:0; pointer-events: none');
-    document.getElementById('toastC').setAttribute('style', 'transform: translateY(60px);');
+    
+    document.getElementById('buttonEdit').setAttribute('style', 'opacity:0; pointer-events: none');
+    document.getElementById('buttonDelete').setAttribute('style', 'opacity:0; pointer-events: none');
+    // document.getElementById('help-edit').setAttribute('style', `opacity:0; pointer-events: none`);
+    // document.getElementById('help-delete').setAttribute('style', `opacity:0; pointer-events: none`);
+    helpFunction('0', false);
+
+    document.querySelectorAll('p.ccse')[0].setAttribute('style', 'user-select:none;');
+    document.querySelectorAll('p.ccse')[1].setAttribute('style', 'user-select:none;');
+    document.querySelectorAll('p.ccse')[2].setAttribute('style', 'user-select:none;');
+
+
     
 })
-
 
 
 
@@ -189,9 +199,10 @@ newSearch.addEventListener('ionInput', () => { refreshData() });
 
 showSearch.addEventListener('click', e => {  //editCard
     helpFunction('0', false);
+
     e.preventDefault();
     var xPath = 3;
-    var cuPath = [];
+    // var cuPath = [];
 
     if (e.path[xPath].localName == 'ion-row') return;
     if (e.path[xPath].innerText == undefined) xPath = 0;
@@ -211,96 +222,62 @@ showSearch.addEventListener('click', e => {  //editCard
             cuPath[2] == newTotal[i + 2] &&
             cuPath[3] == newTotal[i + 3]
         ) {
-            const reemplace = i
+            // const reemplace = i
+            reemplace = i
+            alertView2(cuPath);
+            document.getElementById('modal').setAttribute('style', 'opacity:1; pointer-events: auto');
+            document.getElementById('bkmodal').setAttribute('style', 'opacity:0.5; pointer-events: auto');
+            document.getElementById('buttonEdit').setAttribute('style', 'opacity:1; pointer-events: auto');
+            document.getElementById('buttonDelete').setAttribute('style', 'opacity:1; pointer-events: auto');
 
-            if (document.getElementById('expandIcon').getAttribute('name') == 'expand-outline') {
-                alertView2(cuPath);
 
-
-            }
-            function presentToastC(msg) {
-                const toastC = document.createElement('ion-toast');
-                // toastC.setAttribute('style', `--background:var(--ion-color-toastC)`);
-                toastC.setAttribute('id', 'toastC');
-                toastC.style.color = 'var(--ion-text-toastC)';
-                toastC.translucent = true;
-                toastC.message = msg;
-                toastC.duration = 2500;
-                toastC.buttons = [
-                    {
-                        icon: 'pencil',
-                        handler: () => {
-                            closeAlert = true;
-                            alertEdit(cuPath, reemplace);
-                        }
-                    },
-                    {
-                        icon: 'trash',
-                        handler: () => {
-                            closeAlert = true;
-                            alertDel(cuPath, reemplace)
-                        }
-                    },
-                ];
-                document.body.appendChild(toastC);
-                return toastC.present();
-
-            }
-            presentToastC(cuPath[0]);
-            // document.getElementById('toastC').setAttribute('style', 'opacity:1;');
-            // async function presentToastWithOptions() {
-            //     const toast = document.createElement('ion-toast');
-            //     toast.header = 'Toast header';
-            //     toast.message = 'Click to Close';
-            //     toast.position = 'top';
-            //     toast.buttons = [
-            //         {
-            //             side: 'start',
-            //             icon: 'star',
-            //             text: 'Favorite',
-            //             handler: () => {
-            //                 console.log('Favorite clicked');
-            //             }
-            //         }, {
-            //             text: 'Done',
-            //             role: 'cancel',
-            //             handler: () => {
-            //                 console.log('Cancel clicked');
-            //             }
-            //         }
-            //     ];
-
-            //     document.body.appendChild(toast);
-            //     return toast.present();
+            // var matches = document.querySelectorAll('p.ccse');
+            // console.log(matches);
+            document.querySelectorAll('p.ccse')[0].setAttribute('style', 'user-select:all;');
+            document.querySelectorAll('p.ccse')[1].setAttribute('style', 'user-select:all;');
+            document.querySelectorAll('p.ccse')[2].setAttribute('style', 'user-select:all;');
+        
+            // document.querySelector('p.ccse').setAttribute('style', 'color:red;');
+            // matches[2].setAttribute('style', 'color:red;');
+            
+            // document.querySelector("p.ccse").setAttribute('style', 'color:red;');
+            // document.getElementsByClassName(".ccse").setAttribute('style','font-weight: bold; margin-bottom:0px');
+            
+            // if (document.getElementById('expandIcon').getAttribute('name') == 'expand-outline') {
+            // }else{
+                // document.getElementById('bkmodal').setAttribute('style', 'opacity:0; pointer-events: auto');
             // }
-            // presentToastWithOptions();
+            // function presentToastC(msg) {
+            //     const toastC = document.createElement('ion-toast');
+            //     // toastC.setAttribute('style', `--background:var(--ion-color-toastC)`);
+            //     toastC.setAttribute('id', 'toastC');
+            //     toastC.style.color = 'var(--ion-text-toastC)';
+            //     toastC.translucent = true;
+            //     toastC.message = msg;
+            //     toastC.duration = 2500;
+            //     toastC.buttons = [
+            //         {
+            //             icon: 'pencil',
+            //             handler: () => {
+            //                 closeAlert = true;
+            //                 alertEdit(cuPath, reemplace);
+            //             }
+            //         },
+            //         {
+            //             icon: 'trash',
+            //             handler: () => {
+            //                 closeAlert = true;
+            //                 alertDel(cuPath, reemplace)
+            //             }
+            //         },
+            //     ];
+            //     document.body.appendChild(toastC);
+            //     return toastC.present();
+
+            // }
+            // presentToastC(cuPath[0]);
         }
     }
-
-
-    // document.getElementById('modal').innerHTML =
-    // `
-    // <label id="op1" class="card_content_tit">${cuPath[0]}</br></label>
-
-    // <p id="op1" class="card_content_edit">
-    //     <ul>
-    //     <li><b>Usuario: </b>${cuPath[1]}</li>
-    //     <li><b>Contraseña: </b>${cuPath[2]}</li>
-    //     <li><b>Notas: </b>${cuPath[3]}</li>
-    //     </ul>
-    // </p>
-
-    // <div class="btns">
-    //     <button class="btnEdit"><i class="fa fa-edit" onClick="alertEdit(cuPath, reemplace)"></i></button>
-    //     <button class="btnDel"><i class="fa fa-trash"></i></button>
-    // </div>
-    // `;
-
-    // document.getElementById('modal').setAttribute('style', 'opacity:1; pointer-events: auto');
-    // document.getElementById('bkmodal').setAttribute('style', 'opacity:0.3; pointer-events: auto');
-
-
-
 
 });
 
@@ -472,6 +449,16 @@ barDelAcc.addEventListener('click', () => {
 
 
 //FAB
+
+document.getElementById('buttonEdit').addEventListener('click', () => {
+    helpFunction('0', false);
+    alertEdit(cuPath, reemplace);
+})
+
+document.getElementById('buttonDelete').addEventListener('click', () => {
+    helpFunction('0', false);
+    alertDel(cuPath, reemplace);
+})
 
 document.getElementById('buttonHelp').addEventListener('click', () => {
     (!helpActivate) ? helpFunction('1', true) : helpFunction('0', false);

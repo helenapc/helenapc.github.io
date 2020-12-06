@@ -25,9 +25,9 @@ const showCardAll = (account, user, pass, notes) => {
 
     if (expandIcon.getAttribute('name') == 'expand-outline') {
         newSub1.setAttribute('style','font-weight: bold; margin-bottom:0px');
-        newSub2.classList.add("hide");
-        newSub3.classList.add("hide");
-        newSub4.classList.add("hide");
+        // newSub2.classList.add("hide");
+        // newSub3.classList.add("hide");
+        // newSub4.classList.add("hide");
     } else {
         newSub1.setAttribute('style','font-weight: bold; margin-bottom:15px;');
         newSub2.classList.remove("hide");
@@ -43,13 +43,13 @@ const showCardAll = (account, user, pass, notes) => {
     ionCard.appendChild(newHeader);
     showSearch.appendChild(ionCard);
 };
+
 const item = (id, ico, text, color = '', show = true) => {
     const ionItem = document.createElement('ion-item');
     ionItem.textContent = text;
     ionItem.setAttribute('color', color);
     ionItem.setAttribute('button', 'click-btn');
     ionItem.setAttribute('id', id);
-    // ionItem.setAttribute('ClassName', id);
     const ionIco = document.createElement('ion-icon');
     ionIco.setAttribute('name', ico);
     ionIco.setAttribute('slot', 'start');
@@ -64,55 +64,40 @@ const item = (id, ico, text, color = '', show = true) => {
         };
     };
     id = document.getElementById(id);
-    // id = document.getElementsByClassName(id);
-    // id = document.querySelector(id);
+
 }
 
-// document.getElementById('cardPin').setAttribute('style', 'opacity: 0');
-
-// console.log(Date.now() - localStorage.getItem('tPin'));
-// if (localStorage.getItem('tPin')) {
-//     if (Date.now() - localStorage.getItem('tPin') > 10000) {
-//         console.log('Tiempo');
-
-//         document.getElementById('cardPin').setAttribute('style', 'opacity: 1');
-
-//         // disableItem(true);
-//         // document.getElementById('title').setAttribute('style', 'margin-left:38px');
-//         // setAttributes(document.getElementById('buttonHelp'), { style: 'opacity:0', disabled: true });
-//         // setAttributes(document.getElementById('nameSetting'), { style: 'opacity:0', disabled: true });
-//         // setAttributes(document.getElementById('expandCard'), { style: 'opacity:0', disabled: true });
-//         // setAttributes(document.getElementById('showCard'), { style: 'opacity:0', disabled: true });
-//         // setAttributes(document.getElementById('buttonSearch'), { style: 'opacity:0', disabled: true });
-//         // // space
-//         // setAttributes(document.getElementById('buttonAdd'), { style: 'opacity:0; margin-bottom:-200px' });
-//         // setAttributes(document.getElementById('refresher'), { style: 'opacity:0', disabled: true });
-//     }
-// }
-
-// document.getElementById('pin').addEventListener('ionInput', () => {
-//     if (pin.value == deco(txt[4])) {
-//         console.log('coincide');
-//         localStorage.setItem('tPin', Date.now());
-//         document.getElementById('cardPin').setAttribute('style', 'pointer-events: none; opacity: 0');
-//         disableItem(false);
-//     }
-// });
 
 
 
 //######################## FUNCIONES ########################
 
 function helpFunction(opacity, activate) {
-    document.getElementById('help-config').setAttribute('style', `opacity:${opacity}`);
-    document.getElementById('help-show').setAttribute('style', `opacity:${opacity}`);
-    document.getElementById('help-search').setAttribute('style', `opacity:${opacity}`);
-    document.getElementById('help-add').setAttribute('style', `opacity:${opacity}`);
+    (opacity=='1') ? pointer = 'auto' : pointer = 'none';
+    document.getElementById('help-config').setAttribute('style', `opacity:${opacity}; pointer-events: ${pointer}`);
+
+    // document.getElementById('help-edit').setAttribute('style', `opacity:${opacity}; pointer-events: ${pointer}`);
+    // document.getElementById('help-delete').setAttribute('style', `opacity:${opacity}; pointer-events: ${pointer}`);
+    document.getElementById('help-show').setAttribute('style', `opacity:${opacity}; pointer-events: ${pointer}`);
+    document.getElementById('help-search').setAttribute('style', `opacity:${opacity}; pointer-events: ${pointer}`);
+    document.getElementById('help-add').setAttribute('style', `opacity:${opacity}; pointer-events: ${pointer}`);
 
     if (document.getElementById('expandCard').getAttribute('style').includes(`${opacity}`)) {
-        document.getElementById('help-exp-com').setAttribute('style', `opacity:${opacity}`);
+        document.getElementById('help-exp-com').setAttribute('style', `opacity:${opacity}; pointer-events: ${pointer}`);
     } else {
-        document.getElementById('help-exp-com').setAttribute('style', `opacity:0`);
+        document.getElementById('help-exp-com').setAttribute('style', `opacity:0; pointer-events: none`);
+    };
+
+    if (document.getElementById('buttonEdit').getAttribute('style').includes(`${opacity}`)) {
+        document.getElementById('help-edit').setAttribute('style', `opacity:${opacity}; pointer-events: ${pointer}`);
+    } else {
+        document.getElementById('help-edit').setAttribute('style', `opacity:0; pointer-events: none`);
+    };
+
+    if (document.getElementById('buttonDelete').getAttribute('style').includes(`${opacity}`)) {
+        document.getElementById('help-delete').setAttribute('style', `opacity:${opacity}; pointer-events: ${pointer}`);
+    } else {
+        document.getElementById('help-delete').setAttribute('style', `opacity:0; pointer-events: none`);
     };
     helpActivate = activate;
 }
@@ -454,6 +439,8 @@ function sendEmail() {
 function alertEdit(cuPath, reemplace) {
     document.getElementById('bkmodal').setAttribute('style', 'opacity:0; pointer-events: none');
     document.getElementById('modal').setAttribute('style', 'opacity:0; pointer-events: none');
+    document.getElementById('buttonEdit').setAttribute('style', 'opacity:0; pointer-events: none');
+    document.getElementById('buttonDelete').setAttribute('style', 'opacity:0; pointer-events: none');
     const toRemplace = reemplace / 5;
     const alert = document.createElement('ion-alert');
     alert.setAttribute('backdrop-dismiss', 'false');
@@ -511,6 +498,8 @@ function alertEdit(cuPath, reemplace) {
 function alertDel(cuPath, reemplace) {
     document.getElementById('bkmodal').setAttribute('style', 'opacity:0; pointer-events: none');
     document.getElementById('modal').setAttribute('style', 'opacity:0; pointer-events: none');
+    document.getElementById('buttonEdit').setAttribute('style', 'opacity:0; pointer-events: none');
+    document.getElementById('buttonDelete').setAttribute('style', 'opacity:0; pointer-events: none');
     const alert = document.createElement('ion-alert');
     alert.message = `¿Eliminar ${cuPath[0]}?`;
     alert.buttons = [
@@ -533,32 +522,8 @@ function alertDel(cuPath, reemplace) {
     return alert.present();
 }
 
-async function alertView(cuPath) {
-    closeAlert = false;
-    const alert = document.createElement('ion-alert');
-    alert.setAttribute('style', '--backdrop-opacity:0;')
-    alert.subHeader = cuPath[0].toUpperCase();
-    alert.translucent = true;
-    alert.message =
-        `
-        <p>
-        <ul>
-        <li>Usuario:</br>${cuPath[1]}</li>
-        <li>Contraseña:</br>${cuPath[2]}</li>
-        <li>Notas:</br>${cuPath[3]}</li>
-        </ul>
-        </p>
-        `;
-    document.body.appendChild(alert);
-    await alert.present();
 
-    setTimeout(() => {
-        if (closeAlert) return alert.dismiss();
-        closeAlert = false;
-    }, 1200);
-}
-
-async function alertView2(cuPath) {
+function alertView2(cuPath) {
     document.getElementById('modal').innerHTML =
     `
     <p id="op1" class="cct">${cuPath[0]}</br></p>
@@ -572,19 +537,7 @@ async function alertView2(cuPath) {
         <p class="ccse" > ${cuPath[3]} </p>
     </p>
     `;
-
-    document.getElementById('modal').setAttribute('style', 'opacity:1; pointer-events: auto');
-    document.getElementById('bkmodal').setAttribute('style', 'opacity:0.3; pointer-events: auto');
 }
-
-/*
-
-        <ul>
-        <li><b>Usuario: </b>${cuPath[1]}</li>
-        <li><b>Contraseña: </b>${cuPath[2]}</li>
-        <li><b>Notas: </b>${cuPath[3]}</li>
-        </ul>
-*/
 
 
 
