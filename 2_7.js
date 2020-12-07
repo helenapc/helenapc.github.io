@@ -16,7 +16,7 @@ var closeAlert = false;
 var helpActivate = false;
 var cuPath = [];
 var reemplace;
-
+const timePin = 300000;
 
 const icoShow = 'eye-outline';
 const icoHide = 'eye-off-outline';
