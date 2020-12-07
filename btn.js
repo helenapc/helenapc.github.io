@@ -4,7 +4,7 @@
 // NEW MODAL
 
 document.getElementById('bkmodal').addEventListener('click', () => {
-    console.log('hola');
+    // console.log('hola');
     document.getElementById('bkmodal').setAttribute('style', 'opacity:0; pointer-events: none');
     document.getElementById('modal').setAttribute('style', 'opacity:0; pointer-events: none');
     
@@ -12,7 +12,7 @@ document.getElementById('bkmodal').addEventListener('click', () => {
     document.getElementById('buttonDelete').setAttribute('style', 'opacity:0; pointer-events: none');
     // document.getElementById('help-edit').setAttribute('style', `opacity:0; pointer-events: none`);
     // document.getElementById('help-delete').setAttribute('style', `opacity:0; pointer-events: none`);
-    helpFunction('0', false);
+    // helpFunction('0', false);
 
     document.querySelectorAll('p.ccse')[0].setAttribute('style', 'user-select:none;');
     document.querySelectorAll('p.ccse')[1].setAttribute('style', 'user-select:none;');
@@ -198,7 +198,7 @@ newSearch.addEventListener('ionInput', () => { refreshData() });
 
 
 showSearch.addEventListener('click', e => {  //editCard
-    helpFunction('0', false);
+    // helpFunction('0', false);
 
     e.preventDefault();
     var xPath = 3;
@@ -237,45 +237,6 @@ showSearch.addEventListener('click', e => {  //editCard
             document.querySelectorAll('p.ccse')[1].setAttribute('style', 'user-select:all;');
             document.querySelectorAll('p.ccse')[2].setAttribute('style', 'user-select:all;');
         
-            // document.querySelector('p.ccse').setAttribute('style', 'color:red;');
-            // matches[2].setAttribute('style', 'color:red;');
-            
-            // document.querySelector("p.ccse").setAttribute('style', 'color:red;');
-            // document.getElementsByClassName(".ccse").setAttribute('style','font-weight: bold; margin-bottom:0px');
-            
-            // if (document.getElementById('expandIcon').getAttribute('name') == 'expand-outline') {
-            // }else{
-                // document.getElementById('bkmodal').setAttribute('style', 'opacity:0; pointer-events: auto');
-            // }
-            // function presentToastC(msg) {
-            //     const toastC = document.createElement('ion-toast');
-            //     // toastC.setAttribute('style', `--background:var(--ion-color-toastC)`);
-            //     toastC.setAttribute('id', 'toastC');
-            //     toastC.style.color = 'var(--ion-text-toastC)';
-            //     toastC.translucent = true;
-            //     toastC.message = msg;
-            //     toastC.duration = 2500;
-            //     toastC.buttons = [
-            //         {
-            //             icon: 'pencil',
-            //             handler: () => {
-            //                 closeAlert = true;
-            //                 alertEdit(cuPath, reemplace);
-            //             }
-            //         },
-            //         {
-            //             icon: 'trash',
-            //             handler: () => {
-            //                 closeAlert = true;
-            //                 alertDel(cuPath, reemplace)
-            //             }
-            //         },
-            //     ];
-            //     document.body.appendChild(toastC);
-            //     return toastC.present();
-
-            // }
-            // presentToastC(cuPath[0]);
         }
     }
 
@@ -292,7 +253,7 @@ document.getElementById('refresher').addEventListener('ionRefresh', () => {
 
 //NAV BAR
 
-document.getElementById('barOpen').addEventListener('click', () => { helpFunction('0', false) });
+// document.getElementById('barOpen').addEventListener('click', () => { helpFunction('0', false) });
 
 document.getElementById('barClose').addEventListener('click', () => { barMenuPrincipal.close() });
 
@@ -451,50 +412,52 @@ barDelAcc.addEventListener('click', () => {
 //FAB
 
 document.getElementById('buttonEdit').addEventListener('click', () => {
-    helpFunction('0', false);
+    // helpFunction('0', false);
     alertEdit(cuPath, reemplace);
 })
 
 document.getElementById('buttonDelete').addEventListener('click', () => {
-    helpFunction('0', false);
+    // helpFunction('0', false);
     alertDel(cuPath, reemplace);
 })
 
-document.getElementById('buttonHelp').addEventListener('click', () => {
-    (!helpActivate) ? helpFunction('1', true) : helpFunction('0', false);
-})
+// document.getElementById('buttonHelp').addEventListener('click', () => {
+//     (!helpActivate) ? helpFunction('1', true) : helpFunction('0', false);
+//     (!helpActivate) ? helpLabel('1', true) : helpLabel('0', false);
+//     console.log('aiuda');
+// });
 
 document.getElementById('nameSetting').addEventListener('click', () => {
-    helpFunction('0', false);
+    // helpFunction('0', false);
     alertPass();
     // presentPin();
 });
 
 document.getElementById('expandCard').addEventListener('click', () => {
-    helpFunction('0', false);
-    if (document.getElementById('expandIcon').getAttribute('name') == 'expand-outline') {
-        document.getElementById('expandIcon').setAttribute('name', 'contract-outline')
+    // helpFunction('0', false);
+    if (document.getElementById('expandIcon').getAttribute('name') == icoExp) {
+        document.getElementById('expandIcon').setAttribute('name', icoCom)
     } else {
-        document.getElementById('expandIcon').setAttribute('name', 'expand-outline')
+        document.getElementById('expandIcon').setAttribute('name', icoExp)
     };
     refreshData(false);
 });
 
 document.getElementById('showCard').addEventListener('click', () => {
-    helpFunction('0', false);
-    if (document.getElementById('showIcon').getAttribute('name') == 'eye-outline') {
-        document.getElementById('showIcon').setAttribute('name', 'eye-off-outline');
+    // helpFunction('0', false);
+    if (document.getElementById('showIcon').getAttribute('name') == icoShow) {
+        document.getElementById('showIcon').setAttribute('name', icoHide);
         newSearch.value = '*';
         newSearch.setAttribute('style', 'margin-top:-60px');
     } else {
-        document.getElementById('showIcon').setAttribute('name', 'eye-outline');
+        document.getElementById('showIcon').setAttribute('name', icoShow);
         newSearch.value = '';
     };
     refreshData();
 });
 
 document.getElementById('buttonSearch').addEventListener('click', () => {
-    helpFunction('0', false);
+    // helpFunction('0', false);
     if (!statSearchBar) {
         newSearch.value = '';
         newSearch.setAttribute('style', 'margin-top:0px');
@@ -508,7 +471,8 @@ document.getElementById('buttonSearch').addEventListener('click', () => {
 })
 
 document.getElementById('buttonAdd').addEventListener('click', () => {
-    helpFunction('0', false);
+    // helpFunction('0', false);
+    // document.getElementById('help-add').setAttribute('style', 'opacity:0');
     function presentAlertAdd() {
         const alert = document.createElement('ion-alert');
         alert.setAttribute('backdrop-dismiss', 'false');
@@ -551,7 +515,8 @@ document.getElementById('buttonAdd').addEventListener('click', () => {
                     save();
                     showSearch.innerHTML = '';
                     newSearch.value = newData2.name1a;
-                    document.getElementById('expandIcon').setAttribute('name', 'contract-outline');
+                    // document.getElementById('expandIcon').setAttribute('name', 'contract-outline');
+                    document.getElementById('expandIcon').setAttribute('name', icoCom);
                     refreshData();
                     presentToast(`"${newData2.name1a.toUpperCase()}" agregada`, 800, 'success');
                     updateDB('L1', 'B1');
@@ -569,7 +534,7 @@ document.getElementById('buttonAdd').addEventListener('click', () => {
 
 //CHECK/TOGGLE
 checkbox.addEventListener('click', () => {
-    helpFunction('0', false);
+    // helpFunction('0', false);
     if (activeTheme[1] == 'dark') {
         document.body.classList.toggle('dark');
         document.body.classList.toggle(activeTheme[0]);

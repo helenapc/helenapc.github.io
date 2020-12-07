@@ -16,8 +16,17 @@ var closeAlert = false;
 var helpActivate = false;
 var cuPath = [];
 var reemplace;
-// const timePin = 300000;
 
+
+const icoShow = 'eye-outline';
+const icoHide = 'eye-off-outline';
+const icoExp = 'expand-outline';
+const icoCom = 'contract-outline';
+
+// const icoShow = 'albums-outline';
+// const icoHide = 'close-outline';
+// const icoExp = 'eye-outline';
+// const icoCom = 'eye-off-outline';
 
 // // Init components
 const nameLog = document.getElementById('nameLog');
@@ -48,15 +57,9 @@ document.getElementById('expandCard').setAttribute('style', 'pointer-events: non
 document.getElementById('showCard').setAttribute('style', 'pointer-events: none; opacity: 0');
 document.getElementById('buttonSearch').setAttribute('style', 'pointer-events: none; opacity: 0');
 
-document.getElementById('buttonHelp').setAttribute('style', 'pointer-events: none; opacity: 0');
+// document.getElementById('buttonHelp').setAttribute('style', 'pointer-events: none; opacity: 0');
 document.getElementById('buttonAdd').setAttribute('style', 'pointer-events: none; opacity: 0');
 
-// setAttributes(document.getElementById('buttonHelp'), { style: 'opacity:0', disabled: true });
-// setAttributes(document.getElementById('nameSetting'), { style: 'opacity:0', disabled: true });
-// setAttributes(document.getElementById('expandCard'), { style: 'opacity:0', disabled: true });
-// setAttributes(document.getElementById('showCard'), { style: 'opacity:0', disabled: true });
-// setAttributes(document.getElementById('buttonSearch'), { style: 'opacity:0', disabled: true });
-// space
 setAttributes(document.getElementById('refresher'), { style: 'opacity:0', disabled: true });
 
 
@@ -104,7 +107,7 @@ item('barExport', 'arrow-up-circle-outline', 'Crear copia de Seguridad')
 item('barImport', 'arrow-down-circle-outline', 'Cargar copia de Seguridad');
 item('barLogout', 'log-out-outline', 'Cerrar Sesión');
 const ver = document.createElement('ion-item-divider');
-ver.innerHTML = 'Versión 2.7.1';
+ver.innerHTML = 'Versión 2.7.2';
 barContent.appendChild(ver);
 item('barDelAcc', 'close-outline', 'Eliminar Cuenta', 'danger');
 
@@ -313,9 +316,10 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
 
 
 // welcome();
+// if (!txt[4] && showLogin.innerHTML == '') {
 if (!txt[3] && showLogin.innerHTML == '') {
-    // if (!txt[4] && showLogin.innerHTML == '') {
-    expandIcon.setAttribute('name', 'contract-outline')
+    // expandIcon.setAttribute('name', 'contract-outline');
+    expandIcon.setAttribute('name', icoCom);
     showSearch.innerHTML = `
     <div style="text-align:center"><br>No hay datos guardados. </div>
     <div style="text-align:center"><br> Aquí hay unos ejemplos de lo que se puede hacer. </div>
@@ -323,5 +327,6 @@ if (!txt[3] && showLogin.innerHTML == '') {
     `;
     showCardAll('facebook', 'prueba@hotmail.com', '1234abcd', 'Las notas son opcionales 😎');
     showCardAll('google 👍', 'tucuenta@gmail.com', 'prueba1234', '');
-    expandIcon.setAttribute('name', 'expand-outline')
+    // expandIcon.setAttribute('name', 'expand-outline');
+    expandIcon.setAttribute('name', icoExp);
 };

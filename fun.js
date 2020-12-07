@@ -23,11 +23,9 @@ const showCardAll = (account, user, pass, notes) => {
     newSub3.setAttribute('class', 'hide');
     newSub4.setAttribute('class', 'hide');
 
-    if (expandIcon.getAttribute('name') == 'expand-outline') {
+    // if (expandIcon.getAttribute('name') == 'expand-outline') {
+        if (expandIcon.getAttribute('name') == icoExp) {
         newSub1.setAttribute('style','font-weight: bold; margin-bottom:0px');
-        // newSub2.classList.add("hide");
-        // newSub3.classList.add("hide");
-        // newSub4.classList.add("hide");
     } else {
         newSub1.setAttribute('style','font-weight: bold; margin-bottom:15px;');
         newSub2.classList.remove("hide");
@@ -72,35 +70,72 @@ const item = (id, ico, text, color = '', show = true) => {
 
 //######################## FUNCIONES ########################
 
-function helpFunction(opacity, activate) {
-    (opacity=='1') ? pointer = 'auto' : pointer = 'none';
-    document.getElementById('help-config').setAttribute('style', `opacity:${opacity}; pointer-events: ${pointer}`);
+// function helpFunction(opacity, activate) {
+//     // (opacity=='1') ? pointer = 'auto' : pointer = 'none';
+//     document.getElementById('help-config').setAttribute('style', `opacity:${opacity}; pointer-events: none`);
 
-    // document.getElementById('help-edit').setAttribute('style', `opacity:${opacity}; pointer-events: ${pointer}`);
-    // document.getElementById('help-delete').setAttribute('style', `opacity:${opacity}; pointer-events: ${pointer}`);
-    document.getElementById('help-show').setAttribute('style', `opacity:${opacity}; pointer-events: ${pointer}`);
-    document.getElementById('help-search').setAttribute('style', `opacity:${opacity}; pointer-events: ${pointer}`);
-    document.getElementById('help-add').setAttribute('style', `opacity:${opacity}; pointer-events: ${pointer}`);
+//     // document.getElementById('help-edit').setAttribute('style', `opacity:${opacity}; pointer-events: none`);
+//     // document.getElementById('help-delete').setAttribute('style', `opacity:${opacity}; pointer-events: none`);
+//     document.getElementById('help-show').setAttribute('style', `opacity:${opacity}; pointer-events: none`);
+//     document.getElementById('help-search').setAttribute('style', `opacity:${opacity}; pointer-events: none`);
+//     document.getElementById('help-add').setAttribute('style', `opacity:${opacity}; pointer-events: none`);
 
-    if (document.getElementById('expandCard').getAttribute('style').includes(`${opacity}`)) {
-        document.getElementById('help-exp-com').setAttribute('style', `opacity:${opacity}; pointer-events: ${pointer}`);
-    } else {
-        document.getElementById('help-exp-com').setAttribute('style', `opacity:0; pointer-events: none`);
-    };
+//     if (document.getElementById('expandCard').getAttribute('style').includes(`${opacity}`)) {
+//         document.getElementById('help-exp-com').setAttribute('style', `opacity:${opacity}; pointer-events: none`);
+//     } else {
+//         document.getElementById('help-exp-com').setAttribute('style', `opacity:0; pointer-events: none`);
+//     };
 
-    if (document.getElementById('buttonEdit').getAttribute('style').includes(`${opacity}`)) {
-        document.getElementById('help-edit').setAttribute('style', `opacity:${opacity}; pointer-events: ${pointer}`);
-    } else {
-        document.getElementById('help-edit').setAttribute('style', `opacity:0; pointer-events: none`);
-    };
+//     if (document.getElementById('buttonEdit').getAttribute('style').includes(`${opacity}`)) {
+//         document.getElementById('help-edit').setAttribute('style', `opacity:${opacity}; pointer-events: none`);
+//     } else {
+//         document.getElementById('help-edit').setAttribute('style', `opacity:0; pointer-events: none`);
+//     };
 
-    if (document.getElementById('buttonDelete').getAttribute('style').includes(`${opacity}`)) {
-        document.getElementById('help-delete').setAttribute('style', `opacity:${opacity}; pointer-events: ${pointer}`);
-    } else {
-        document.getElementById('help-delete').setAttribute('style', `opacity:0; pointer-events: none`);
-    };
-    helpActivate = activate;
-}
+//     if (document.getElementById('buttonDelete').getAttribute('style').includes(`${opacity}`)) {
+//         document.getElementById('help-delete').setAttribute('style', `opacity:${opacity}; pointer-events: none`);
+//     } else {
+//         document.getElementById('help-delete').setAttribute('style', `opacity:0; pointer-events: none`);
+//     };
+//     helpActivate = activate;
+// }
+
+// function helpLabel(opacity, activate)  {
+//     document.getElementById('help-config').setAttribute('style', `opacity:${opacity};`);
+//     document.getElementById('help-show').setAttribute('style', `opacity:${opacity};`);
+//     document.getElementById('help-search').setAttribute('style', `opacity:${opacity};`);
+//     document.getElementById('help-add').setAttribute('style', `opacity:${opacity};`);
+    
+//     if (document.getElementById('expandCard').getAttribute('style').includes(`${opacity}`)) {
+//         document.getElementById('help-exp-com').setAttribute('style', `opacity:${opacity};`);
+//     } else {
+//         document.getElementById('help-exp-com').setAttribute('style', `opacity:0;`);
+//     };
+    
+//     if (document.getElementById('buttonEdit').getAttribute('style').includes(`${opacity}`)) {
+//         document.getElementById('help-edit').setAttribute('style', `opacity:${opacity};`);
+//     } else {
+//         document.getElementById('help-edit').setAttribute('style', `opacity:0;`);
+//     };
+    
+//     if (document.getElementById('buttonDelete').getAttribute('style').includes(`${opacity}`)) {
+//         document.getElementById('help-delete').setAttribute('style', `opacity:${opacity};`);
+//     } else {
+//         document.getElementById('help-delete').setAttribute('style', `opacity:0;`);
+//     };
+//     helpActivate = activate;
+
+// }
+
+function helpClear(){
+    document.getElementById('help-config').setAttribute('style', 'opacity:0');
+    document.getElementById('help-config').setAttribute('style', 'opacity:0');
+    document.getElementById('help-config').setAttribute('style', 'opacity:0');
+    document.getElementById('help-config').setAttribute('style', 'opacity:0');
+    document.getElementById('help-config').setAttribute('style', 'opacity:0');
+    document.getElementById('help-config').setAttribute('style', 'opacity:0');
+    document.getElementById('help-config').setAttribute('style', 'opacity:0');
+};
 
 function setAttributes(elem, obj) {
     for (var prop in obj) {
@@ -135,7 +170,7 @@ function disableItem(boolean) {
     barMenuPrincipal.setAttribute('disabled', boolean);
     document.getElementById('title').setAttribute('style', 'margin-left:0px');
     document.getElementById('buttonAdd').setAttribute('style', 'opacity:1; margin-bottom:0px; margin-right:-8px');
-    setAttributes(document.getElementById('buttonHelp'), { style: 'opacity:1; margin-top:58px; margin-right:-8px', disabled: boolean });
+    // setAttributes(document.getElementById('buttonHelp'), { style: 'opacity:1; margin-top:58px; margin-right:-8px', disabled: boolean });
     setAttributes(document.getElementById('nameSetting'), { style: 'opacity:1', disabled: boolean });
     // expand
     setAttributes(document.getElementById('showCard'), { style: 'opacity:1', disabled: boolean });
@@ -161,8 +196,11 @@ function refreshData(toast = true) {
     if (newSearch.value) {
         setAttributes(document.getElementById('expandCard'), { style: 'opacity:1', disabled: false });
     } else {
-        showIcon.setAttribute('name', 'eye-outline');
-        expandIcon.setAttribute('name', 'expand-outline');
+        // showIcon.setAttribute('name', 'eye-outline');
+        // expandIcon.setAttribute('name', 'expand-outline');
+
+        showIcon.setAttribute('name', icoShow);
+        expandIcon.setAttribute('name', icoExp);
         setAttributes(document.getElementById('expandCard'), { style: 'opacity:0', disabled: true });
     }
 
@@ -190,7 +228,8 @@ function refreshData(toast = true) {
     }
     newSearch.value === '' ? (showSearch.innerHTML = '') : contador == 1 ? (s = '') : (s = 's');
     if (newSearch.value != '' && toast) presentToast(`${contador} resultado${s} encontrado${s}`, '500', 'dark');
-    if (showSearch.innerHTML != '') showIcon.setAttribute('name', 'eye-off-outline');
+    // if (showSearch.innerHTML != '') showIcon.setAttribute('name', 'eye-off-outline');
+    if (showSearch.innerHTML != '') showIcon.setAttribute('name', icoHide);
 }
 
 function alertMsg(msg1, msg2) {
@@ -522,7 +561,6 @@ function alertDel(cuPath, reemplace) {
     return alert.present();
 }
 
-
 function alertView2(cuPath) {
     document.getElementById('modal').innerHTML =
     `
@@ -565,7 +603,6 @@ function alertPass() {
     document.body.appendChild(alertPassItem);
     return alertPassItem.present();
 }
-
 
 function presentAlertEditUserData() {
     const alert = document.createElement('ion-alert');
