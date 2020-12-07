@@ -179,7 +179,7 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
                 disableItem(true);
                 document.getElementById('title').setAttribute('style', 'margin-left:38px');
                 document.getElementById('buttonAdd').setAttribute('style', 'pointer-events: none; opacity: 0');
-                document.getElementById('buttonHelp').setAttribute('style', 'pointer-events: none; opacity: 0');
+                //document.getElementById('buttonHelp').setAttribute('style', 'pointer-events: none; opacity: 0');
                 document.getElementById('nameSetting').setAttribute('style', 'pointer-events: none; opacity: 0');
                 document.getElementById('expandCard').setAttribute('style', 'pointer-events: none; opacity: 0');
                 document.getElementById('showCard').setAttribute('style', 'pointer-events: none; opacity: 0');
