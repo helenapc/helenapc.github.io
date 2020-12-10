@@ -579,7 +579,7 @@ function alertView2(cuPath) {
 
 
 
-// EDIT NM/US/PS/NO
+// CONFIG EDIT NM/US/PS/NO
 function alertPass() {
     const alertPassItem = document.createElement('ion-alert');
     alertPassItem.header = 'Configuración personal';
