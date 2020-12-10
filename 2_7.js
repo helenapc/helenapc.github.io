@@ -23,11 +23,6 @@ const icoHide = 'eye-off-outline';
 const icoExp = 'expand-outline';
 const icoCom = 'contract-outline';
 
-// const icoShow = 'albums-outline';
-// const icoHide = 'close-outline';
-// const icoExp = 'eye-outline';
-// const icoCom = 'eye-off-outline';
-
 // // Init components
 const nameLog = document.getElementById('nameLog');
 const passLog = document.getElementById('passLog');
