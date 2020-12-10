@@ -23,6 +23,8 @@ const icoHide = 'eye-off-outline';
 const icoExp = 'expand-outline';
 const icoCom = 'contract-outline';
 
+
+
 // // Init components
 const nameLog = document.getElementById('nameLog');
 const passLog = document.getElementById('passLog');
