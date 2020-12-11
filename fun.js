@@ -24,10 +24,10 @@ const showCardAll = (account, user, pass, notes) => {
     newSub4.setAttribute('class', 'hide');
 
     // if (expandIcon.getAttribute('name') == 'expand-outline') {
-        if (expandIcon.getAttribute('name') == icoExp) {
-        newSub1.setAttribute('style','font-weight: bold; margin-bottom:0px');
+    if (expandIcon.getAttribute('name') == icoExp) {
+        newSub1.setAttribute('style', 'font-weight: bold; margin-bottom:0px');
     } else {
-        newSub1.setAttribute('style','font-weight: bold; margin-bottom:15px;');
+        newSub1.setAttribute('style', 'font-weight: bold; margin-bottom:12px;');
         newSub2.classList.remove("hide");
         newSub3.classList.remove("hide");
         newSub4.classList.remove("hide");
@@ -37,7 +37,7 @@ const showCardAll = (account, user, pass, notes) => {
     newHeader.appendChild(newSub2);
     newHeader.appendChild(newSub3);
     newHeader.appendChild(newSub4);
-    
+
     ionCard.appendChild(newHeader);
     showSearch.appendChild(ionCard);
 };
@@ -70,72 +70,15 @@ const item = (id, ico, text, color = '', show = true) => {
 
 //######################## FUNCIONES ########################
 
-// function helpFunction(opacity, activate) {
-//     // (opacity=='1') ? pointer = 'auto' : pointer = 'none';
-//     document.getElementById('help-config').setAttribute('style', `opacity:${opacity}; pointer-events: none`);
-
-//     // document.getElementById('help-edit').setAttribute('style', `opacity:${opacity}; pointer-events: none`);
-//     // document.getElementById('help-delete').setAttribute('style', `opacity:${opacity}; pointer-events: none`);
-//     document.getElementById('help-show').setAttribute('style', `opacity:${opacity}; pointer-events: none`);
-//     document.getElementById('help-search').setAttribute('style', `opacity:${opacity}; pointer-events: none`);
-//     document.getElementById('help-add').setAttribute('style', `opacity:${opacity}; pointer-events: none`);
-
-//     if (document.getElementById('expandCard').getAttribute('style').includes(`${opacity}`)) {
-//         document.getElementById('help-exp-com').setAttribute('style', `opacity:${opacity}; pointer-events: none`);
-//     } else {
-//         document.getElementById('help-exp-com').setAttribute('style', `opacity:0; pointer-events: none`);
-//     };
-
-//     if (document.getElementById('buttonEdit').getAttribute('style').includes(`${opacity}`)) {
-//         document.getElementById('help-edit').setAttribute('style', `opacity:${opacity}; pointer-events: none`);
-//     } else {
-//         document.getElementById('help-edit').setAttribute('style', `opacity:0; pointer-events: none`);
-//     };
-
-//     if (document.getElementById('buttonDelete').getAttribute('style').includes(`${opacity}`)) {
-//         document.getElementById('help-delete').setAttribute('style', `opacity:${opacity}; pointer-events: none`);
-//     } else {
-//         document.getElementById('help-delete').setAttribute('style', `opacity:0; pointer-events: none`);
-//     };
-//     helpActivate = activate;
-// }
-
-// function helpLabel(opacity, activate)  {
-//     document.getElementById('help-config').setAttribute('style', `opacity:${opacity};`);
-//     document.getElementById('help-show').setAttribute('style', `opacity:${opacity};`);
-//     document.getElementById('help-search').setAttribute('style', `opacity:${opacity};`);
-//     document.getElementById('help-add').setAttribute('style', `opacity:${opacity};`);
-    
-//     if (document.getElementById('expandCard').getAttribute('style').includes(`${opacity}`)) {
-//         document.getElementById('help-exp-com').setAttribute('style', `opacity:${opacity};`);
-//     } else {
-//         document.getElementById('help-exp-com').setAttribute('style', `opacity:0;`);
-//     };
-    
-//     if (document.getElementById('buttonEdit').getAttribute('style').includes(`${opacity}`)) {
-//         document.getElementById('help-edit').setAttribute('style', `opacity:${opacity};`);
-//     } else {
-//         document.getElementById('help-edit').setAttribute('style', `opacity:0;`);
-//     };
-    
-//     if (document.getElementById('buttonDelete').getAttribute('style').includes(`${opacity}`)) {
-//         document.getElementById('help-delete').setAttribute('style', `opacity:${opacity};`);
-//     } else {
-//         document.getElementById('help-delete').setAttribute('style', `opacity:0;`);
-//     };
-//     helpActivate = activate;
-
-// }
-
-function helpClear(){
-    document.getElementById('help-config').setAttribute('style', 'opacity:0');
-    document.getElementById('help-config').setAttribute('style', 'opacity:0');
-    document.getElementById('help-config').setAttribute('style', 'opacity:0');
-    document.getElementById('help-config').setAttribute('style', 'opacity:0');
-    document.getElementById('help-config').setAttribute('style', 'opacity:0');
-    document.getElementById('help-config').setAttribute('style', 'opacity:0');
-    document.getElementById('help-config').setAttribute('style', 'opacity:0');
-};
+// function helpClear(){
+//     document.getElementById('help-config').setAttribute('style', 'opacity:0');
+//     document.getElementById('help-config').setAttribute('style', 'opacity:0');
+//     document.getElementById('help-config').setAttribute('style', 'opacity:0');
+//     document.getElementById('help-config').setAttribute('style', 'opacity:0');
+//     document.getElementById('help-config').setAttribute('style', 'opacity:0');
+//     document.getElementById('help-config').setAttribute('style', 'opacity:0');
+//     document.getElementById('help-config').setAttribute('style', 'opacity:0');
+// };
 
 function setAttributes(elem, obj) {
     for (var prop in obj) {
@@ -144,23 +87,27 @@ function setAttributes(elem, obj) {
 }
 
 function delete_spaces(v1) {
-    v1 = v1.split("");
-    for (let i = 0; i < v1.length; i++) {
-        if (v1[i] == " ") {
-            v1.shift();
-            i--;
-        } else {
-            while (true) {
-                if (v1[v1.length - 1] == " ") {
-                    v1.pop();
-                } else { break; }
+    if(!v1){
+        v1 = "";
+    }else{
+        v1 = v1.split("");
+        for (let i = 0; i < v1.length; i++) {
+            if (v1[i] == " ") {
+                v1.shift();
+                i--;
+            } else {
+                while (true) {
+                    if (v1[v1.length - 1] == " ") {
+                        v1.pop();
+                    } else { break; }
+                }
+                v1 = v1.join("");
+                while (v1.includes("  ")) {
+                    v1 = v1.split("  ");
+                    v1 = v1.join(" ");
+                }
+                break;
             }
-            v1 = v1.join("");
-            while (v1.includes("  ")) {
-                v1 = v1.split("  ");
-                v1 = v1.join(" ");
-            }
-            break;
         }
     }
     return v1;
@@ -472,66 +419,89 @@ function sendEmail() {
 
 
 // ALERTS
+function alertAdd2(newTempModal){
+    if (
+        newTempModal[0] == '' ||
+        newTempModal[1] == '' ||
+        newTempModal[2] == ''
+    ) {
+        barProgressF('warning', 'determinate');
+        alertMsg('Error', 'Campos obligroios vacíos.');
+        setTimeout(() => { barProgressF('light', 'determinate'); }, 1500);
+        return;
+    }
 
+    newTempModal[0] = delete_spaces(newTempModal[0].toLowerCase());
+    newTempModal[1] = delete_spaces(newTempModal[1]);
+    newTempModal[2] = delete_spaces(newTempModal[2]);
+    newTempModal[3] = delete_spaces(newTempModal[3]);
 
+    for (let i = 0; i < newTotal.length; i += 5) {
+        if (
+            newTempModal[0] == newTotal[i] &&
+            newTempModal[1] == newTotal[i + 1] &&
+            newTempModal[2] == newTotal[i + 2]
+        ) {
+            alertMsg('Error', `La cuenta ${newTempModal[0]} ya existe.`);
+            return;
+        }
+    }
 
-function alertEdit(cuPath, reemplace) {
-    document.getElementById('bkmodal').setAttribute('style', 'opacity:0; pointer-events: none');
-    document.getElementById('modal').setAttribute('style', 'opacity:0; pointer-events: none');
-    document.getElementById('buttonEdit').setAttribute('style', 'opacity:0; pointer-events: none');
-    document.getElementById('buttonDelete').setAttribute('style', 'opacity:0; pointer-events: none');
+    aTotal.push(`${code(newTempModal[0].toLowerCase())}OG${code(newTempModal[1])}OG${code(newTempModal[2])}OG${code(newTempModal[3])}`)
+    aTotalTOnewTotal();
+    save();
+    showSearch.innerHTML = '';
+    newSearch.value = newTempModal[0];
+    // document.getElementById('expandIcon').setAttribute('name', 'contract-outline');
+    document.getElementById('expandIcon').setAttribute('name', icoCom);
+    refreshData();
+    presentToast(`"${newTempModal[0].toUpperCase()}" agregada`, 800, 'success');
+    updateDB('L1', 'B1');
+}
+
+function alertEdit2(newTempModal, reemplace) {
     const toRemplace = reemplace / 5;
-    const alert = document.createElement('ion-alert');
-    alert.setAttribute('backdrop-dismiss', 'false');
-    alert.header = 'Editar cuenta';
-    alert.inputs = [
-        { name: 'name1', placeholder: 'Cuenta(Nombre)', value: cuPath[0].toLowerCase() },
-        { name: 'name2', placeholder: 'Usuario/email', value: cuPath[1] },
-        { name: 'name3', placeholder: 'Contraseña', value: cuPath[2] },
-        { name: 'name4', placeholder: 'Notas(Opcional)', value: cuPath[3] },
-    ];
-    alert.buttons = [
-        { text: 'Cancelar', role: 'cancel' },
-        {
-            text: 'Ok',
-            handler: newData => {
-                document.getElementById('modal').setAttribute('style', 'opacity:0; pointer-events: none');
 
-                if (newData.name1 == '' || newData.name2 == '' || newData.name3 == '') {
-                    alertMsg('Error', 'Datos incorrectos o vacíos.');
-                    return;
-                }
+    if (newTempModal[0] == '' || newTempModal[1] == '' || newTempModal[2] == '') {
+        // alertMsg('Error', 'Datos incorrectos o vacíos.');
+        alertMsg('Error', 'Campos obligroios vacíos.');
+        return;
+    }
+    
+    newTempModal[0] = delete_spaces(newTempModal[0].toLowerCase());
+    newTempModal[1] = delete_spaces(newTempModal[1]);
+    newTempModal[2] = delete_spaces(newTempModal[2]);
+    newTempModal[3] = delete_spaces(newTempModal[3]);
 
-                newData.name1 = delete_spaces(newData.name1.toLowerCase());
-                newData.name2 = delete_spaces(newData.name2);
-                newData.name3 = delete_spaces(newData.name3);
-                newData.name4 = delete_spaces(newData.name4);
+    if (
+        newTempModal[0] == cuPath[0].toLowerCase() &&
+        newTempModal[1] == cuPath[1] &&
+        newTempModal[2] == cuPath[2] &&
+        newTempModal[3] == cuPath[3]
+    ) {
+        return;
+    }
 
-                for (i = 0; i < newTotal.length; i += 5) {
-                    if (
-                        newData.name1 == cuPath[0] &&
-                        newData.name2 == cuPath[1] &&
-                        newData.name3 == cuPath[2] &&
-                        newData.name4 == cuPath[3]
-                    ) {
-                        alertMsg('Error', `La cuenta ${cuPath[0]} ya existe.`);
-                        return;
-                    }
-                }
+    for (i = 0; i < newTotal.length; i += 5) {
+        if (
+            newTempModal[0] == newTotal[i] &&
+            newTempModal[1] == newTotal[i+1] &&
+            newTempModal[2] == newTotal[i+2] &&
+            newTempModal[3] == newTotal[i+3]
+        ) {
+            alertMsg('Error', `La cuenta ${newTempModal[0]} ya existe.`);
+            return;
+        }
+    }
 
-                aTotal.splice(toRemplace, 1, code(newData.name1) + 'OG' + code(newData.name2) + 'OG' + code(newData.name3) + 'OG' + code(newData.name4));
-                aTotalTOnewTotal();
-                refreshData();
-                presentToast(`"${newData.name1}" editado.`, 500, 'dark');
-                save();
-                updateDB('L1', 'B1');
-                closeAlert = false;
+    aTotal.splice(toRemplace, 1, code(newTempModal[0]) + 'OG' + code(newTempModal[1]) + 'OG' + code(newTempModal[2]) + 'OG' + code(newTempModal[3]));
+    aTotalTOnewTotal();
+    refreshData();
+    presentToast(`"${newTempModal[0].toUpperCase()}" editado.`, 800, 'success');
+    save();
+    updateDB('L1', 'B1');
+    closeAlert = false;
 
-            },
-        },
-    ];
-    document.body.appendChild(alert);
-    return alert.present();
 }
 
 function alertDel(cuPath, reemplace) {
@@ -563,8 +533,8 @@ function alertDel(cuPath, reemplace) {
 
 function alertView2(cuPath) {
     document.getElementById('modal').innerHTML =
-    `
-    <p id="op1" class="cct">${cuPath[0]}</br></p>
+        `
+    <p id="op1" class="cct">${cuPath[0]}</p>
     <hr style="height:1px; border-width:0; color:gray;background-color:gray">
     <p style="margin: 0px 0px 0px 0px;">
         <label class="cce" > Usuario: </label>
@@ -611,9 +581,7 @@ function presentAlertEditUserData() {
         { name: 'userEditName', placeholder: 'Nombre (Opcional)', value: deco(txt[0]) },
         { name: 'userEditUser', placeholder: 'Email', value: deco(txt[1]) },
         { name: 'userEditPass', placeholder: 'Contraseña', value: deco(txt[2]) },
-        {
-            name: 'userPin', placeholder: 'PIN', value: deco(txt[4]),
-        },
+        { name: 'userPin', placeholder: 'PIN', value: deco(txt[4]) },
     ];
     alert.buttons = [
         { text: 'Cancelar', role: 'cancel' },

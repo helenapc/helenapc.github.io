@@ -23,7 +23,10 @@ const icoHide = 'eye-off-outline';
 const icoExp = 'expand-outline';
 const icoCom = 'contract-outline';
 
-// dale
+// const icoShow = 'albums-outline';
+// const icoHide = 'close-outline';
+// const icoExp = 'eye-outline';
+// const icoCom = 'eye-off-outline';
 
 // // Init components
 const nameLog = document.getElementById('nameLog');
@@ -210,7 +213,6 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
         });
 
 
-
         const newCompareData = localStorage.getItem('L1');
         updateDB('B1', 'L1');
         splitInit();
@@ -241,7 +243,7 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
 
 
         compare = false;
-        console.log(localStorage.getItem('offline'));
+        // console.log(localStorage.getItem('offline'));
         // if (docB1 != localStorage.getItem('L1') && alertcompare && !offline) {
         if (docB1 != newCompareData && alertcompare && !offline) {
             showSearch.innerHTML = '';
