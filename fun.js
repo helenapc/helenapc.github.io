@@ -15,9 +15,9 @@ const showCardAll = (account, user, pass, notes) => {
     newSub3.textContent = 'Contraseña: ' + pass;
     newSub4.textContent = 'Notas: ' + notes;
 
-    newSub2.setAttribute('id', 'newSub2');
-    newSub3.setAttribute('id', 'newSub3');
-    newSub4.setAttribute('id', 'newSub4');
+    // newSub2.setAttribute('id', 'newSub2');
+    // newSub3.setAttribute('id', 'newSub3');
+    // newSub4.setAttribute('id', 'newSub4');
 
     newSub2.setAttribute('class', 'hide');
     newSub3.setAttribute('class', 'hide');
@@ -54,10 +54,11 @@ const item = (id, ico, text, color = '', show = true) => {
     ionIco.setAttribute('class', id);
     ionIco.setAttribute('style', 'margin-right:10px;');
     ionItem.appendChild(ionIco);
+
     if (show) {
         barContent.appendChild(ionItem);
     } else {
-        if (localStorage.getItem('accessTempData') == '596A787925466868747A7379GD7DGD7DGD') {
+        if (localStorage.getItem('accessTempData') == '6669726E73GD6669726E73GD') {
             barContent.appendChild(ionItem);
         };
     };
@@ -70,15 +71,7 @@ const item = (id, ico, text, color = '', show = true) => {
 
 //######################## FUNCIONES ########################
 
-// function helpClear(){
-//     document.getElementById('help-config').setAttribute('style', 'opacity:0');
-//     document.getElementById('help-config').setAttribute('style', 'opacity:0');
-//     document.getElementById('help-config').setAttribute('style', 'opacity:0');
-//     document.getElementById('help-config').setAttribute('style', 'opacity:0');
-//     document.getElementById('help-config').setAttribute('style', 'opacity:0');
-//     document.getElementById('help-config').setAttribute('style', 'opacity:0');
-//     document.getElementById('help-config').setAttribute('style', 'opacity:0');
-// };
+
 
 function setAttributes(elem, obj) {
     for (var prop in obj) {
@@ -87,19 +80,15 @@ function setAttributes(elem, obj) {
 }
 
 function delete_spaces(v1) {
-    if(!v1){
-        v1 = "";
-    }else{
+    if (!v1) { v1 = ""; }
+    else {
         v1 = v1.split("");
         for (let i = 0; i < v1.length; i++) {
-            if (v1[i] == " ") {
-                v1.shift();
-                i--;
-            } else {
+            if (v1[i] == " ") { v1.shift(); i--; }
+            else {
                 while (true) {
-                    if (v1[v1.length - 1] == " ") {
-                        v1.pop();
-                    } else { break; }
+                    if (v1[v1.length - 1] == " ") { v1.pop(); }
+                    else { break; }
                 }
                 v1 = v1.join("");
                 while (v1.includes("  ")) {
@@ -131,24 +120,56 @@ function disableItem(boolean) {
 
 function barProgressF(color, state) {
     setAttributes(barProgress01, { color: color, type: state, value: '100' });
-    if (color == 'light' && state == 'determinate') {
-        barProgress.setAttribute('style', 'opacity:0');
-    } else {
-        barProgress.setAttribute('style', 'opacity:1');
-    }
+    // if (color == 'light' && state == 'determinate') {
+    //     barProgress.setAttribute('style', 'opacity:0');
+    // } else {
+    //     barProgress.setAttribute('style', 'opacity:1');
+    // }
+
+    barProgress.setAttribute('style', `opacity: ${(color == 'light' && state == 'determinate') ? 0 : 1}`);
 };
 
 function refreshData(toast = true) {
+    //funciones
+
+    // if (newSearch.value == '::bk') { newSearch.value = ''; downloadFile(docB1, (txt[0] + '_' + fecha() ))}
+    if (newSearch.value == '::id') newSearch.value = userID;
+    if (newSearch.value == '::cs') newSearch.value = deco(txt[2]);
+
+
+    // if (newSearch.value == '::a1') {
+    //     newSearch.value = '';
+    //     document.body.style.transitionDuration = '2s';
+    // };
+
+    // if (newSearch.value == '::a0') {
+    //     newSearch.value = '';
+    //     document.body.style.transitionDuration = '0s';
+    // };
+
+    // if (newSearch.value == '::bk'){
+    //     newSearch.value = 'Hacer copia de seguridad';
+
+    // }
+
+
+
+
+
+
+
     aTotal.sort();
     if (newSearch.value) {
-        setAttributes(document.getElementById('expandCard'), { style: 'opacity:1', disabled: false });
+        // setAttributes(document.getElementById('expandCard'), { style: 'opacity:1', disabled: false });
+        document.querySelector('#expandCard').setAttribute('style', 'opacity:1; pointer-events: auto');
     } else {
         // showIcon.setAttribute('name', 'eye-outline');
         // expandIcon.setAttribute('name', 'expand-outline');
 
         showIcon.setAttribute('name', icoShow);
         expandIcon.setAttribute('name', icoExp);
-        setAttributes(document.getElementById('expandCard'), { style: 'opacity:0', disabled: true });
+        // setAttributes(document.getElementById('expandCard'), { style: 'opacity:0', disabled: true });
+        document.querySelector('#expandCard').setAttribute('style', 'opacity:0; pointer-events: none');
     }
 
     showSearch.innerHTML = '';
@@ -208,7 +229,6 @@ function presentToast(msg, time, color) {
 
 
 
-
 function code(cod) {
     let hexCod = '';
     let hexF = '';
@@ -218,13 +238,8 @@ function code(cod) {
             hexCod = (parseInt(hexCod, 16) + parseInt('05', 16)).toString(16).toUpperCase();
             hexF += '' + hexCod;
         } else {
-            if (hexCod.length == 5) {
-                hexF += '' + ("0x" + hexCod);
-                i++
-            }
-            if (hexCod.length == 4) {
-                hexF += '' + ("0x" + hexCod + 'Z');
-            }
+            if (hexCod.length == 5) { hexF += '' + ("0x" + hexCod); i++ }
+            if (hexCod.length == 4) hexF += '' + ("0x" + hexCod + 'Z');
         }
     }
     return hexF;
@@ -271,26 +286,32 @@ function aTotalTOnewTotal() {
     }
 }
 
-function updateData(text, newCompareData) {
-    let mensaje = 'Datos actualizados.';
-    // console.log(text);
-    // console.log(localStorage.getItem('L1'));
-    // console.log(newCompareData);
-    // console.log(txt);
+function updateData(text, compareChanges) {
+
     // if (text == 'Aceptar') updateDB('B1', 'L1');
     // (text == 'Aceptar') ? updateDB('B1', 'L1') : updateDB('L1', 'B1');
+
     splitInit();
     aTotalTOnewTotal();
 
-
-
     localStorage.setItem('accessTempData', txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD');
+    // localStorage.setItem('accessTempData', txt[1] + 'GD' + txt[2] + 'GD');
+
     document.getElementById('userName').innerHTML = deco(txt[0]);
     showLogin.innerHTML = '';
     disableItem(false);
-    if (text != 'Aceptar') {
+    let mensaje = 'Datos actualizados.';
+
+    if (text == 'Rechazar') {
         mensaje = 'Cancelando cambios.';
-        localStorage.setItem('L1', newCompareData);
+
+        // console.log('////////////// Rechazar /////////////////');
+        // console.log(deco(docB1));
+        // console.log(deco(compareChanges));
+        // console.log(deco(newCompareData2));
+        // localStorage.setItem('L1', compareChanges);
+        // (docB1 == newCompareData2) ? localStorage.setItem('L1', compareChanges): localStorage.setItem('L1', newCompareData2);
+        localStorage.setItem('L1', (docB1 == newCompareData2) ? compareChanges : newCompareData2);
         updateDB('L1', 'B1');
     };
 
@@ -299,7 +320,6 @@ function updateData(text, newCompareData) {
     presentToast(mensaje, '1000', 'dark');
     setTimeout(() => { window.location.reload() }, 1000);
 }
-
 
 
 
@@ -407,11 +427,11 @@ function sendEmail() {
 
 
 // ALERTS / POPUP
-function alertAdd2(newTempModal){
+function alertAdd2(modalVal) {
     if (
-        newTempModal[0] == '' ||
-        newTempModal[1] == '' ||
-        newTempModal[2] == ''
+        modalVal[0] == '' ||
+        modalVal[1] == '' ||
+        modalVal[2] == ''
     ) {
         barProgressF('warning', 'determinate');
         alertMsg('Error', 'Campos obligatorios vacíos.');
@@ -419,73 +439,73 @@ function alertAdd2(newTempModal){
         return;
     }
 
-    newTempModal[0] = delete_spaces(newTempModal[0].toLowerCase());
-    newTempModal[1] = delete_spaces(newTempModal[1]);
-    newTempModal[2] = delete_spaces(newTempModal[2]);
-    newTempModal[3] = delete_spaces(newTempModal[3]);
+    modalVal[0] = delete_spaces(modalVal[0].toLowerCase());
+    modalVal[1] = delete_spaces(modalVal[1]);
+    modalVal[2] = delete_spaces(modalVal[2]);
+    modalVal[3] = delete_spaces(modalVal[3]);
 
     for (let i = 0; i < newTotal.length; i += 5) {
         if (
-            newTempModal[0] == newTotal[i] &&
-            newTempModal[1] == newTotal[i + 1] &&
-            newTempModal[2] == newTotal[i + 2]
+            modalVal[0] == newTotal[i] &&
+            modalVal[1] == newTotal[i + 1] &&
+            modalVal[2] == newTotal[i + 2]
         ) {
-            alertMsg('Error', `La cuenta "${newTempModal[0].toUpperCase()}" ya existe.`);
+            alertMsg('Error', `La cuenta "${modalVal[0].toUpperCase()}" ya existe.`);
             return;
         }
     }
 
-    aTotal.push(`${code(newTempModal[0].toLowerCase())}OG${code(newTempModal[1])}OG${code(newTempModal[2])}OG${code(newTempModal[3])}`)
+    aTotal.push(`${code(modalVal[0].toLowerCase())}OG${code(modalVal[1])}OG${code(modalVal[2])}OG${code(modalVal[3])}`)
     aTotalTOnewTotal();
     save();
     showSearch.innerHTML = '';
-    newSearch.value = newTempModal[0];
+    newSearch.value = modalVal[0];
     // document.getElementById('expandIcon').setAttribute('name', 'contract-outline');
     document.getElementById('expandIcon').setAttribute('name', icoCom);
     refreshData();
-    presentToast(`"${newTempModal[0].toUpperCase()}" agregada`, 800, 'success');
+    presentToast(`"${modalVal[0].toUpperCase()}" agregada`, 800, 'success');
     updateDB('L1', 'B1');
 }
 
-function alertEdit2(newTempModal, reemplace) {
+function alertEdit2(modalVal, reemplace) {
     const toRemplace = reemplace / 5;
 
-    if (newTempModal[0] == '' || newTempModal[1] == '' || newTempModal[2] == '') {
+    if (modalVal[0] == '' || modalVal[1] == '' || modalVal[2] == '') {
         // alertMsg('Error', 'Datos incorrectos o vacíos.');
         alertMsg('Error', 'Campos obligatorios vacíos.');
         return;
     }
-    
-    newTempModal[0] = delete_spaces(newTempModal[0].toLowerCase());
-    newTempModal[1] = delete_spaces(newTempModal[1]);
-    newTempModal[2] = delete_spaces(newTempModal[2]);
-    newTempModal[3] = delete_spaces(newTempModal[3]);
+
+    modalVal[0] = delete_spaces(modalVal[0].toLowerCase());
+    modalVal[1] = delete_spaces(modalVal[1]);
+    modalVal[2] = delete_spaces(modalVal[2]);
+    modalVal[3] = delete_spaces(modalVal[3]);
 
     if (
-        newTempModal[0] == cuPath[0].toLowerCase() &&
-        newTempModal[1] == cuPath[1] &&
-        newTempModal[2] == cuPath[2] &&
-        newTempModal[3] == cuPath[3]
+        modalVal[0] == cuPath[0].toLowerCase() &&
+        modalVal[1] == cuPath[1] &&
+        modalVal[2] == cuPath[2] &&
+        modalVal[3] == cuPath[3]
     ) {
         return;
     }
 
     for (i = 0; i < newTotal.length; i += 5) {
         if (
-            newTempModal[0] == newTotal[i] &&
-            newTempModal[1] == newTotal[i+1] &&
-            newTempModal[2] == newTotal[i+2] &&
-            newTempModal[3] == newTotal[i+3]
+            modalVal[0] == newTotal[i] &&
+            modalVal[1] == newTotal[i + 1] &&
+            modalVal[2] == newTotal[i + 2] &&
+            modalVal[3] == newTotal[i + 3]
         ) {
-            alertMsg('Error', `La cuenta "${newTempModal[0].toUpperCase()}" ya existe.`);
+            alertMsg('Error', `La cuenta "${modalVal[0].toUpperCase()}" ya existe.`);
             return;
         }
     }
 
-    aTotal.splice(toRemplace, 1, code(newTempModal[0]) + 'OG' + code(newTempModal[1]) + 'OG' + code(newTempModal[2]) + 'OG' + code(newTempModal[3]));
+    aTotal.splice(toRemplace, 1, code(modalVal[0]) + 'OG' + code(modalVal[1]) + 'OG' + code(modalVal[2]) + 'OG' + code(modalVal[3]));
     aTotalTOnewTotal();
     refreshData();
-    presentToast(`"${newTempModal[0].toUpperCase()}" editado.`, 800, 'success');
+    presentToast(`"${modalVal[0].toUpperCase()}" editado.`, 800, 'success');
     save();
     updateDB('L1', 'B1');
     closeAlert = false;
@@ -510,8 +530,10 @@ function alertDel(cuPath, reemplace) {
                 save();
                 presentToast(`"${cuPath[0]}" eliminado.`, 500, 'danger');
                 updateDB('L1', 'B1');
-                if (showSearch.value == '') newSearch.value = '';
+                // if (showSearch.value == '') newSearch.value = '';
                 closeAlert = false;
+                // alertcompare = false;
+                // setTimeout(() => { alertcompare = true; }, 1500)
             },
         },
     ];
@@ -519,39 +541,160 @@ function alertDel(cuPath, reemplace) {
     return alert.present();
 }
 
-function alertView2(cuPath) {
-    document.getElementById('modal').innerHTML =
-        `
-    <p id="op1" class="cct">${cuPath[0]}</p>
-    <hr style="height:1px; border-width:0; color:gray;background-color:gray">
-    <p style="margin: 0px 0px 0px 0px;">
-        <label class="cce" > Usuario: </label>
-        <p class="ccse" > ${cuPath[1]} </p>
-        <label class="cce" > Contraseña: </label>
-        <p class="ccse" > ${cuPath[2]} </p>
-        <label class="cce" > Notas: </label>
-        <p class="ccse" > ${cuPath[3]} </p>
-    </p>
-    `;
-}
-
-function presentCompareData(metaObj, newCompareData) {
+function presentCompareData(metaObj, compareChanges) {
     const alert = document.createElement('ion-alert');
     alert.setAttribute('backdrop-dismiss', 'false');
     alert.header = 'Se detectaron cambios';
     alert.message = `¿Aceptar y sincorinizar con la base de datos? </br></br> DETALLES:`;
     alert.inputs = metaObj;
     alert.buttons = [
-        { text: 'Rechazar', handler: () => { updateData('Rechazar', newCompareData) } },
-        { text: 'Aceptar', handler: () => { updateData('Aceptar', newCompareData) } },
+        { text: 'Rechazar', handler: () => { updateData('Rechazar', compareChanges) } },
+        { text: 'Aceptar', handler: () => { updateData('Aceptar', compareChanges) } },
     ];
     document.body.appendChild(alert);
     return alert.present();
 }
 
+function buttons_modal(func) {
+
+    if (func === 'ok') {
+        let modalVal = [
+            document.querySelectorAll('.modal_input')[0].value,
+            document.querySelectorAll('.modal_input')[1].value,
+            document.querySelectorAll('.modal_input')[2].value,
+            document.querySelectorAll('.modal_input')[3].value,
+        ];
+        if (document.getElementById('op1').innerHTML == 'Editar cuenta') {
+            alertEdit2(modalVal, reemplace);
+        }
+        if (document.getElementById('op1').innerHTML == 'Agregar cuenta') {
+            alertAdd2(modalVal);
+        }
+
+        document.querySelectorAll('.ccse')[0].setAttribute('style', 'user-select:all;');
+        document.querySelectorAll('.ccse')[1].setAttribute('style', 'user-select:all;');
+        document.querySelectorAll('.ccse')[2].setAttribute('style', 'user-select:all;');
+    }
+
+    if (func == 'aceptar') { updateData('Aceptar', compareChanges) };
+    if (func == 'rechazar') { updateData('Rechazar', compareChanges) };
+
+    if (func == 'ok_user') {
+        let modalVal = [
+            document.querySelectorAll('.modal_input')[0].value,
+            document.querySelectorAll('.modal_input')[1].value,
+            document.querySelectorAll('.modal_input')[2].value,
+            document.querySelectorAll('.modal_input')[3].value,
+        ];
+
+        // console.log(modalVal[0] + '==' + deco(txt[0]));
+        // console.log(modalVal[1] + '==' + deco(txt[1]));
+        // console.log(modalVal[2] + '==' + deco(txt[2]));
+        // console.log(modalVal[3] + '==' + deco(txt[4]));
+
+        if (modalVal[1] == '' || modalVal[2] == '') {
+            barProgressF('danger', 'determinate');
+            alertMsg('Error', 'Datos vacíos.');
+            setTimeout(() => { barProgressF('light', 'determinate'); }, 1500);
+            return;
+        }
+
+        // if (modalVal[0] == deco(txt[0]) && modalVal[1] == deco(txt[1]) && modalVal[2] == deco(txt[2]) && modalVal[3] == deco(txt[4])) {
+        //     return;
+        // }
+
+
+        if (modalVal[0] == deco(txt[0]) && modalVal[1] == deco(txt[1]) && modalVal[2] == deco(txt[2]) && modalVal[3] == deco(txt[4]))
+        { 
+            //return;
+        } else { presentAlertConfirmEdit(modalVal); }
+        // const confPersonal = [usNData.userEditName, usNData.userEditUser, usNData.userEditPass, usNData.userPin];
+        // presentAlertConfirmEdit(confPersonal);
+        // console.log(modalVal);
+        // console.log(deco(txt[4]));
+    }
+
+    // console.log('Listo');
+    document.getElementById('bkmodal').setAttribute('style', 'opacity:0; pointer-events: none');
+    document.getElementById('modal').setAttribute('style', 'opacity:0; pointer-events: none');
+
+    // alertcompare = false;
+    // setTimeout(() => { alertcompare = true; }, 15
+}
+
+
+
+function listDrop(arrayFinal) {
+    document.querySelector(".dropdown-content").innerHTML = '';
+    for (let i = 0; i < arrayFinal.length; i++) {
+        let el = document.createElement("p");
+        (i == 0) ? el.textContent = arrayFinal[0] :
+            el.textContent = '\u25b8 ' + arrayFinal[i];
+        // document.querySelector(".dropdown-content").appendChild(el);
+    };
+
+}
+
+
+function listDrop2(arrayFinal) {
+    // document.querySelector(".dropdown-content").innerHTML = '';
+    if (arrayFinal.length != 1) {
+        // let listTemp = [];
+        let el = '';
+        for (let i = 1; i < arrayFinal.length; i++) {
+
+            el += `<p class="list_text">- ${arrayFinal[i]}</p>`;
+
+
+
+
+            // let el = document.createElement("p").textContent = `<p class="list_text"><input type="checkbox" id= "${delete_spaces(arrayFinal[i])}"> ${arrayFinal[i]}
+            // </p>`
+            // listTemp.push(el);
+
+            // el += `<p class="list_text"><input type="checkbox">${arrayFinal[i]}</p>`;
+
+
+            // el += `<p class="list_text">\u21b3 ${arrayFinal[i]}</p>`
+            // return el;
+        };
+        return el;
+        // return listTemp.join('');
+    };
+    return '';
+}
+
+function listDetail(arrLista, tituloLista, idbtn) {
+    if (arrLista.length != 1) {
+        return `
+        <div style="margin:5px 0px 2px 0px; padding: 5px 5px 5px 5px">
+            <label class="ccse" >\u25b8 Cuentas ${tituloLista} (${arrLista.length - 1})</label>
+            <button id=${idbtn}>+</button>
+            <div class="dropdown-content"></div>
+        </div>
+        `
+    } else {
+        return '';
+    }
+};
+
+function listDetail2(arrLista, tituloLista) {
+    if (arrLista.length != 1) {
+        return `
+        <div style="margin:5px 0px 2px 0px; padding: 5px 5px 5px 0px">
+            <label class="ccse" >&#9679 Cuentas ${tituloLista} (${arrLista.length - 1})</label>
+        </div>
+        `
+    } else {
+        return '';
+    }
+};
+
+
+
 
 // CONFIG EDIT NM/US/PS/NO
-function alertPass() {
+function alertPass_DELETE() {
     const alertPassItem = document.createElement('ion-alert');
     alertPassItem.header = 'Configuración personal';
     alertPassItem.message = 'Inserte contraseña para continuar..';
@@ -564,7 +707,9 @@ function alertPass() {
             handler: u => {
                 if (u.uEPass == deco(txt[2])) {
                     if (txt[0] == '25') txt[0] = '';
-                    presentAlertEditUserData();
+                    // presentAlertEditUserData();
+                    // presentAlertEditUserData2(txt);
+
                 } else {
                     presentToast('Incorrecto.', '800', 'warning');
                 }
@@ -574,8 +719,7 @@ function alertPass() {
     document.body.appendChild(alertPassItem);
     return alertPassItem.present();
 }
-
-function presentAlertEditUserData() {
+function presentAlertEditUserData_DELETE() {
     const alert = document.createElement('ion-alert');
     alert.header = 'Editar cuenta';
     alert.inputs = [
@@ -595,15 +739,50 @@ function presentAlertEditUserData() {
                     setTimeout(() => { barProgressF('light', 'determinate'); }, 1500);
                     return;
                 }
+
+                if (usNData.userEditUser == deco(txt[0]) && usNData.userEditPass == deco(txt[1]) && usNData.userEditPass == deco(txt[2]) && usNData.userPin == deco(txt[4])) {
+                    return;
+                }
                 const confPersonal = [usNData.userEditName, usNData.userEditUser, usNData.userEditPass, usNData.userPin];
-                // localStorage.setItem('Bpin', usNData.userPin);
+
                 presentAlertConfirmEdit(confPersonal);
+
+
+
             },
         },
     ];
     document.body.appendChild(alert);
     return alert.present();
 }
+function presentAlertEditUserData2_DELETE(txt) {
+
+    document.getElementById('bkmodal').setAttribute('style', 'opacity:0.3; pointer-events: auto');
+    document.getElementById('modal').setAttribute('style', 'opacity:1; pointer-events: auto');
+
+
+    document.getElementById('modal').innerHTML =
+        `
+    <p id="op1" class="cct">Editar cuenta</p>
+    <hr style="height:1px; border-width:0; color:gray;background-color:gray">
+    <p style="margin: 0px 0px 0px 0px;">
+    <input type="text" placeholder="*Opcional" class="ccse modal_input" value="${deco(txt[0])}">
+    <label class="cce" > Nombre: </label>
+    <input type="text" placeholder="*Obligatorio" class="ccse modal_input" value="${deco(txt[1])}">
+    <label class="cce" > Email: </label>
+    <input type="text" placeholder="*Obligatorio" class="ccse modal_input" value="${deco(txt[2])}">
+    <label class="cce" > Contraseña: </label>
+    <input type="text" placeholder="*Opcional" class="ccse modal_input" value="${deco(txt[4])}">
+    <label class="cce" > PIN: </label>
+
+        <input type="button" class="modal_btns" value="OK" onClick="buttons_modal('ok_user')">
+        <input type="button" class="modal_btns" value="CANCELAR" onClick="buttons_modal('cancel')">
+
+    </p>
+`;
+
+}
+
 
 function presentAlertConfirmEdit(confPersonal) {
     const alert = document.createElement('ion-alert');
@@ -618,13 +797,12 @@ function presentAlertConfirmEdit(confPersonal) {
                 (code(confPersonal[0]) == '') ? txt[0] = '25' : txt[0] = code(confPersonal[0]);
                 txt[1] = code(confPersonal[1]);
                 txt[2] = code(confPersonal[2]);
-                // 
                 txt[4] = code(confPersonal[3]);
-                // 
 
                 document.getElementById('userName').innerHTML = deco(txt[0]);
                 document.getElementById('nameSettingText').innerHTML = deco(txt[0]).slice(0, 1).toUpperCase();
                 localStorage.setItem('accessTempData', txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD');
+                // localStorage.setItem('accessTempData', txt[1] + 'GD' + txt[2] + 'GD');
 
                 // 
                 localStorage.setItem('bp', txt[4]);
@@ -633,6 +811,8 @@ function presentAlertConfirmEdit(confPersonal) {
                 save();
                 updateDB('L1', 'B1');
                 updateDB('L1', 'B2');
+
+                // alertcompare = false;
             },
         },
     ];
@@ -668,4 +848,90 @@ function downloadFile(data, fileName, type = 'text/plain') {
     a.click();
     window.URL.revokeObjectURL(a.href);
     document.body.removeChild(a);
+}
+
+
+function mostrarCambios() {
+    let openAdd = 0; openDel = 0; openEdit = 0;
+
+    document.getElementById('modal').innerHTML = `
+    <p id="op1" class="cct">Cambios</p>
+    <hr style="height:1px; border-width:0; color:gray;background-color:gray">
+    <p style="margin: 0px 0px 0px 0px;">
+    
+    ${listDetail(arrCompareAdd, 'Nuevas', 'dropAddButton')}
+    ${listDetail(arrCompareDel, 'Borradas', 'dropDelButton')}
+    ${listDetail(arrCompareEdit, 'Editadas', 'dropEditButton')}
+    
+    <input type="button" class="modal_btns" value="ACEPTAR" onClick="buttons_modal('aceptar')">
+    <input type="button" class="modal_btns" value="RECHAZAR" onClick="buttons_modal('rechazar')">
+    </p>
+    `;
+
+
+    document.getElementById('bkmodal').setAttribute('style', 'opacity:0.3; pointer-events: none');
+    document.getElementById('modal').setAttribute('style', 'opacity:1; pointer-events: auto');
+    document.querySelector('.dropdown-content').setAttribute('style', 'display: none');
+
+    const dropAddButton = document.querySelector('#dropAddButton');
+    const dropDelButton = document.querySelector('#dropDelButton');
+    const dropEditButton = document.querySelector('#dropEditButton');
+
+    if (arrCompareAdd.length != 1) {
+        dropAddButton.addEventListener('click', () => {
+            openDel = 0, openEdit = 0, openAdd++
+
+            if (openAdd < 2) {
+                listDrop(arrCompareAdd);
+                document.querySelector('.dropdown-content').setAttribute('style', 'display: block;');
+                if (dropAddButton) dropAddButton.setAttribute('style', 'background-color: var(--ion-border-color)');
+                if (dropDelButton) dropDelButton.setAttribute('style', 'background-color: var(--ion-color-primary)');
+                if (dropEditButton) dropEditButton.setAttribute('style', 'background-color: var(--ion-color-primary)');
+            }
+            else {
+                openAdd = 0;
+                document.querySelector('.dropdown-content').setAttribute('style', 'display: none');
+                dropAddButton.setAttribute('style', 'background-color: var(--ion-color-primary)');
+            }
+        });
+    }
+
+    if (arrCompareDel.length != 1) {
+        dropDelButton.addEventListener('click', () => {
+            openDel++, openEdit = 0, openAdd = 0;
+
+            if (openDel < 2) {
+                listDrop(arrCompareDel);
+                document.querySelector('.dropdown-content').setAttribute('style', 'display: block;');
+                if (dropAddButton) dropAddButton.setAttribute('style', 'background-color: var(--ion-color-primary)');
+                if (dropDelButton) dropDelButton.setAttribute('style', 'background-color: var(--ion-border-color)');
+                if (dropEditButton) dropEditButton.setAttribute('style', 'background-color: var(--ion-color-primary)');
+            }
+            else {
+                openDel = 0;
+                document.querySelector('.dropdown-content').setAttribute('style', 'display: none');
+                dropDelButton.setAttribute('style', 'background-color: var(--ion-color-primary)');
+            }
+        });
+    }
+
+    if (arrCompareEdit.length != 1) {
+        dropEditButton.addEventListener('click', () => {
+            openDel = 0, openEdit++, openAdd = 0;
+
+            if (openEdit < 2) {
+                listDrop(arrCompareEdit);
+                document.querySelector('.dropdown-content').setAttribute('style', 'display: block;');
+                if (dropAddButton) dropAddButton.setAttribute('style', 'background-color: var(--ion-color-primary)');
+                if (dropDelButton) dropDelButton.setAttribute('style', 'background-color: var(--ion-color-primary)');
+                if (dropEditButton) dropEditButton.setAttribute('style', 'background-color: var(--ion-border-color)');
+
+            }
+            else {
+                openEdit = 0;
+                document.querySelector('.dropdown-content').setAttribute('style', 'display: none');
+                dropEditButton.setAttribute('style', 'background-color: var(--ion-color-primary)');
+            }
+        });
+    }
 }

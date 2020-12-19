@@ -4,11 +4,21 @@ var txt = [];
 var aTotal = [];
 var newTotal = [];
 var compare = false;
+var compareChanges = '';
+
+// var listTemp = [];
+// var compareChanges = localStorage.getItem('L1');
+var newCompareData2 = localStorage.getItem('L1');
+// var acept_changes = '';
+const arrCompareAdd = ['Nuevas'];
+const arrCompareDel = ['Borradas'];
+const arrCompareEdit = ['Editadas'];
 // var docB1 = '';
 // var docB2 = '';
 var uCA = [];
+var userRestoreAccount = [];
 var userID = '';
-const coll = 'users2';
+const coll = '273';
 var alertcompare = true;
 var resetLogin = false;
 var offline = true;
@@ -22,6 +32,9 @@ const icoShow = 'eye-outline';
 const icoHide = 'eye-off-outline';
 const icoExp = 'expand-outline';
 const icoCom = 'contract-outline';
+
+
+
 
 // const icoShow = 'albums-outline';
 // const icoHide = 'close-outline';
@@ -47,17 +60,12 @@ const content = document.getElementById('content');
 
 
 document.getElementById('title').setAttribute('style', 'margin-left:38px');
-// document.getElementById('buttonAdd').setAttribute('style', 'opacity:0; margin-bottom:-200px');
-
 document.getElementById('nameSetting').setAttribute('style', 'pointer-events: none; opacity: 0');
-
 document.getElementById('buttonEdit').setAttribute('style', 'opacity:0; pointer-events: none');
 document.getElementById('buttonDelete').setAttribute('style', 'opacity:0; pointer-events: none');
 document.getElementById('expandCard').setAttribute('style', 'pointer-events: none; opacity: 0');
 document.getElementById('showCard').setAttribute('style', 'pointer-events: none; opacity: 0');
 document.getElementById('buttonSearch').setAttribute('style', 'pointer-events: none; opacity: 0');
-
-// document.getElementById('buttonHelp').setAttribute('style', 'pointer-events: none; opacity: 0');
 document.getElementById('buttonAdd').setAttribute('style', 'pointer-events: none; opacity: 0');
 
 setAttributes(document.getElementById('refresher'), { style: 'opacity:0', disabled: true });
@@ -107,9 +115,11 @@ item('barExport', 'arrow-up-circle-outline', 'Crear copia de Seguridad')
 item('barImport', 'arrow-down-circle-outline', 'Cargar copia de Seguridad');
 item('barLogout', 'log-out-outline', 'Cerrar Sesión');
 const ver = document.createElement('ion-item-divider');
-ver.innerHTML = 'Versión 2.7.2';
+ver.innerHTML = 'Versión 2.7.3';
 barContent.appendChild(ver);
 item('barDelAcc', 'close-outline', 'Eliminar Cuenta', 'danger');
+
+document.querySelector('#verLogin').innerHTML = ver.innerHTML;
 
 //DARK THEME
 const lTheme = localStorage.getItem('theme');
@@ -155,6 +165,8 @@ firebase.initializeApp({
 });
 var db = firebase.firestore();
 
+
+
 // ------------------ START ------------------ //
 localStorage.removeItem('alrt');
 
@@ -163,30 +175,34 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
     disableItem(false);
     splitInit();
     aTotalTOnewTotal();
-    localStorage.setItem('bp', txt[4]);
+
+    // localStorage.setItem('bp', txt[4]);
+
     // localStorage.setItem('tPin', Date.now());
+
     document.getElementById('userName').innerHTML = deco(txt[0]);
     document.getElementById('nameSettingText').innerHTML = deco(txt[0]).slice(0, 1).toUpperCase();
     compare = false;
+    // alertcompare = true;
 
 
     // PIN;
     document.getElementById('cardPin').setAttribute('style', 'pointer-events: none; opacity: 0');
-    if (txt[4] != '') {
-        if (localStorage.getItem('tPin')) {
-            if (Date.now() - localStorage.getItem('tPin') > timePin) {
-                document.getElementById('cardPin').setAttribute('style', 'opacity: 1');
-                disableItem(true);
-                document.getElementById('title').setAttribute('style', 'margin-left:38px');
-                document.getElementById('buttonAdd').setAttribute('style', 'pointer-events: none; opacity: 0');
-                //document.getElementById('buttonHelp').setAttribute('style', 'pointer-events: none; opacity: 0');
-                document.getElementById('nameSetting').setAttribute('style', 'pointer-events: none; opacity: 1');
-                document.getElementById('expandCard').setAttribute('style', 'pointer-events: none; opacity: 0');
-                document.getElementById('showCard').setAttribute('style', 'pointer-events: none; opacity: 0');
-                document.getElementById('buttonSearch').setAttribute('style', 'pointer-events: none; opacity: 0');
+    // if (txt[4] != '') {
+    // if (localStorage.getItem('tPin')) {
+    if (txt[4] != '' && localStorage.getItem('tPin')) {
+        if (Date.now() - localStorage.getItem('tPin') > timePin) {
+            document.getElementById('cardPin').setAttribute('style', 'opacity: 1');
+            disableItem(true);
+            document.getElementById('title').setAttribute('style', 'margin-left:38px');
+            document.getElementById('buttonAdd').setAttribute('style', 'pointer-events: none; opacity: 0');
+            document.getElementById('nameSetting').setAttribute('style', 'pointer-events: none; opacity: 1');
+            document.getElementById('expandCard').setAttribute('style', 'pointer-events: none; opacity: 0');
+            document.getElementById('showCard').setAttribute('style', 'pointer-events: none; opacity: 0');
+            document.getElementById('buttonSearch').setAttribute('style', 'pointer-events: none; opacity: 0');
 
-            }
         }
+        // }
 
         document.getElementById('pin').addEventListener('ionInput', () => {
             if (pin.value == deco(txt[4])) {
@@ -198,13 +214,17 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
     }
 
 
+
+
     // DB
     db.collection(coll).onSnapshot(querySnapshot => {
+
         querySnapshot.forEach(doc => {
             offline = false;
             if (!compare && doc.data().B1.includes(localStorage.getItem('accessTempData'))) {
                 docB1 = doc.data().B1;
                 docB2 = doc.data().B2;
+                // if (docB1 != docB2) document.getElementById('point_backup').setAttribute('style', 'color:red;');
                 docBpin = doc.data().Bpin;
                 userID = doc.id;
                 compare = true;
@@ -213,92 +233,222 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
         });
 
 
-        const newCompareData = localStorage.getItem('L1');
+
+        // var newCompareData2 = localStorage.getItem('L1');
+        compareChanges = localStorage.getItem('L1');
+        // (docB1 == newCompareData2)localStorage.setItem('L1', if (docB1 == newCompareData2) ? compareChanges : newCompareData2);
+
         updateDB('B1', 'L1');
+
         splitInit();
 
-        // if (!compare && !offline || localStorage.getItem('bp') != txt[4]) {
-        if (!compare && !offline && localStorage.getItem('bp') != txt[4]) {
+        // if (!compare && !offline && localStorage.getItem('bp') != txt[4]) {
+        if (!compare && !offline || localStorage.getItem('bp') != txt[4]) {
+            // if (!compare && !offline) {
             localStorage.removeItem('bp');
             localStorage.removeItem('accessTempData')
             localStorage.setItem('L1', 'GDGDGDGD');
             window.location.reload();
         }
 
-        // var msgRechazar = '';
-        // document.getElementById('offline').setAttribute('style', 'opacity:1');
-        // document.getElementById('offline').setAttribute('style', 'opacity:0');
-        // if (offline) localStorage.setItem('offline', 'offlineee');
-        // document.getElementById('offline').setAttribute('style', 'opacity:1');
-        // msgRechazar = localStorage.getItem('offline');
-        // } else {
-        // document.getElementById('offline').setAttribute('style', 'opacity:0'); //0
-        // msgRechazar = 'Rechazarr';
-        // };
-
-
-        // 
-        if (offline) localStorage.setItem('offline', 'offlineee');
-        // 
-
-
         compare = false;
-        // console.log(localStorage.getItem('offline'));
-        // if (docB1 != localStorage.getItem('L1') && alertcompare && !offline) {
-        if (docB1 != newCompareData && alertcompare && !offline) {
+
+
+        // 
+        // if (offline) localStorage.setItem('offline', 'offlineee'); // PROBAR
+        // 
+
+
+
+
+
+        //POINT BACKUP
+        // document.querySelectorAll('.point_backup')[0].setAttribute('style', `z-index: ${(docB1 != docB2) ? '2' : '0'}`);
+        document.querySelectorAll('.point_backup')[1].setAttribute('style', `z-index: ${(docB1 != docB2) ? '2' : '0'}`);
+
+
+
+        if (docB1 != compareChanges && alertcompare && !offline) {
+            // if (docB1 != compareChanges && alertcompare && !offline && localStorage.getItem('bp') != txt[4]) {
             showSearch.innerHTML = '';
 
             // 
             localStorage.removeItem('offline');
             // 
 
+
+
+
+
+
             function alertCompareData() {
+                // console.log(deco(compareChanges));
+                // console.log(deco(newCompareData2));
+
                 alertcompare = false
                 const alert = document.createElement('ion-alert');
                 alert.setAttribute('backdrop-dismiss', 'false');
                 alert.header = 'Se detectaron cambios';
                 alert.message = '¿Aceptar y sincorinizar con la base de datos?';
                 alert.buttons = [
-                    { text: 'Rechazar', handler: () => { updateData('Rechazar', newCompareData) } },
-                    { text: 'Aceptar', handler: () => { updateData('Aceptar', newCompareData) } },
-                    // {
-                    //     text: 'Detalles',
-                    //     handler: () => {
-
-                    //         let txtTemp = [];
-                    //         let aTotalTemp = [];
-                    //         let newa = [];
-                    //         let metaObjAdd = [];
-                    //         let metaObjDel = [];
-                    //         let myObj = '';
-                    //         let metaObj = '';
-
-                    //         txtTemp = newCompareData.split('GD');
-                    //         aTotalTemp = txtTemp[3].split(txtTemp[3].includes('Q0') ? 'Q0' : 'BO');
-                    //         aTotalTemp.splice(-1, 1);
-                    //         aTotalTemp = aTotalTemp.concat(aTotal);
-                    //         aTotalTemp.sort();
+                    { text: 'Aceptar', handler: () => { updateData('Aceptar', compareChanges) } },
+                    { text: 'Rechazar', handler: () => { updateData('Rechazar', compareChanges) } },
+                    {
+                        text: 'Ver cambios',
+                        handler: () => {
 
 
-                    //         for (i = 0; i < aTotalTemp.length; i++) {
-                    //             (aTotalTemp[i] == aTotalTemp[i + 1]) ? i++ : newa.push(aTotalTemp[i]);
-                    //         };
+                            let txtTemp = [];
+                            let aTotalTemp = [];
+                            let newa = [];
+                            // if (docB1 == newCompareData2) {
+                            //     txtTemp = compareChanges.split('GD');
+                            // } else{
+                            //     txtTemp = newCompareData2.split('GD');
+                            // }
 
-                    //         for (i = 0; i < newa.length; i++) {
-                    //             const newaName = newa[i].split('OG');
-                    //             if (txtTemp[3].includes(newa[i])) {
-                    //                 myObj = { value: '(-) ' + deco(newaName[0]).toUpperCase(), disabled: true };
-                    //                 metaObjDel.push(myObj)
-                    //             } else {
-                    //                 myObj = { value: '( + ) ' + deco(newaName[0]).toUpperCase(), disabled: true };
-                    //                 metaObjAdd.push(myObj)
-                    //             };
-                    //         }
-                    //         metaObj = metaObjAdd.concat(metaObjDel);
-                    //         presentCompareData(metaObj, newCompareData);
-                    //     },
-                    // },
+                            txtTemp = (docB1 == newCompareData2) ? compareChanges.split('GD') : newCompareData2.split('GD');;
 
+                            aTotalTemp = txtTemp[3].split(txtTemp[3].includes('Q0') ? 'Q0' : 'BO');
+                            aTotalTemp.splice(-1, 1);
+                            aTotalTemp = aTotalTemp.concat(aTotal);
+                            aTotalTemp.sort();
+                            aTotalTemp.push('');
+
+                            for (i = 0; i < aTotalTemp.length; i++) {
+                                (aTotalTemp[i] == aTotalTemp[i + 1]) ? i++ : newa.push(aTotalTemp[i]);
+                            };
+
+
+                            for (i = 0; i < newa.length - 1; i++) {
+                                const newaName = newa[i].split('OG');
+                                const newaName2 = newa[i + 1].split('OG');
+
+                                if (newaName[0] == newaName2[0]) {
+                                    arrCompareEdit.push(deco(newaName[0]).toUpperCase());
+                                    i++
+                                } else {
+
+                                    (txtTemp[3].includes(newa[i])) ?
+                                        arrCompareDel.push(deco(newaName[0]).toUpperCase()) :
+                                        arrCompareAdd.push(deco(newaName[0]).toUpperCase());
+                                };
+
+                            };
+
+
+                            // let openAdd = 0; openDel = 0; openEdit = 0;
+
+                            document.getElementById('modal').innerHTML = `
+                            <p id="op1" class="cct">Cambios</p>
+                            <hr style="height:1px; border-width:0; color:gray;background-color:gray">
+                            <div class="div_list">
+
+
+                            ${listDetail2(arrCompareAdd, 'Nuevas')}
+                            ${listDrop2(arrCompareAdd)}
+                            ${listDetail2(arrCompareDel, 'Borradas')}
+                            ${listDrop2(arrCompareDel)}
+                            ${listDetail2(arrCompareEdit, 'Editadas')}
+                            ${listDrop2(arrCompareEdit)}
+
+
+                            </div>
+
+                            <input type="button" class="modal_btns" value="CONFIRMAR" onClick="buttons_modal('aceptar')">
+                            <input type="button" class="modal_btns" value="RECHAZAR" onClick="buttons_modal('rechazar')">
+                            `
+                                ;
+
+                            document.getElementById('bkmodal').setAttribute('style', 'opacity:0.3; pointer-events: none');
+                            document.getElementById('modal').setAttribute('style', 'opacity:1; pointer-events: auto');
+
+                            // document.getElementById('modal').innerHTML = `
+                            // <p id="op1" class="cct">Cambios</p>
+                            // <hr style="height:1px; border-width:0; color:gray;background-color:gray">
+                            // <p style="margin: 0px 0px 0px 0px;">
+
+                            // ${listDetail(arrCompareAdd, 'Nuevas', 'dropAddButton')}
+                            // ${listDetail(arrCompareDel, 'Borradas', 'dropDelButton')}
+                            // ${listDetail(arrCompareEdit, 'Editadas', 'dropEditButton')}
+
+                            // <input type="button" class="modal_btns" value="ACEPTAR" onClick="buttons_modal('aceptar')">
+                            // <input type="button" class="modal_btns" value="RECHAZAR" onClick="buttons_modal('rechazar')">
+                            // </p>
+                            // `;
+
+
+                            // document.getElementById('bkmodal').setAttribute('style', 'opacity:0.3; pointer-events: none');
+                            // document.getElementById('modal').setAttribute('style', 'opacity:1; pointer-events: auto');
+                            // document.querySelector('.dropdown-content').setAttribute('style', 'display: none');
+
+                            // const dropAddButton = document.querySelector('#dropAddButton');
+                            // const dropDelButton = document.querySelector('#dropDelButton');
+                            // const dropEditButton = document.querySelector('#dropEditButton');
+
+                            // if (arrCompareAdd.length != 1) {
+                            //     dropAddButton.addEventListener('click', () => {
+                            //         openDel = 0, openEdit = 0, openAdd++
+
+                            //         if (openAdd < 2) {
+                            //             listDrop(arrCompareAdd);
+                            //             document.querySelector('.dropdown-content').setAttribute('style', 'display: block;');
+                            //             if (dropAddButton) dropAddButton.setAttribute('style', 'background-color: var(--ion-border-color)');
+                            //             if (dropDelButton) dropDelButton.setAttribute('style', 'background-color: var(--ion-color-primary)');
+                            //             if (dropEditButton) dropEditButton.setAttribute('style', 'background-color: var(--ion-color-primary)');
+                            //         }
+                            //         else {
+                            //             openAdd = 0;
+                            //             document.querySelector('.dropdown-content').setAttribute('style', 'display: none');
+                            //             dropAddButton.setAttribute('style', 'background-color: var(--ion-color-primary)');
+                            //         }
+                            //     });
+                            // }
+
+                            // if (arrCompareDel.length != 1) {
+                            //     dropDelButton.addEventListener('click', () => {
+                            //         openDel++, openEdit = 0, openAdd = 0;
+
+                            //         if (openDel < 2) {
+                            //             listDrop(arrCompareDel);
+                            //             document.querySelector('.dropdown-content').setAttribute('style', 'display: block;');
+                            //             if (dropAddButton) dropAddButton.setAttribute('style', 'background-color: var(--ion-color-primary)');
+                            //             if (dropDelButton) dropDelButton.setAttribute('style', 'background-color: var(--ion-border-color)');
+                            //             if (dropEditButton) dropEditButton.setAttribute('style', 'background-color: var(--ion-color-primary)');
+                            //         }
+                            //         else {
+                            //             openDel = 0;
+                            //             document.querySelector('.dropdown-content').setAttribute('style', 'display: none');
+                            //             dropDelButton.setAttribute('style', 'background-color: var(--ion-color-primary)');
+                            //         }
+                            //     });
+                            // }
+
+                            // if (arrCompareEdit.length != 1) {
+                            //     dropEditButton.addEventListener('click', () => {
+                            //         openDel = 0, openEdit++, openAdd = 0;
+
+                            //         if (openEdit < 2) {
+                            //             listDrop(arrCompareEdit);
+                            //             document.querySelector('.dropdown-content').setAttribute('style', 'display: block;');
+                            //             if (dropAddButton) dropAddButton.setAttribute('style', 'background-color: var(--ion-color-primary)');
+                            //             if (dropDelButton) dropDelButton.setAttribute('style', 'background-color: var(--ion-color-primary)');
+                            //             if (dropEditButton) dropEditButton.setAttribute('style', 'background-color: var(--ion-border-color)');
+
+                            //         }
+                            //         else {
+                            //             openEdit = 0;
+                            //             document.querySelector('.dropdown-content').setAttribute('style', 'display: none');
+                            //             dropEditButton.setAttribute('style', 'background-color: var(--ion-color-primary)');
+                            //         }
+                            //     });
+                            // }
+
+
+
+
+                        },
+                    },
                 ];
                 document.body.appendChild(alert);
                 return alert.present();
@@ -315,9 +465,7 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
 
 
 // welcome();
-// if (!txt[4] && showLogin.innerHTML == '') {
 if (!txt[3] && showLogin.innerHTML == '') {
-    // expandIcon.setAttribute('name', 'contract-outline');
     expandIcon.setAttribute('name', icoCom);
     showSearch.innerHTML = `
     <div style="text-align:center"><br>No hay datos guardados. </div>
@@ -326,6 +474,5 @@ if (!txt[3] && showLogin.innerHTML == '') {
     `;
     showCardAll('facebook', 'prueba@hotmail.com', '1234abcd', 'Las notas son opcionales 😎');
     showCardAll('google 👍', 'tucuenta@gmail.com', 'prueba1234', '');
-    // expandIcon.setAttribute('name', 'expand-outline');
     expandIcon.setAttribute('name', icoExp);
 };
