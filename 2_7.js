@@ -223,11 +223,8 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
 
         // reinicio cambio de datos personales
         if (!comparePersonalData && !offline || localStorage.getItem('bp') != txt[4]) {
-            // localStorage.removeItem('bp');
-            // localStorage.removeItem('accessTempData')
-            // o1101
-            localStorage.clear();
-            // / o1101
+            localStorage.removeItem('bp');
+            localStorage.removeItem('accessTempData')
             localStorage.setItem('L1', 'GDGDGDGD');
             window.location.reload();
         }
