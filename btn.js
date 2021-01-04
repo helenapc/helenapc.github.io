@@ -3,13 +3,9 @@
 // NEW MODAL
 
 document.getElementById('bkmodal').addEventListener('click', () => {
-    // console.log('hola');
-    document.getElementById('bkmodal').setAttribute('style', 'opacity:0; pointer-events: none');
-    document.getElementById('modal').setAttribute('style', 'opacity:0; pointer-events: none');
-
-    document.getElementById('buttonEdit').setAttribute('style', 'opacity:0; pointer-events: none');
-    document.getElementById('buttonDelete').setAttribute('style', 'opacity:0; pointer-events: none');
-
+    multipleAttribute(['#bkmodal', '#modal', '#buttonEdit', '#buttonDelete'], 'style', 'opacity:0; pointer-events: none');
+    multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch', '#buttonAdd'], 'style', 'opacity:1; pointer-events: auto');
+    if (showSearch.innerHTML != '') multipleAttribute(['#expandCard'], 'style', 'opacity:1; pointer-events: auto');
     document.querySelectorAll('.ccse')[0].setAttribute('style', 'user-select:none;');
     document.querySelectorAll('.ccse')[1].setAttribute('style', 'user-select:none;');
     document.querySelectorAll('.ccse')[2].setAttribute('style', 'user-select:none;');
@@ -23,75 +19,112 @@ buttonLogin.addEventListener('click', () => {
     barProgressF('success', 'indeterminate');
 
     localStorage.setItem('accessTempData', code(nameLog.value) + 'GD' + code(passLog.value) + 'GD');
+    // console.log(localStorage.getItem('accessTempData'));
 
     db.collection(coll).onSnapshot(querySnapshot => {
         querySnapshot.forEach(doc => {
             if (!coincidencia) {
                 docB1 = doc.data().B1;
                 docB2 = doc.data().B2;
+                docB3 = doc.data().B3;
+
                 userID = doc.id;
+
                 userRestoreAccount = doc.data().B1.split('GD');
+
                 if (docB1.includes(localStorage.getItem('accessTempData'))) {
-                    // 
-                    localStorage.setItem('tPin', Date.now());
-                    // 
                     coincidencia = true;
+                    localStorage.setItem('tPin', Date.now());
                     updateDB('B1', 'L1');
                     splitInit();
                     aTotalTOnewTotal();
                     localStorage.setItem('accessTempData', txt[0] + 'GD' + code(nameLog.value) + 'GD' + code(passLog.value) + 'GD'); //TEST
-
+                    // console.log(localStorage.getItem('accessTempData'));
                     localStorage.setItem('bp', txt[4]); //FIX?
-
                     document.getElementById('userName').innerHTML = deco(txt[0]);
-                    disableItem(false);
+                    multipleAttribute(['.button_nav', '#buttonAdd', '#nameSetting', '#showCard', '#buttonSearch'], 'style', 'pointer-events: auto; opacity: 1');
                     window.location.reload();
                 }
 
-                // res
-                if (code(nameLog.value) == userRestoreAccount[1] && passLog.value == doc.data().B3) {
-                    console.log(doc.data().B3);
-                    function presentRestorePass() {
-                        const alert = document.createElement('ion-alert');
-                        alert.subHeader = 'Restablecer contraseña';
-                        alert.inputs = [
-                            { name: 'pass01', placeholder: 'Nueva contraseña...', value: '' },
-                            { name: 'pass02', placeholder: 'Confirmar contraseña...', value: '' }
-                        ];
-                        alert.buttons = [
-                            { text: 'Cancelar', role: 'cancel' },
-                            {
-                                text: 'Ok',
-                                handler: usRData => {
-                                    if (usRData.pass01 == '' || usRData.pass02 == '' || usRData.pass01 != usRData.pass02) {
-                                        alertMsg('Error', 'Datos incorrectos o vacíos.');
-                                        return;
-                                    }
+                // restore pass
 
-                                    localStorage.setItem('L1', userRestoreAccount[0] + 'GD' + userRestoreAccount[1] + 'GD' + code(usRData.pass01) + 'GD' + userRestoreAccount[3]);
-                                    // localStorage.setItem('accessTempData', userRestoreAccount[1] + 'GD' + code(usRData.pass01) + 'GD');
-                                    localStorage.setItem('accessTempData', userRestoreAccount[1] + 'GD' + code(usRData.pass01) + 'GD');
+                // console.log(docB1);
+                // console.log(docB2);
 
-                                    coincidencia = true;
-                                    updateDB('L1', 'B1');
-                                    updateDB('L1', 'B2');
-                                    splitInit();
-                                    aTotalTOnewTotal();
-                                    document.getElementById('userName').innerHTML = deco(txt[0]);
-                                    disableItem(false);
 
-                                    db.collection(coll).doc(userID).update({
-                                        B3: firebase.firestore.FieldValue.delete()
-                                    }).then(function () { window.location.reload() });
 
-                                },
+                if (code(nameLog.value) == userRestoreAccount[1] && passLog.value == docB3) {
+                    coincidencia = true;
+
+                    // console.log(docB1);
+                    // console.log(userID);
+
+                    const alert = document.createElement('ion-alert');
+                    alert.subHeader = 'Restablecer contraseña';
+                    alert.inputs = [
+                        { name: 'pass01', placeholder: 'Nueva contraseña...', value: '' },
+                        { name: 'pass02', placeholder: 'Confirmar contraseña...', value: '' }
+                    ];
+                    alert.buttons = [
+                        { text: 'Cancelar', handler: () => { window.location.reload(); } },
+                        {
+                            text: 'Ok',
+                            handler: usRData => {
+
+
+                                if (usRData.pass01 == '' || usRData.pass02 == '' || usRData.pass01 != usRData.pass02) {
+                                    alertMsg('Error', 'Datos incorrectos o vacíos.');
+                                    window.location.reload();
+                                    return;
+                                }
+
+                                // localStorage.setItem('L1', userRestoreAccount[0] + 'GD' + userRestoreAccount[1] + 'GD' + code(usRData.pass01) + 'GD' + userRestoreAccount[3]);
+                                // localStorage.setItem('accessTempData', txt[0] + 'GD' + userRestoreAccount[1] + 'GD' + code(passLog.value) + 'GD'); //TEST
+
+                                // coincidencia = true;
+
+                                
+                                //b9002
+                                localStorage.setItem('tPin', Date.now());
+                                txt[0] = (userRestoreAccount[0] == '') ? '25' : userRestoreAccount[0]
+                                txt[1] = userRestoreAccount[1];
+                                txt[2] = code(usRData.pass01);
+                                txt[3] = userRestoreAccount[3];
+                                txt[4] = userRestoreAccount[4];
+
+                                document.getElementById('userName').innerHTML = deco(txt[0]);
+                                document.getElementById('nameSettingText').innerHTML = deco(txt[0]).slice(0, 1).toUpperCase();
+                                localStorage.setItem('accessTempData', txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD');
+                                localStorage.setItem('bp', txt[4]);
+                                localStorage.setItem('tPin', Date.now());
+    
+                                // save();
+                                localStorage.setItem('L1', `${txt[0]}GD${txt[1]}GD${txt[2]}GD${txt[3]}GD${txt[4]}`);
+                                updateDB('L1', 'B1');
+                                updateDB('L1', 'B2');
+                                comparePersonalData = false;
+                                // /b9002
+                                
+                                // alertcompare = false;
+                                // PROBAR
+                                // splitInit();
+                                // aTotalTOnewTotal();
+
+
+                                db.collection(coll).doc(userID).update({
+                                    B3: firebase.firestore.FieldValue.delete()
+                                }).then(function () {
+                                    presentToast('Contraseña restablecida', '800', 'success')
+                                    setTimeout(() => {
+                                        window.location.reload();
+                                    }, 1000);
+                                });
                             },
-                        ];
-                        document.body.appendChild(alert);
-                        return alert.present();
-                    }
-                    presentRestorePass();
-                    // coincidencia = true;
+                        },
+                    ];
+                    document.body.appendChild(alert);
+                    return alert.present();
+
                 }
             };
 
@@ -170,7 +203,9 @@ buttonCreate.addEventListener('click', () => {
                                     splitInit();
                                     aTotalTOnewTotal();
                                     document.getElementById('userName').innerHTML = deco(txt[0]);
-                                    disableItem(false);
+                                    // disableItem(false);
+                                    multipleAttribute(['.button_nav', '#buttonAdd', '#nameSetting', '#showCard', '#buttonSearch', '#refresher'], 'style', 'pointer-events: auto; opacity: 1');
+                                    // document.getElementById('content').setAttribute('style', '--background: #ffffff00');
                                     barProgressF('light', 'determinate');
                                     window.location.reload();
                                 })
@@ -198,7 +233,6 @@ newSearch.addEventListener('ionInput', () => { refreshData() });
 
 
 showSearch.addEventListener('click', e => {  //editCard
-    // helpFunction('0', false);
 
     e.preventDefault();
     var xPath = 3;
@@ -227,7 +261,7 @@ showSearch.addEventListener('click', e => {  //editCard
 
             document.getElementById('modal').innerHTML =
                 `
-            <p id="op1" class="cct">${cuPath[0]}</p>
+            <p id="op1" class="cct" style="text-align: center">${cuPath[0]}</p>
             <hr style="height:1px; border-width:0; color:gray;background-color:gray">
             <p style="margin: 0px 0px 0px 0px;">
             <label class="cce_st" > Usuario: </label>
@@ -240,14 +274,12 @@ showSearch.addEventListener('click', e => {  //editCard
             `;
 
 
-            document.getElementById('modal').setAttribute('style', 'opacity:1; pointer-events: auto');
-            document.getElementById('bkmodal').setAttribute('style', 'opacity:0.3; pointer-events: auto');
-            document.getElementById('buttonEdit').setAttribute('style', 'opacity:1; pointer-events: auto');
-            document.getElementById('buttonDelete').setAttribute('style', 'opacity:1; pointer-events: auto');
+
+            // document.getElementById('bkmodal').setAttribute('style', 'opacity:0.3; pointer-events: auto');
+            multipleAttribute(['#bkmodal', '#modal', '#buttonEdit', '#buttonDelete'], 'style', 'opacity:1; pointer-events: auto');
+            multipleAttribute(['#nameSetting', '#expandCard', '#showCard', '#buttonSearch'], 'style', 'opacity:0.3; pointer-events: none');
 
 
-            // var matches = document.querySelectorAll('.ccse');
-            // console.log(matches);
             document.querySelectorAll('.ccse')[0].setAttribute('style', 'user-select:all;');
             document.querySelectorAll('.ccse')[1].setAttribute('style', 'user-select:all;');
             document.querySelectorAll('.ccse')[2].setAttribute('style', 'user-select:all;');
@@ -291,8 +323,6 @@ barImport.addEventListener('click', () => {
                     aTotalTOnewTotal();
                     document.getElementById('userName').innerHTML = deco(txt[0]);
                     updateDB('L1', 'B1');
-                    // alertcompare = false;
-                    // setTimeout(() => { alertcompare = true; }, 1500);
                     refreshData();
                     setTimeout(() => {
                         presentToast('Copia de seguridad cargada.', 800, 'success');
@@ -351,24 +381,16 @@ barDelAcc.addEventListener('click', () => {
             {
                 text: 'confirmar',
                 handler: () => {
-                    console.log(userID);
-                    Email.send({
-                        Host: "smtp.gmail.com",
-                        Username: "restore.pass.helena@gmail.com",
-                        Password: "restaurar1234",
-                        To: deco(txt[1]),
-                        From: "restore.pass.helena@gmail.com",
-                        Subject: "Eliminar cuenta.",
-                        Body:
-                            `
-                            <h2>Clave para confirmar la eliminación de la cuenta:</h2>
-                            <h1>${userID}</h1>
-                        `,
-                    }).then(function () {
-                        console.log("correo enviado");
-                    }).catch(function (error) {
-                        console.error("Error removing document: ", error);
+
+                    // b5001a
+                    emailjs.send("service_60bgz48", "template_vfonhil", {
+                        name: deco(txt[0]),
+                        to_email: deco(txt[1]),
+                        key: userID,
                     });
+                    // b5001a
+
+                    presentToast('Clave enviada por mail', 1000, 'success');
 
                     function confirmVoid() {
                         const alert = document.createElement('ion-alert');
@@ -424,7 +446,56 @@ barDelAcc.addEventListener('click', () => {
     deleteData();
 });
 
+barLOG.addEventListener('click', () => { //LOG
+    barMenuPrincipal.close();
+    multipleAttribute(['#bkmodal', '#modal'], 'style', 'opacity:1; pointer-events: auto');
+    multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch', '#buttonAdd'], 'style', 'opacity:0.3; pointer-events: none');
+    if (showSearch.innerHTML != '') multipleAttribute(['#expandCard'], 'style', 'opacity:0.3; pointer-events: none');
 
+    document.getElementById('modal').innerHTML =
+        `
+    <p id="op1" class="cct">Novedades<p style="font-size:13px">${ver.innerHTML}</p></p>
+    <hr style="height:1px; border-width:0; color:gray;background-color:gray">
+    <p style="margin: 0px 0px 0px 0px;">
+
+        <div class="div_list";>
+
+            <label class="ccse" >NUEVO!:
+            <p style="margin:0px 0px 10px 20px; line-height: 1.6;">
+            - Mejoras en velocidad.<br>
+            </p></label>
+
+
+            <label class="ccse" >ERRORES:
+            <p style="margin:0px 0px 10px 20px; line-height: 1.6;">
+            - Textos desplazados (navegador de celular).<br>
+            </p></label>
+
+            <label class="ccse" >ARREGLOS:
+            <p style="margin:0px 0px 10px 20px; line-height: 1.6;">
+            - Fallas al iniciar con contraseña temporal.(b0901).<br>
+            - Iniciar sesión al restaurar contraseña (b9092).<br>
+            - Activar botones al borrar (offline) (b1001).<br>
+            </p></label>
+            
+            <label class="ccse" >EN PROCESO..
+            <p style="margin:0px 0px 10px 20px; line-height: 1.6;">
+            - Actualizar (offline -> internet) por defecto.<br>
+            - Mejorar reinicio al cambiar PIN.<br>
+            .<br>
+            </p></label>
+        </div>
+    </p>
+
+    <input type="button" style="margin-top:10px" class="modal_btns" value="OK" onClick="buttons_modal('cancel')">
+
+    `;
+
+
+    // document.getElementById('buttonEdit').setAttribute('style', 'opacity:0; pointer-events: none');
+    // document.getElementById('buttonDelete').setAttribute('style', 'opacity:0; pointer-events: none');
+    multipleAttribute(['#buttonEdit', '#buttonDelete'], 'style', 'opacity:0; pointer-events: none');
+});
 
 
 //FAB TEST
@@ -435,7 +506,13 @@ barDelAcc.addEventListener('click', () => {
 //FAB
 
 document.getElementById('buttonEdit').addEventListener('click', () => {
-    // alertEdit(cuPath, reemplace); 
+
+    multipleAttribute(['#buttonEdit', '#buttonDelete'], 'style', 'opacity:0; pointer-events: none');
+    // multipleAttribute(['#nameSetting', '#expandCard', '#showCard', '#buttonSearch', '#buttonAdd'], 'style', 'opacity:0; pointer-events: none');
+
+    multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch', '#buttonAdd'], 'style', 'opacity:0.3; pointer-events: none');
+    if (showSearch.innerHTML != '') multipleAttribute(['#expandCard'], 'style', 'opacity:0.3; pointer-events: none');
+
 
     document.getElementById('modal').innerHTML =
         `
@@ -456,18 +533,78 @@ document.getElementById('buttonEdit').addEventListener('click', () => {
     <input type="button" class="modal_btns" value="CANCELAR" onClick="buttons_modal('cancel')">
 
 `;
-    document.getElementById('buttonEdit').setAttribute('style', 'opacity:0; pointer-events: none');
-    document.getElementById('buttonDelete').setAttribute('style', 'opacity:0; pointer-events: none');
-    // alertcompare = false;
 });
 
 document.getElementById('buttonDelete').addEventListener('click', () => {
-    alertDel(cuPath, reemplace);
+
+    multipleAttribute(['#bkmodal', '#modal', '#buttonEdit', '#buttonDelete'], 'style', 'opacity:0; pointer-events: none');
+
+    const alert = document.createElement('ion-alert');
+    alert.message = `¿Eliminar "${cuPath[0]}"?`;
+    alert.buttons = [
+        {
+            text: 'cancelar',
+            handler: () => {
+                multipleAttribute(['#nameSetting', '#expandCard', '#showCard', '#buttonSearch'], 'style', 'opacity:1; pointer-events: auto');
+            }
+        },
+        {
+            text: 'ok',
+            handler: () => {
+                aTotal.splice(reemplace / 5, 1);
+                aTotalTOnewTotal();
+
+                multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch', '#buttonAdd'], 'style', 'opacity:1; pointer-events: auto');
+                if (showSearch.innerHTML != '') expandCard.setAttribute('style', 'opacity:1; pointer-events: auto');
+
+                if (newSearch.value == '') {
+
+                    // refreshData();
+                    showSearch.innerHTML = '';
+                    showIcon.setAttribute('name', icoHide);
+                    expandCard.setAttribute('style', 'opacity:1; pointer-events: auto');
+                    for (i = 0; i < newTotal.length; i += 5) {
+                        showCardAll(newTotal[i].toUpperCase(), newTotal[i + 1], newTotal[i + 2], newTotal[i + 3]);
+                    }
+                    newTotal.length / 5 == 1 ? (s = '') : (s = 's');
+                    presentToast(`${newTotal.length / 5} Cuenta${s} guardad${s}.`, '800', 'dark');
+
+                } else {
+                    refreshData();
+                }
+                save();
+                presentToast(`"${cuPath[0]}" eliminado.`, '800', 'danger');
+                updateDB('L1', 'B1');
+                // multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch', '#buttonAdd'], 'style', 'opacity:1; pointer-events: auto');
+                // if (showSearch.innerHTML != '') expandCard.setAttribute('style', 'opacity:1; pointer-events: auto');
+                closeAlert = false;
+
+                // multipleAttribute(['#nameSetting','#expandCard', '#showCard', '#buttonSearch'], 'style', 'opacity:1; pointer-events: auto');
+
+            },
+        },
+    ];
+
+    // multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch', '#buttonAdd'], 'style', 'opacity:1; pointer-events: auto');
+    // if (showSearch.innerHTML != '') {
+    //     // multipleAttribute(['#expandCard'], 'style', 'opacity:1; pointer-events: auto');
+
+
+    // } else {
+    //     document.getElementById('showIcon').setAttribute('name', icoShow);
+    //     newSearch.setAttribute('style', 'margin-top:0px');
+    //     // multipleAttribute(['#new-s'], 'style', 'opacity:1; margin-top:0px');
+    //     newSearch.setFocus();
+    //     statSearchBar = true;
+    //     testExpand = true;
+    //     newSearch.value = '';
+    // }
+
+    document.body.appendChild(alert);
+    return alert.present();
 });
 
 document.getElementById('nameSetting').addEventListener('click', () => {
-    // alertPass();
-    // function alertPass() {
     const alertPassItem = document.createElement('ion-alert');
     alertPassItem.header = 'Datos de usuario';
     alertPassItem.message = 'Inserte contraseña para continuar..';
@@ -480,10 +617,9 @@ document.getElementById('nameSetting').addEventListener('click', () => {
             handler: u => {
                 if (u.uEPass == deco(txt[2])) {
                     if (txt[0] == '25') txt[0] = '';
-                    // presentAlertEditUserData();
-                    // presentAlertEditUserData2(txt);
-                    document.getElementById('bkmodal').setAttribute('style', 'opacity:0.3; pointer-events: auto');
-                    document.getElementById('modal').setAttribute('style', 'opacity:1; pointer-events: auto');
+                    // document.getElementById('bkmodal').setAttribute('style', 'opacity:1; pointer-events: auto');
+                    // document.getElementById('modal').setAttribute('style', 'opacity:1; pointer-events: auto');
+                    multipleAttribute(['#bkmodal', '#modal'], 'style', 'opacity:1; pointer-events: auto');
 
 
                     document.getElementById('modal').innerHTML =
@@ -501,12 +637,12 @@ document.getElementById('nameSetting').addEventListener('click', () => {
                         <label class="cce" > PIN: </label>
                         </p>
 
-                        <input type="button" class="modal_btns" value="OK" onClick="buttons_modal('ok_user')">
+                        <input type="button" class="modal_btns" value="OK" onClick="buttons_modal('ok_datosDeUsuario')">
                         <input type="button" class="modal_btns" value="CANCELAR" onClick="buttons_modal('cancel')">
                     `;
 
                 } else {
-                    bar
+                    // barProgressF('warning', )
                     presentToast('Contraseña incorrecta.', '800', 'warning');
                 }
             },
@@ -517,50 +653,73 @@ document.getElementById('nameSetting').addEventListener('click', () => {
     // }
 });
 
-document.getElementById('expandCard').addEventListener('click', () => {
-    // helpFunction('0', false);
-    // if (document.getElementById('expandIcon').getAttribute('name') == icoExp) {
-    //     document.getElementById('expandIcon').setAttribute('name', icoCom);
-    // } else {
-    //     document.getElementById('expandIcon').setAttribute('name', icoExp);
-    // };
 
-    let icon = document.getElementById('expandIcon');
-    icon.setAttribute('name', (icon.getAttribute('name') == icoExp) ? icoCom : icoExp);
-    refreshData(false);
+document.getElementById('expandCard').addEventListener('click', () => {
+expandIcon.setAttribute('name', (expandIcon.getAttribute('name') == icoExp) ? icoCom : icoExp);
+    
+    if (newSearch.value == '') {
+        const newTotalLength = newTotal.length;
+        showSearch.innerHTML = '';
+        for (i = 0; i < newTotalLength; i += 5) {
+            showCardAll(newTotal[i].toUpperCase(), newTotal[i + 1], newTotal[i + 2], newTotal[i + 3]);
+        }
+    } else {
+        refreshData(false);
+    }
 });
 
 document.getElementById('showCard').addEventListener('click', () => {
-    // helpFunction('0', false);
-    if (document.getElementById('showIcon').getAttribute('name') == icoShow) {
-        document.getElementById('showIcon').setAttribute('name', icoHide);
-        newSearch.value = '*';
-        newSearch.setAttribute('style', 'margin-top:-60px');
+
+    newSearch.value = '';
+    // var testExpand = false;
+
+    if (showIcon.getAttribute('name') == icoShow) {
+        showIcon.setAttribute('name', icoHide);
+        expandCard.setAttribute('style', 'opacity:1; pointer-events: auto');
+
+        const newTotalLength = newTotal.length;
+        for (i = 0; i < newTotalLength; i += 5) {
+            showCardAll(newTotal[i].toUpperCase(), newTotal[i + 1], newTotal[i + 2], newTotal[i + 3]);
+        }
+
+        let s = (newTotalLength / 5 == 1) ? '' : 's';
+
+        presentToast(`${newTotalLength / 5} Cuenta${s} guardada${s}.`, '800', 'dark');
     } else {
-        document.getElementById('showIcon').setAttribute('name', icoShow);
-        newSearch.value = '';
+        showIcon.setAttribute('name', icoShow);
+        showSearch.innerHTML = '';
+
+        expandCard.setAttribute('style', 'opacity:0; pointer-events: none');
+        // newSearch.setAttribute('style', 'margin-top:0px');
+        // newSearch.setFocus();
+        // statSearchBar = true;
+        // testExpand = true;
+        expandIcon.setAttribute('name', icoExp);
     };
-    refreshData();
+    // refreshData();
 });
 
 document.getElementById('buttonSearch').addEventListener('click', () => {
-    if (!statSearchBar) {
+    if (statSearchBar) {
+        newSearch.setAttribute('style', 'margin-top:-60px');
+        statSearchBar = false;
+    } else {
         newSearch.value = '';
         newSearch.setAttribute('style', 'margin-top:0px');
         newSearch.setFocus();
         statSearchBar = true;
-    } else {
-        newSearch.setAttribute('style', 'margin-top:-60px');
-        statSearchBar = false;
     }
-
 })
 
 document.getElementById('buttonAdd').addEventListener('click', () => {
 
-    document.getElementById('bkmodal').setAttribute('style', 'opacity:0.3; pointer-events: none');
-    document.getElementById('modal').setAttribute('style', 'opacity:1; pointer-events: auto');
 
+    multipleAttribute(['#bkmodal', '#modal'], 'style', 'opacity:1; pointer-events: auto');
+    multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch', '#buttonAdd'], 'style', 'opacity:0.3; pointer-events: none');
+    if (showSearch.innerHTML != '') multipleAttribute(['#expandCard'], 'style', 'opacity:0.3; pointer-events: none');
+
+    // document.getElementById('bkmodal').setAttribute('style', 'opacity:1; pointer-events: auto');
+    // document.getElementById('modal').setAttribute('style', 'opacity:1; pointer-events: auto');
 
     document.getElementById('modal').innerHTML =
         `
@@ -568,24 +727,31 @@ document.getElementById('buttonAdd').addEventListener('click', () => {
     <hr style="height:1px; border-width:0; color:gray;background-color:gray">
     <p style="margin: 0px 0px 15px 0px;">
 
-        <input type="text" placeholder="Obligatorio" class="ccse modal_input" value="">
-        <label class="cce" > Cuenta:</label>
-        <input type="text" placeholder="Obligatorio" class="ccse modal_input" value="">
-        <label class="cce" > Usuario:</label>
-        <input type="text" placeholder="Obligatorio" class="ccse modal_input" value="">
-        <label class="cce" > Contraseña:</label>
-        <input type="text" placeholder="Opcional" class="ccse modal_input" value="">
-        <label class="cce" > Notas:</label>
-        </p>
+    <input type="text" placeholder="cuenta" class="ccse modal_input" value="">
+    <label class="cce" > Cuenta:</label>
+    <input type="text" placeholder="usuario" class="ccse modal_input" value="">
+    <label class="cce" > Usuario:</label>
+    <input type="text" placeholder="contraseña" class="ccse modal_input" value="">
+    <label class="cce" > Contraseña:</label>
+    <input type="text" placeholder="notas" class="ccse modal_input" value="">
+    <label class="cce" > Notas:</label>
+    </p>
 
     <input type="button" class="modal_btns" value="OK" onClick="buttons_modal('ok')">
     <input type="button" class="modal_btns" value="CANCELAR" onClick="buttons_modal('cancel')">
 
     `;
 
+    // <input type="text" placeholder="Obligatorio" class="ccse modal_input" value="">
+    // <label class="cce" > Cuenta:</label>
+    // <input type="text" placeholder="Obligatorio" class="ccse modal_input" value="">
+    // <label class="cce" > Usuario:</label>
+    // <input type="text" placeholder="Obligatorio" class="ccse modal_input" value="">
+    // <label class="cce" > Contraseña:</label>
+    // <input type="text" placeholder="Opcional" class="ccse modal_input" value="">
+    // <label class="cce" > Notas:</label>
 
-    document.getElementById('buttonEdit').setAttribute('style', 'opacity:0; pointer-events: none');
-    document.getElementById('buttonDelete').setAttribute('style', 'opacity:0; pointer-events: none');
+    multipleAttribute(['#buttonEdit', '#buttonDelete'], 'style', 'opacity:0; pointer-events: none');
     // alertcompare = false;
 });
 
@@ -594,7 +760,6 @@ document.getElementById('buttonAdd').addEventListener('click', () => {
 
 //CHECK/TOGGLE
 checkbox.addEventListener('click', () => {
-    // helpFunction('0', false);
     if (activeTheme[1] == 'dark') {
         document.body.classList.toggle('dark');
         document.body.classList.toggle(activeTheme[0]);

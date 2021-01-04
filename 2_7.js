@@ -3,18 +3,17 @@ var coincidencia = false;
 var txt = [];
 var aTotal = [];
 var newTotal = [];
-var compare = false;
+
+var docB1, docB2, docBpin, userID;
+var comparePersonalData = false;
+// var reload = true; 
 var compareChanges = '';
 
-// var listTemp = [];
-// var compareChanges = localStorage.getItem('L1');
 var newCompareData2 = localStorage.getItem('L1');
-// var acept_changes = '';
 const arrCompareAdd = ['Nuevas'];
 const arrCompareDel = ['Borradas'];
 const arrCompareEdit = ['Editadas'];
-// var docB1 = '';
-// var docB2 = '';
+
 var uCA = [];
 var userRestoreAccount = [];
 var userID = '';
@@ -22,6 +21,7 @@ const coll = '273';
 var alertcompare = true;
 var resetLogin = false;
 var offline = true;
+// var acceptOffline = true;
 var closeAlert = false;
 var helpActivate = false;
 var cuPath = [];
@@ -33,13 +33,6 @@ const icoHide = 'eye-off-outline';
 const icoExp = 'expand-outline';
 const icoCom = 'contract-outline';
 
-
-
-
-// const icoShow = 'albums-outline';
-// const icoHide = 'close-outline';
-// const icoExp = 'eye-outline';
-// const icoCom = 'eye-off-outline';
 
 // // Init components
 const nameLog = document.getElementById('nameLog');
@@ -54,21 +47,13 @@ const buttonCreate = document.getElementById('buttonCreate');
 const showSearch = document.getElementById('show-accounts1');
 const newSearch = document.getElementById('new-s');
 
-const buttonFocus = document.getElementById('buttonFocus');
-const content = document.getElementById('content');
+
 //******************************************* */
 
-
-document.getElementById('title').setAttribute('style', 'margin-left:38px');
-document.getElementById('nameSetting').setAttribute('style', 'pointer-events: none; opacity: 0');
-document.getElementById('buttonEdit').setAttribute('style', 'opacity:0; pointer-events: none');
-document.getElementById('buttonDelete').setAttribute('style', 'opacity:0; pointer-events: none');
-document.getElementById('expandCard').setAttribute('style', 'pointer-events: none; opacity: 0');
-document.getElementById('showCard').setAttribute('style', 'pointer-events: none; opacity: 0');
-document.getElementById('buttonSearch').setAttribute('style', 'pointer-events: none; opacity: 0');
-document.getElementById('buttonAdd').setAttribute('style', 'pointer-events: none; opacity: 0');
-
-setAttributes(document.getElementById('refresher'), { style: 'opacity:0', disabled: true });
+// localStorage.setItem('offline', true);
+document.getElementById('content').setAttribute('style', ' --background:var(--val)');
+document.querySelector('#refresher').setAttribute('disabled', 'true');
+multipleAttribute(['#cardPin', '#nameSetting', '#buttonEdit', '#buttonDelete', '#expandCard', '#showCard', '#buttonSearch', '#buttonAdd', '.button_nav'], 'style', 'pointer-events: none; opacity: 0');
 
 
 
@@ -76,11 +61,13 @@ setAttributes(document.getElementById('refresher'), { style: 'opacity:0', disabl
 var statSearchBar = false;
 newSearch.setAttribute('style', 'opacity:1; margin-top:-60px;');
 
+
+
 // PROGRESS BAR
 const barProgress = document.getElementById('barProgress');
 const barProgress01 = document.createElement('ion-progress-bar');
 setAttributes(barProgress01, { color: 'light', style: 'height:8px' });
-barProgress.setAttribute('style', 'opacity:0');
+barProgress.style.opacity = "0";
 barProgress.appendChild(barProgress01);
 
 
@@ -95,63 +82,54 @@ const barLabel = document.createElement('ion-title');
 
 const barContent = document.createElement('ion-content');
 barMenuPrincipal.appendChild(barContent);
-barMenuPrincipal.setAttribute('disabled', true);
 barLabel.setAttribute('id', 'userName');
 barTitle.setAttribute('lines', 'none');
 
-const barIcon00 = document.createElement('ion-icon'); // ICON
-const barIcon01 = document.createElement('ion-icon'); // ICON
+const barIcon00 = document.createElement('ion-icon');
+const barIcon01 = document.createElement('ion-icon'); // ICONO VACÍO (borrar)
 setAttributes(barIcon00, { button: 'click-btn', name: 'arrow-back-outline', slot: 'start', id: 'barClose' })
+
 
 //BLOCK 01
 barTitle.appendChild(barIcon00);
 barTitle.appendChild(barLabel);
-barTitle.appendChild(barIcon01);
+barTitle.appendChild(barIcon01); // ICONO VACÍO (borrar)
 barToolbar.appendChild(barTitle);
 barHeader.appendChild(barToolbar);
 barMenuPrincipal.appendChild(barHeader);
 
+
+
 item('barExport', 'arrow-up-circle-outline', 'Crear copia de Seguridad')
 item('barImport', 'arrow-down-circle-outline', 'Cargar copia de Seguridad');
 item('barLogout', 'log-out-outline', 'Cerrar Sesión');
+item('barLOG', 'document-text-outline', 'Novedades');
 const ver = document.createElement('ion-item-divider');
-ver.innerHTML = 'Versión 2.7.3';
 barContent.appendChild(ver);
 item('barDelAcc', 'close-outline', 'Eliminar Cuenta', 'danger');
-
-document.querySelector('#verLogin').innerHTML = ver.innerHTML;
+ver.innerHTML = 'Versión 2.7.4';
+document.querySelector('#versionLogin').innerHTML = ver.innerHTML;
 
 //DARK THEME
 const lTheme = localStorage.getItem('theme');
 const checkbox = document.getElementById('checkbox');
 if (lTheme == null || lTheme == 'dark' || lTheme == 'light' || lTheme == '') localStorage.setItem('theme', ['light', '']);
 var activeTheme = localStorage.getItem('theme').split(',');
-if (activeTheme[1] == 'dark') {
-    document.body.classList.toggle(activeTheme[1]);
-    checkbox.checked = true;
-} else {
-    document.body.classList.toggle(activeTheme[0]);
-};
-
+if (activeTheme[1] == 'dark') { checkbox.checked = true; };
+document.body.classList.toggle(activeTheme[(activeTheme[1] == 'dark') ? 1 : 0]);
 
 //LOGIN (eye)
 if (eyePass) {
     eyePass.addEventListener('click', () => {
-        if (eyePass.name == 'eye-off') {
-            eyePass.name = 'eye';
-            passLog.setAttribute('type', 'text');
-        } else {
-            eyePass.name = 'eye-off';
-            passLog.setAttribute('type', 'password');
-        }
+        passLog.setAttribute('type', (eyePass.name == 'eye-off-outline') ? 'password' : 'text');
+        eyePass.name = (eyePass.name == 'eye-off-outline') ? 'eye-outline' : 'eye-off-outline';
     })
 }
 
 
+// document.getElementById('cardPin').setAttribute('style', 'pointer-events: none; opacity: 0');
 
-document.getElementById('cardPin').setAttribute('style', 'pointer-events: none; opacity: 0');
-
-
+emailjs.init('user_EbX2uqx7kGIlimJTNppDy');
 
 firebase.initializeApp({
     apyKey: deco("464E7F66587E465F5C3A6B7A4B4B3D5D387F745A5C69696E466C374E554A74697953585D383868"),
@@ -166,49 +144,57 @@ firebase.initializeApp({
 var db = firebase.firestore();
 
 
+// var initStateL1 = '';
+// var initStateL1 = true;
+// var hideCompare = false;
 
 // ------------------ START ------------------ //
-localStorage.removeItem('alrt');
+// localStorage.removeItem('alrt');
 
 if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
     showLogin.innerHTML = '';
-    disableItem(false);
+
+    // INIT SET   
+    multipleAttribute(['.button_nav', '#buttonAdd', '#nameSetting', '#showCard', '#buttonSearch'], 'style', 'pointer-events: auto; opacity: 1');
+    document.querySelector('#refresher').setAttribute('disabled', 'false');
+    document.querySelector('#content').setAttribute('style', '--background: #ffffff00');
+    statSearchBar = true;
+    newSearch.setAttribute('style', 'opacity:1; margin-top:0px;');
+
     splitInit();
     aTotalTOnewTotal();
 
-    // localStorage.setItem('bp', txt[4]);
+    document.querySelector('#userName').innerHTML = deco(txt[0]);
+    document.querySelector('#nameSettingText').innerHTML = deco(txt[0]).slice(0, 1).toUpperCase();
 
-    // localStorage.setItem('tPin', Date.now());
+    comparePersonalData = false;
 
-    document.getElementById('userName').innerHTML = deco(txt[0]);
-    document.getElementById('nameSettingText').innerHTML = deco(txt[0]).slice(0, 1).toUpperCase();
-    compare = false;
     // alertcompare = true;
 
 
     // PIN;
-    document.getElementById('cardPin').setAttribute('style', 'pointer-events: none; opacity: 0');
-    // if (txt[4] != '') {
-    // if (localStorage.getItem('tPin')) {
     if (txt[4] != '' && localStorage.getItem('tPin')) {
         if (Date.now() - localStorage.getItem('tPin') > timePin) {
-            document.getElementById('cardPin').setAttribute('style', 'opacity: 1');
-            disableItem(true);
-            document.getElementById('title').setAttribute('style', 'margin-left:38px');
-            document.getElementById('buttonAdd').setAttribute('style', 'pointer-events: none; opacity: 0');
-            document.getElementById('nameSetting').setAttribute('style', 'pointer-events: none; opacity: 1');
-            document.getElementById('expandCard').setAttribute('style', 'pointer-events: none; opacity: 0');
-            document.getElementById('showCard').setAttribute('style', 'pointer-events: none; opacity: 0');
-            document.getElementById('buttonSearch').setAttribute('style', 'pointer-events: none; opacity: 0');
-
+            var hideCompare = true;
+            document.querySelector('#cardPin').setAttribute('style', 'opacity: 1');
+            document.querySelector('#refresher').setAttribute('disabled', 'true');
+            document.getElementById('content').setAttribute('style', ' --background:#00000055');
+            multipleAttribute(['#buttonAdd', '#showCard', '#buttonSearch', '.button_nav', '#modal'], 'style', 'pointer-events: none; opacity: 0');
+            document.querySelectorAll('.point_backup')[0].setAttribute('style', 'z-index: 0');
+            newSearch.setAttribute('style', 'margin-top:-60px');
         }
         // }
 
         document.getElementById('pin').addEventListener('ionInput', () => {
+            hideCompare = false;
             if (pin.value == deco(txt[4])) {
                 localStorage.setItem('tPin', Date.now());
                 document.getElementById('cardPin').setAttribute('style', 'pointer-events: none; opacity: 0');
-                disableItem(false);
+                document.querySelector('#refresher').setAttribute('disabled', 'false');
+                document.getElementById('content').setAttribute('style', ' --background:#00000000');
+                multipleAttribute(['#buttonAdd', '#showCard', '#buttonSearch', '.button_nav'], 'style', 'pointer-events: auto; opacity: 1');
+                if (document.getElementById('modal').innerHTML != '') document.getElementById('modal').setAttribute('style', 'pointer-events: auto; opacity: 1');
+                newSearch.setAttribute('style', 'margin-top:0px');
             }
         });
     }
@@ -221,245 +207,117 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
 
         querySnapshot.forEach(doc => {
             offline = false;
-            if (!compare && doc.data().B1.includes(localStorage.getItem('accessTempData'))) {
+            if (!comparePersonalData && doc.data().B1.includes(localStorage.getItem('accessTempData'))) {
+                // if (doc.data().B1.includes(localStorage.getItem('accessTempData'))) {
                 docB1 = doc.data().B1;
                 docB2 = doc.data().B2;
-                // if (docB1 != docB2) document.getElementById('point_backup').setAttribute('style', 'color:red;');
                 docBpin = doc.data().Bpin;
                 userID = doc.id;
-                compare = true;
+                comparePersonalData = true;
+                // reload = false;
                 return;
             }
         });
 
+        if (offline) localStorage.setItem('offline', true);
 
-
-        // var newCompareData2 = localStorage.getItem('L1');
-        compareChanges = localStorage.getItem('L1');
-        // (docB1 == newCompareData2)localStorage.setItem('L1', if (docB1 == newCompareData2) ? compareChanges : newCompareData2);
-
-        updateDB('B1', 'L1');
-
-        splitInit();
-
-        // if (!compare && !offline && localStorage.getItem('bp') != txt[4]) {
-        if (!compare && !offline || localStorage.getItem('bp') != txt[4]) {
-            // if (!compare && !offline) {
-            localStorage.removeItem('bp');
-            localStorage.removeItem('accessTempData')
+        // reinicio cambio de datos personales
+        if (!comparePersonalData && !offline || localStorage.getItem('bp') != txt[4]) {
+            // localStorage.removeItem('bp');
+            // localStorage.removeItem('accessTempData')
+            // o1101
+            localStorage.clear();
+            // / o1101
             localStorage.setItem('L1', 'GDGDGDGD');
             window.location.reload();
         }
 
-        compare = false;
-
+        comparePersonalData = false;
 
         // 
-        // if (offline) localStorage.setItem('offline', 'offlineee'); // PROBAR
+        // if (offline) localStorage.setItem('offline', 'offline'); // PROBAR
         // 
 
+        // hideCompare = false;
 
+        if (docB1 == localStorage.getItem('L1')) {
+            compareChanges = localStorage.getItem('L1');
+        }
+    
+        if (!localStorage.getItem('offline')){
+            updateDB('B1', 'L1');
+            // compareChanges = localStorage.getItem('L1');
+        }
 
+        splitInit();
 
+        // reinicio cambio de datos personales
 
         //POINT BACKUP
         // document.querySelectorAll('.point_backup')[0].setAttribute('style', `z-index: ${(docB1 != docB2) ? '2' : '0'}`);
         document.querySelectorAll('.point_backup')[1].setAttribute('style', `z-index: ${(docB1 != docB2) ? '2' : '0'}`);
+        ;
 
 
+        if (docB1 != compareChanges && !offline) {
 
-        if (docB1 != compareChanges && alertcompare && !offline) {
-            // if (docB1 != compareChanges && alertcompare && !offline && localStorage.getItem('bp') != txt[4]) {
+            // 
+            // localStorage.removeItem('offline'); // PROBAR
+            // 
             showSearch.innerHTML = '';
 
-            // 
-            localStorage.removeItem('offline');
-            // 
-
-
-
-
-
-
-            function alertCompareData() {
-                // console.log(deco(compareChanges));
-                // console.log(deco(newCompareData2));
-
-                alertcompare = false
-                const alert = document.createElement('ion-alert');
-                alert.setAttribute('backdrop-dismiss', 'false');
-                alert.header = 'Se detectaron cambios';
-                alert.message = '¿Aceptar y sincorinizar con la base de datos?';
-                alert.buttons = [
-                    { text: 'Aceptar', handler: () => { updateData('Aceptar', compareChanges) } },
-                    { text: 'Rechazar', handler: () => { updateData('Rechazar', compareChanges) } },
-                    {
-                        text: 'Ver cambios',
-                        handler: () => {
-
-
-                            let txtTemp = [];
-                            let aTotalTemp = [];
-                            let newa = [];
-                            // if (docB1 == newCompareData2) {
-                            //     txtTemp = compareChanges.split('GD');
-                            // } else{
-                            //     txtTemp = newCompareData2.split('GD');
-                            // }
-
-                            txtTemp = (docB1 == newCompareData2) ? compareChanges.split('GD') : newCompareData2.split('GD');;
-
-                            aTotalTemp = txtTemp[3].split(txtTemp[3].includes('Q0') ? 'Q0' : 'BO');
-                            aTotalTemp.splice(-1, 1);
-                            aTotalTemp = aTotalTemp.concat(aTotal);
-                            aTotalTemp.sort();
-                            aTotalTemp.push('');
-
-                            for (i = 0; i < aTotalTemp.length; i++) {
-                                (aTotalTemp[i] == aTotalTemp[i + 1]) ? i++ : newa.push(aTotalTemp[i]);
-                            };
-
-
-                            for (i = 0; i < newa.length - 1; i++) {
-                                const newaName = newa[i].split('OG');
-                                const newaName2 = newa[i + 1].split('OG');
-
-                                if (newaName[0] == newaName2[0]) {
-                                    arrCompareEdit.push(deco(newaName[0]).toUpperCase());
-                                    i++
-                                } else {
-
-                                    (txtTemp[3].includes(newa[i])) ?
-                                        arrCompareDel.push(deco(newaName[0]).toUpperCase()) :
-                                        arrCompareAdd.push(deco(newaName[0]).toUpperCase());
-                                };
-
-                            };
-
-
-                            // let openAdd = 0; openDel = 0; openEdit = 0;
-
-                            document.getElementById('modal').innerHTML = `
-                            <p id="op1" class="cct">Cambios</p>
-                            <hr style="height:1px; border-width:0; color:gray;background-color:gray">
-                            <div class="div_list">
-
-
-                            ${listDetail2(arrCompareAdd, 'Nuevas')}
-                            ${listDrop2(arrCompareAdd)}
-                            ${listDetail2(arrCompareDel, 'Borradas')}
-                            ${listDrop2(arrCompareDel)}
-                            ${listDetail2(arrCompareEdit, 'Editadas')}
-                            ${listDrop2(arrCompareEdit)}
-
-
-                            </div>
-
-                            <input type="button" class="modal_btns" value="CONFIRMAR" onClick="buttons_modal('aceptar')">
-                            <input type="button" class="modal_btns" value="RECHAZAR" onClick="buttons_modal('rechazar')">
-                            `
-                                ;
-
-                            document.getElementById('bkmodal').setAttribute('style', 'opacity:0.3; pointer-events: none');
-                            document.getElementById('modal').setAttribute('style', 'opacity:1; pointer-events: auto');
-
-                            // document.getElementById('modal').innerHTML = `
-                            // <p id="op1" class="cct">Cambios</p>
-                            // <hr style="height:1px; border-width:0; color:gray;background-color:gray">
-                            // <p style="margin: 0px 0px 0px 0px;">
-
-                            // ${listDetail(arrCompareAdd, 'Nuevas', 'dropAddButton')}
-                            // ${listDetail(arrCompareDel, 'Borradas', 'dropDelButton')}
-                            // ${listDetail(arrCompareEdit, 'Editadas', 'dropEditButton')}
-
-                            // <input type="button" class="modal_btns" value="ACEPTAR" onClick="buttons_modal('aceptar')">
-                            // <input type="button" class="modal_btns" value="RECHAZAR" onClick="buttons_modal('rechazar')">
-                            // </p>
-                            // `;
-
-
-                            // document.getElementById('bkmodal').setAttribute('style', 'opacity:0.3; pointer-events: none');
-                            // document.getElementById('modal').setAttribute('style', 'opacity:1; pointer-events: auto');
-                            // document.querySelector('.dropdown-content').setAttribute('style', 'display: none');
-
-                            // const dropAddButton = document.querySelector('#dropAddButton');
-                            // const dropDelButton = document.querySelector('#dropDelButton');
-                            // const dropEditButton = document.querySelector('#dropEditButton');
-
-                            // if (arrCompareAdd.length != 1) {
-                            //     dropAddButton.addEventListener('click', () => {
-                            //         openDel = 0, openEdit = 0, openAdd++
-
-                            //         if (openAdd < 2) {
-                            //             listDrop(arrCompareAdd);
-                            //             document.querySelector('.dropdown-content').setAttribute('style', 'display: block;');
-                            //             if (dropAddButton) dropAddButton.setAttribute('style', 'background-color: var(--ion-border-color)');
-                            //             if (dropDelButton) dropDelButton.setAttribute('style', 'background-color: var(--ion-color-primary)');
-                            //             if (dropEditButton) dropEditButton.setAttribute('style', 'background-color: var(--ion-color-primary)');
-                            //         }
-                            //         else {
-                            //             openAdd = 0;
-                            //             document.querySelector('.dropdown-content').setAttribute('style', 'display: none');
-                            //             dropAddButton.setAttribute('style', 'background-color: var(--ion-color-primary)');
-                            //         }
-                            //     });
-                            // }
-
-                            // if (arrCompareDel.length != 1) {
-                            //     dropDelButton.addEventListener('click', () => {
-                            //         openDel++, openEdit = 0, openAdd = 0;
-
-                            //         if (openDel < 2) {
-                            //             listDrop(arrCompareDel);
-                            //             document.querySelector('.dropdown-content').setAttribute('style', 'display: block;');
-                            //             if (dropAddButton) dropAddButton.setAttribute('style', 'background-color: var(--ion-color-primary)');
-                            //             if (dropDelButton) dropDelButton.setAttribute('style', 'background-color: var(--ion-border-color)');
-                            //             if (dropEditButton) dropEditButton.setAttribute('style', 'background-color: var(--ion-color-primary)');
-                            //         }
-                            //         else {
-                            //             openDel = 0;
-                            //             document.querySelector('.dropdown-content').setAttribute('style', 'display: none');
-                            //             dropDelButton.setAttribute('style', 'background-color: var(--ion-color-primary)');
-                            //         }
-                            //     });
-                            // }
-
-                            // if (arrCompareEdit.length != 1) {
-                            //     dropEditButton.addEventListener('click', () => {
-                            //         openDel = 0, openEdit++, openAdd = 0;
-
-                            //         if (openEdit < 2) {
-                            //             listDrop(arrCompareEdit);
-                            //             document.querySelector('.dropdown-content').setAttribute('style', 'display: block;');
-                            //             if (dropAddButton) dropAddButton.setAttribute('style', 'background-color: var(--ion-color-primary)');
-                            //             if (dropDelButton) dropDelButton.setAttribute('style', 'background-color: var(--ion-color-primary)');
-                            //             if (dropEditButton) dropEditButton.setAttribute('style', 'background-color: var(--ion-border-color)');
-
-                            //         }
-                            //         else {
-                            //             openEdit = 0;
-                            //             document.querySelector('.dropdown-content').setAttribute('style', 'display: none');
-                            //             dropEditButton.setAttribute('style', 'background-color: var(--ion-color-primary)');
-                            //         }
-                            //     });
-                            // }
-
-
-
-
-                        },
-                    },
-                ];
-                document.body.appendChild(alert);
-                return alert.present();
+            // MODAL-CHANGES
+            if (!hideCompare) {
+                document.getElementById('bkmodal').setAttribute('style', 'opacity:1; pointer-events: none');
+                document.getElementById('modal').setAttribute('style', 'opacity:1; pointer-events: auto');
             }
-            alertCompareData();
+            // b6003
+            if (localStorage.getItem('offline')) {
+                document.getElementById('modal').innerHTML =
+                    `
+                <p class="cct" ;">Se detectaron cambios</p>
+                <p class="ccse" style="margin: 10px 0px 20px 0px;">¿Aplicar cambios hechos sin internet?</p>
+    
+                <input type="button" class="modal_btns" style="margin-left:100%" value="Usar datos de celular (Sin internet)" onClick="buttons_modal('rechazar')">   
+                <input type="button" class="modal_btns" style="margin-left:100%" value="Usar base de datos (internet)" onClick="buttons_modal('aceptar')" >
+                `;
+                // /b6003
+
+            } else {
+
+                document.getElementById('modal').innerHTML =
+                    `
+                <p class="cct" ;">Se detectaron cambios</p>
+                <p class="ccse" style="margin: 10px 0px 20px 0px;">¿Aceptar y sincronizar datos?</p>
+    
+                <input type="button" class="modal_btns" style="margin-left:100%" value="ACEPTAR" onClick="buttons_modal('aceptar')" >
+                <input type="button" class="modal_btns" style="margin-left:100%" value="RECHAZAR" onClick="buttons_modal('rechazar')">
+                <input type="button" class="modal_btns" style="margin-left:100%" value="VER CAMBIOS" onClick="buttons_modal('verCambios')">
+    
+                `;
+            }
+
+        }
+
+
+
+        else {
+            // initStateL1 = true;
+            // document.getElementById('modal').innerHTML = '';
+            // console.log('No comparación');
+            // if (offline) acceptOffline = false;
+
+            // document.getElementById('bkmodal').setAttribute('style', 'opacity:0; pointer-events: none');
+            // document.getElementById('modal').setAttribute('style', 'opacity:0; pointer-events: none');
+            multipleAttribute(['#bkmodal', '#modal'], 'style', 'opacity:0; pointer-events: none')
         }
     })
 
 } else {
     localStorage.setItem('L1', 'GDGDGDGD');
 };
+
+
 
 
 
