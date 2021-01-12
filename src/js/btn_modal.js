@@ -2,6 +2,7 @@
 const timeUndo = 2500;
 
 function buttonModalCancel() {
+    // multipleAttribute(['#bkmodal', '#modal'], 'style', 'opacity:0; pointer-events: none');
     multipleAttribute(['#bkmodal', '#modal', '#buttonEdit', '#buttonDelete'], 'style', 'opacity:0; pointer-events: none');
     multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch', '#buttonAdd'], 'style', 'opacity:1; pointer-events: auto');
     if (showSearch.innerHTML != '') multipleAttribute(['#expandCard'], 'style', 'opacity:1; pointer-events: auto');
@@ -19,7 +20,7 @@ function buttonModalAdd() {
         document.querySelectorAll('.modal_input')[2].value,
         document.querySelectorAll('.modal_input')[3].value,
     ];
-
+    // alertAdd2(modalVal);
     if (modalVal[0] == '' || modalVal[1] == '' || modalVal[2] == '') {
         barProgressF('warning', 'determinate');
         alertMsg('Error', 'Campos obligatorios vacíos.');
@@ -82,7 +83,7 @@ function buttonModalEdit() {
         document.querySelectorAll('.modal_input')[2].value,
         document.querySelectorAll('.modal_input')[3].value,
     ];
-
+    // alertEdit2(modalVal, reemplace);
     const toRemplace = reemplace / 5;
     if (modalVal[0] == '' || modalVal[1] == '' || modalVal[2] == '') {
         alertMsg('Error', 'Campos obligatorios vacíos.');
@@ -140,6 +141,8 @@ function buttonModalEdit() {
         }
     }, timeUndo);
     return;
+    // closeAlert = false;
+
 }
 
 
@@ -213,6 +216,8 @@ function buttonModalChanges(text, toast = true) {
     setTimeout(() => { window.location.reload() }, 1000);
 }
 
+
+// prox buttonModalSetChanges() ver y escoger cambios;
 function buttonModalSetChanges() {
 
     let txtTemp = (docB1 == newCompareData2) ? compareChanges.split('GD') : newCompareData2.split('GD');;
@@ -244,6 +249,7 @@ function buttonModalSetChanges() {
         };
     };
 
+    //parche b5002
     if (arrCompareAdd == '' && arrCompareEdit == '' && arrCompareDel == '') {
         return
     } else {
@@ -289,3 +295,75 @@ function buttonModalAccount() {
         presentAlertConfirmEdit(modalVal);
     }
 }
+
+// function buttons_modal(func) {
+
+    // if (func == 'ok') {
+    //     let modalVal = [
+    //         document.querySelectorAll('.modal_input')[0].value,
+    //         document.querySelectorAll('.modal_input')[1].value,
+    //         document.querySelectorAll('.modal_input')[2].value,
+    //         document.querySelectorAll('.modal_input')[3].value,
+    //     ];
+    //     if (document.getElementById('op1').innerHTML == 'Editar cuenta') { alertEdit2(modalVal, reemplace); }
+    //     else if (document.getElementById('op1').innerHTML == 'Agregar cuenta') { alertAdd2(modalVal); }
+
+    // }
+
+
+
+    // else if (func === 'aceptar') { updateData('Aceptar', compareChanges); }
+
+    // else if (func === 'rechazar') { updateData('Rechazar', compareChanges); }
+
+    // if (func == 'aceptar_offline') {
+    // updateData('Aceptar', compareChanges);
+    // localStorage.removeItem('offline');
+    // };
+
+    // if (func == 'rechazar_offline') {
+    // updateData('Rechazar', compareChanges);
+    // localStorage.removeItem('offline');
+    // };
+    // 
+    // if (func === 'verCambios') {}
+
+
+    // if (func != 'verCambios') { //CANCELAR
+    //     multipleAttribute(['#bkmodal', '#modal'], 'style', 'opacity:0; pointer-events: none');
+    //     multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch', '#buttonAdd'], 'style', 'opacity:1; pointer-events: auto');
+    //     if (showSearch.innerHTML != '') multipleAttribute(['#expandCard'], 'style', 'opacity:1; pointer-events: auto');
+    // }
+
+
+
+    // if (func == 'ok_datosDeUsuario') {
+    //     let modalVal = [
+    //         document.querySelectorAll('.modal_input')[0].value,
+    //         document.querySelectorAll('.modal_input')[1].value,
+    //         document.querySelectorAll('.modal_input')[2].value,
+    //         document.querySelectorAll('.modal_input')[3].value,
+    //     ];
+
+    //     if (modalVal[1] == '' || modalVal[2] == '') {
+    //         barProgressF('danger', 'determinate');
+    //         alertMsg('Error', 'Datos vacíos.');
+    //         setTimeout(() => { barProgressF('light', 'determinate'); }, 1500);
+    //         return;
+    //     }
+
+    //     if (modalVal[0] == deco(txt[0]) && modalVal[1] == deco(txt[1]) && modalVal[2] == deco(txt[2]) && modalVal[3] == deco(txt[4])) {
+    //         //return;
+    //     } else {
+    //         presentAlertConfirmEdit(modalVal);
+    //     }
+    // }
+
+    // if (func == 'cancel_datosDeUsuario') {
+
+    //     multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch', '#buttonAdd'], 'style', 'opacity:0; pointer-events: auto');
+    // }
+
+
+
+// }

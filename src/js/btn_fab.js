@@ -1,8 +1,19 @@
 
+//FAB TEST
+// document.getElementById('buttonTest').addEventListener('click', () => {
+// });
+
+
+//FAB
+
 document.getElementById('buttonEdit').addEventListener('click', () => {
+
     multipleAttribute(['#buttonEdit', '#buttonDelete'], 'style', 'opacity:0; pointer-events: none');
+
     multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch', '#buttonAdd'], 'style', 'opacity:0.3; pointer-events: none');
+    // AUTOEXPAND
     if (showSearch.innerHTML != '') multipleAttribute(['#expandCard'], 'style', 'opacity:0.3; pointer-events: none');
+
 
     document.getElementById('modal').innerHTML =
         `
@@ -23,31 +34,49 @@ document.getElementById('buttonEdit').addEventListener('click', () => {
     <input type="button" class="modal_btns" value="CANCELAR" onClick="buttonModalCancel()">
     
     `;
+    // <input type="text" placeholder="Opcional" class="ccse modal_input" value="${cuPath[3]}">
+    // <label class="cce" > Notas: </label>
 });
 
 document.getElementById('buttonDelete').addEventListener('keyup', () => {
 
+    // F0602
     multipleAttribute(['#bkmodal', '#modal', '#buttonEdit', '#buttonDelete'], 'style', 'opacity:0; pointer-events: none');
     multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch', '#buttonAdd'], 'style', 'opacity:1; pointer-events: auto');
     if (showSearch.innerHTML != '') {
         multipleAttribute(['#expandCard'], 'style', 'opacity:1; pointer-events: auto');
     }
+    // F0602
 
     const alert = document.createElement('ion-alert');
     alert.message = `¿Eliminar "${cuPath[0]}"?`;
     alert.buttons = [
-        {   text: 'cancelar', role: 'cancel' },
+        {
+            // F0602
+            text: 'cancelar', role: 'cancel'
+            // handler: () => {
+            // AUTOEXPAND
+            // multipleAttribute(['#nameSetting', '#expandCard', '#showCard', '#buttonSearch'], 'style', 'opacity:1; pointer-events: auto');
+            // multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch'], 'style', 'opacity:1; pointer-events: auto');
+            // }
+            // F0602
+        },
         {
             text: 'ok',
             handler: () => {
                 aTotal.splice(reemplace / 5, 1);
                 aTotalTOnewTotal();
+
                 multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch', '#buttonAdd'], 'style', 'opacity:1; pointer-events: auto');
+                // AUTOEXPAND
                 if (showSearch.innerHTML != '') expandCard.setAttribute('style', 'opacity:1; pointer-events: auto');
 
                 if (newSearch.value == '') {
+
+                    // refreshData();
                     showSearch.innerHTML = '';
                     showIcon.setAttribute('name', icoHide);
+                    // AUTOEXPAND
                     expandCard.setAttribute('style', 'opacity:1; pointer-events: auto');
                     for (i = 0; i < newTotal.length; i += 5) {
                         showCardAll(newTotal[i].toUpperCase(), newTotal[i + 1], newTotal[i + 2], newTotal[i + 3]);
@@ -61,17 +90,37 @@ document.getElementById('buttonDelete').addEventListener('keyup', () => {
                 save();
                 presentToast(`"${cuPath[0]}" eliminado.`, '800', 'danger');
                 updateDB('L1', 'B1');
+                // multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch', '#buttonAdd'], 'style', 'opacity:1; pointer-events: auto');
+                // if (showSearch.innerHTML != '') expandCard.setAttribute('style', 'opacity:1; pointer-events: auto');
                 closeAlert = false;
+
+                // multipleAttribute(['#nameSetting','#expandCard', '#showCard', '#buttonSearch'], 'style', 'opacity:1; pointer-events: auto');
 
             },
         },
     ];
+
+    // multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch', '#buttonAdd'], 'style', 'opacity:1; pointer-events: auto');
+    // if (showSearch.innerHTML != '') {
+    //     multipleAttribute(['#expandCard'], 'style', 'opacity:1; pointer-events: auto');
+    // }
+
+    // } else {
+    //     document.getElementById('showIcon').setAttribute('name', icoShow);
+    //     newSearch.setAttribute('style', 'margin-top:0px');
+    //     // multipleAttribute(['#new-s'], 'style', 'opacity:1; margin-top:0px');
+    //     newSearch.setFocus();
+    //     statSearchBar = true;
+    //     testExpand = true;
+    //     newSearch.value = '';
+    // }
 
     document.body.appendChild(alert);
     return alert.present();
 });
 
 document.getElementById('buttonDelete').addEventListener('click', () => {
+    // barProgressF('danger', 'indeterminate');
     multipleAttribute(['#bkmodal', '#modal'], 'style', 'opacity:1; pointer-events: auto');
     multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch', '#buttonAdd'], 'style', 'opacity:0.3; pointer-events: none');
     if (showSearch.innerHTML != '') multipleAttribute(['#expandCard'], 'style', 'opacity:0.3; pointer-events: none');
@@ -87,6 +136,7 @@ document.getElementById('buttonDelete').addEventListener('click', () => {
     `;
 
     multipleAttribute(['#buttonEdit', '#buttonDelete'], 'style', 'opacity:0; pointer-events: none');
+    // alertcompare = false;
 });
 
 document.getElementById('expandCard').addEventListener('click', () => {
@@ -158,6 +208,9 @@ document.getElementById('buttonAdd').addEventListener('click', () => {
     <input type="button" class="modal_btns" value="CANCELAR" onClick="buttonModalCancel()">
     
     `;
+
+    // multipleAttribute(['#buttonEdit', '#buttonDelete'], 'style', 'opacity:0; pointer-events: none');
+    // alertcompare = false;
 });
 
 

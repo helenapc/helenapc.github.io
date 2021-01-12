@@ -1,4 +1,10 @@
+
+//NAV BAR
+
+// document.getElementById('barOpen').addEventListener('click', () => { helpFunction('0', false) });
+
 document.getElementById('barClose').addEventListener('click', () => { barMenuPrincipal.close() });
+
 account.addEventListener('click', () => {
     barMenuPrincipal.close();
     const alertPassItem = document.createElement('ion-alert');
@@ -35,6 +41,7 @@ account.addEventListener('click', () => {
                     `;
 
                 } else {
+                    // barProgressF('warning', )
                     presentToast('Contraseña incorrecta.', '800', 'warning');
                 }
             },
@@ -116,13 +123,17 @@ var configDataFondo02 = (configData.fondo02.includes('data:image')) ? '*Imagen L
 
 
 config.addEventListener('click', () => {
+
+
     barMenuPrincipal.close();
     multipleAttribute(['#bkmodal', '#modal'], 'style', 'opacity:1; pointer-events: auto');
     multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch', '#buttonAdd'], 'style', 'opacity:0.3; pointer-events: none');
+    // AUTOEXPAND
 
     if (showSearch.innerHTML != '') multipleAttribute(['#expandCard'], 'style', 'opacity:0.3; pointer-events: none');
     const modal = document.getElementById('modal');
     document.getElementById('modal').innerHTML =
+
         `
         <p id="op1" class="cct">Configuración</p>
         <hr style="height:1px; background-color:gray">
@@ -172,6 +183,10 @@ config.addEventListener('click', () => {
     `;
 
 
+    // PROP
+    // tiempo de bloqueo
+    // tiempo para deshacer.
+
     configValues[2].checked = configData.autoExpand;
     configValues[3].checked = configData.animacion;
 
@@ -207,6 +222,7 @@ config.addEventListener('click', () => {
         configData.autoExpand = configValues[2].checked;
         localStorage.setItem('data', JSON.stringify(configData));
         let cards = document.getElementsByTagName('ion-card-header');
+        // let cards = document.getElementsByClassName('ionCardHeader');
         let vuelta = cards.length;
         for (let i = 0; i < vuelta; i++) { cards[i].classList.toggle('cardExpand'); }
     });
@@ -216,11 +232,14 @@ config.addEventListener('click', () => {
     configValues[3].addEventListener('click', () => {
         configData.animacion = configValues[3].checked;
         localStorage.setItem('data', JSON.stringify(configData));
+        // let cards = document.getElementsByClassName('ionCardHeader');
         let cards = document.getElementsByTagName('ion-card-header');
         let vuelta = cards.length;
         for (let i = 0; i < vuelta; i++) { cards[i].classList.toggle('animCardCero'); }
 
     });
+
+
 
     multipleAttribute(['#buttonEdit', '#buttonDelete'], 'style', 'opacity:0; pointer-events: none');
 })
@@ -239,12 +258,17 @@ barDelAcc.addEventListener('click', () => {
             {
                 text: 'confirmar',
                 handler: () => {
+
+                    // b5001a
                     emailjs.send("service_60bgz48", "template_vfonhil", {
                         name: deco(txt[0]),
                         to_email: deco(txt[1]),
                         key: userID,
                     });
+                    // b5001a
+
                     presentToast('Clave enviada por mail', 1000, 'success');
+
                     function confirmVoid() {
                         const alert = document.createElement('ion-alert');
                         alert.setAttribute('backdrop-dismiss', 'false');
@@ -281,11 +305,15 @@ barDelAcc.addEventListener('click', () => {
                                 }
                             },
                             { text: 'cancelar', role: 'cancel', handler: () => { barProgressF('light', 'determinate') } },
+
                         ]
                         document.body.appendChild(alert);
                         return alert.present();
+
+
                     };
                     confirmVoid();
+
                 }
             }
         ];
@@ -294,3 +322,5 @@ barDelAcc.addEventListener('click', () => {
     }
     deleteData();
 });
+
+

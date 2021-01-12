@@ -1,11 +1,24 @@
-document.getElementById('bkmodal').addEventListener('click', () => { buttonModalCancel() });
+// Version 2.7.3 => 2.7.4
+
+// NEW MODAL
+
+document.getElementById('bkmodal').addEventListener('click', () => {
+    // multipleAttribute(['#bkmodal', '#modal', '#buttonEdit', '#buttonDelete'], 'style', 'opacity:0; pointer-events: none');
+    // multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch', '#buttonAdd'], 'style', 'opacity:1; pointer-events: auto');
+    // if (showSearch.innerHTML != '') multipleAttribute(['#expandCard'], 'style', 'opacity:1; pointer-events: auto');
+    // let ccse = document.querySelectorAll('.ccse');
+    // for (let i = 0; i < ccse.length; i++) { ccse[i].setAttribute('style', 'user-select:none;'); }
+    buttonModalCancel();
+})
 
 
 
 //home
 buttonLogin.addEventListener('click', () => {
     barProgressF('success', 'indeterminate');
+
     localStorage.setItem('accessTempData', code(nameLog.value) + 'GD' + code(passLog.value) + 'GD');
+    // console.log(localStorage.getItem('accessTempData'));
 
     db.collection(coll).onSnapshot(querySnapshot => {
         querySnapshot.forEach(doc => {
@@ -25,14 +38,25 @@ buttonLogin.addEventListener('click', () => {
                     splitInit();
                     aTotalTOnewTotal();
                     localStorage.setItem('accessTempData', txt[0] + 'GD' + code(nameLog.value) + 'GD' + code(passLog.value) + 'GD'); //TEST
+                    // console.log(localStorage.getItem('accessTempData'));
                     localStorage.setItem('bp', txt[4]); //FIX?
                     document.getElementById('userName').innerHTML = deco(txt[0]);
                     multipleAttribute(['.button_nav', '#buttonAdd', '#nameSetting', '#showCard', '#buttonSearch'], 'style', 'pointer-events: auto; opacity: 1');
                     window.location.reload();
                 }
 
+                // restore pass
+
+                // console.log(docB1);
+                // console.log(docB2);
+
+
+
                 if (code(nameLog.value) == userRestoreAccount[1] && passLog.value == docB3) {
                     coincidencia = true;
+
+                    // console.log(docB1);
+                    // console.log(userID);
 
                     const alert = document.createElement('ion-alert');
                     alert.subHeader = 'Restablecer contraseña';
@@ -46,12 +70,20 @@ buttonLogin.addEventListener('click', () => {
                             text: 'Ok',
                             handler: usRData => {
 
+
                                 if (usRData.pass01 == '' || usRData.pass02 == '' || usRData.pass01 != usRData.pass02) {
                                     alertMsg('Error', 'Datos incorrectos o vacíos.');
                                     window.location.reload();
                                     return;
                                 }
 
+                                // localStorage.setItem('L1', userRestoreAccount[0] + 'GD' + userRestoreAccount[1] + 'GD' + code(usRData.pass01) + 'GD' + userRestoreAccount[3]);
+                                // localStorage.setItem('accessTempData', txt[0] + 'GD' + userRestoreAccount[1] + 'GD' + code(passLog.value) + 'GD'); //TEST
+
+                                // coincidencia = true;
+
+
+                                //b9002
                                 localStorage.setItem('tPin', Date.now());
                                 txt[0] = (userRestoreAccount[0] == '') ? '25' : userRestoreAccount[0]
                                 txt[1] = userRestoreAccount[1];
@@ -65,10 +97,18 @@ buttonLogin.addEventListener('click', () => {
                                 localStorage.setItem('bp', txt[4]);
                                 localStorage.setItem('tPin', Date.now());
 
+                                // save();
                                 localStorage.setItem('L1', `${txt[0]}GD${txt[1]}GD${txt[2]}GD${txt[3]}GD${txt[4]}`);
                                 updateDB('L1', 'B1');
                                 updateDB('L1', 'B2');
                                 comparePersonalData = false;
+                                // /b9002
+
+                                // alertcompare = false;
+                                // PROBAR
+                                // splitInit();
+                                // aTotalTOnewTotal();
+
 
                                 db.collection(coll).doc(userID).update({
                                     B3: firebase.firestore.FieldValue.delete()
@@ -83,8 +123,10 @@ buttonLogin.addEventListener('click', () => {
                     ];
                     document.body.appendChild(alert);
                     return alert.present();
+
                 }
             };
+
         });
         barProgressF('light', 'determinate');
         if (coincidencia) {
@@ -94,7 +136,10 @@ buttonLogin.addEventListener('click', () => {
             alertMsg('Error', 'Datos incorrectos o vacíos.');
             setTimeout(() => { barProgressF('light', 'determinate'); }, 1500);
         }
+
     });
+
+
 });
 
 buttonCreate.addEventListener('click', () => {
@@ -157,7 +202,9 @@ buttonCreate.addEventListener('click', () => {
                                     splitInit();
                                     aTotalTOnewTotal();
                                     document.getElementById('userName').innerHTML = deco(txt[0]);
+                                    // disableItem(false);
                                     multipleAttribute(['.button_nav', '#buttonAdd', '#nameSetting', '#showCard', '#buttonSearch', '#refresher'], 'style', 'pointer-events: auto; opacity: 1');
+                                    // document.getElementById('content').setAttribute('style', '--background: #ffffff00');
                                     barProgressF('light', 'determinate');
                                     window.location.reload();
                                 })
@@ -169,6 +216,7 @@ buttonCreate.addEventListener('click', () => {
                 }
             },
         ];
+
         document.body.appendChild(alert);
         return alert.present();
     }
@@ -176,11 +224,16 @@ buttonCreate.addEventListener('click', () => {
     return;
 });
 
+
+//CONTENT
 newSearch.addEventListener('ionInput', () => { refreshData() });
 
+
 showSearch.addEventListener('click', e => {  //editCard
+
     e.preventDefault();
     var xPath = 3;
+    // var cuPath = [];
 
     if (e.path[xPath].localName == 'ion-row') return;
     if (e.path[xPath].innerText == undefined) xPath = 0;
@@ -200,7 +253,9 @@ showSearch.addEventListener('click', e => {  //editCard
             cuPath[2] == newTotal[i + 2] &&
             cuPath[3] == newTotal[i + 3]
         ) {
+            // const reemplace = i
             reemplace = i
+
             document.getElementById('modal').innerHTML =
                 `
             <p id="op1" class="cct" style="text-align: center">${cuPath[0]}</p>
@@ -215,14 +270,22 @@ showSearch.addEventListener('click', e => {  //editCard
             </p>
             `;
 
+
+
+            // document.getElementById('bkmodal').setAttribute('style', 'opacity:0.3; pointer-events: auto');
             multipleAttribute(['#bkmodal', '#modal', '#buttonEdit', '#buttonDelete'], 'style', 'opacity:1; pointer-events: auto');
+            // AUTOEXPAND
             multipleAttribute(['#nameSetting', '#expandCard', '#showCard', '#buttonSearch'], 'style', 'opacity:0.3; pointer-events: none');
+            // multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch'], 'style', 'opacity:0.3; pointer-events: none');
+
 
             document.querySelectorAll('.ccse')[0].setAttribute('style', 'user-select:all;');
             document.querySelectorAll('.ccse')[1].setAttribute('style', 'user-select:all;');
             document.querySelectorAll('.ccse')[2].setAttribute('style', 'user-select:all;');
+
         }
     }
+
 });
 
 document.getElementById('refresher').addEventListener('ionRefresh', () => {
@@ -236,6 +299,7 @@ document.getElementById('refresher').addEventListener('ionRefresh', () => {
 
 //CHECK/TOGGLE
 checkbox.addEventListener('click', () => {
+    // console.log('chkr');
     if (activeTheme[1] == 'dark') {
         document.body.classList.toggle('dark');
         document.body.classList.toggle(activeTheme[0]);
@@ -247,10 +311,65 @@ checkbox.addEventListener('click', () => {
     }
     localStorage.setItem('theme', activeTheme);
 
+
+    // let cargarTema1 = document.getElementsByClassName('light');
+    // let cargarTema2 = document.getElementsByClassName('dark');
+
+    // console.log(cargarTema1);
+    // console.log(cargarTema1[0].classList[0]);
+
+    // if (cargarTema1[0]) {
+    //     if (cargarTema1[0].classList[0] == 'light') {
+    //         // backgroundBody.setAttribute()
+    //         // console.log('adentro');
+    //         if (configData.fondo01 == '') {
+    //            cargarTema1[0].setAttribute('style', `background: url('src/img/bg1.jpg') no-repeat 52% center/cover;`);
+    //         } else {
+    //            cargarTema1[0].setAttribute('style', `background: url('${configData.fondo01}') no-repeat 50% center/cover`);
+    //         }
+    //     }
+    // }
+    // else if (cargarTema2[0].classList[0] == 'dark') {
+    //     // backgroundBody.setAttribute()
+    //     // console.log('adentro');
+    //     if (configData.fondo02 == '') {
+    //         cargarTema2[0].setAttribute('style', `background: url('src/img/bg2.jpg') no-repeat 52% center/cover;`);
+    //     } else {
+    //         cargarTema2[0].setAttribute('style', `background: url('${configData.fondo02}')no-repeat 50% center/cover;`);
+    //     }
+    // }
+
+    // if (cargarTema1[0]) {
     if (cargarTema1[0] && cargarTema1[0].classList[0] == 'light') {
         cargarTema1[0].setAttribute('style', `background: url('${(configData.fondo01 == '') ? 'src/img/bg1.jpg' : configData.fondo01} ') no-repeat 50% center/cover`);
     }
     else if (cargarTema2[0] && cargarTema2[0].classList[0] == 'dark') {
         cargarTema2[0].setAttribute('style', `background: url('${(configData.fondo02 == '') ? 'src/img/bg2.jpg' : configData.fondo02} ') no-repeat 50% center/cover`);
     }
+
 });
+
+
+
+
+
+// var configData = JSON.parse(localStorage.getItem('data'));
+
+// if (activeTheme[1] == 'light') {
+//     checkbox.checked = false;
+//     if (configData.fondo01 == ''){
+//         document.body.style.background = `url('src/img/bg1.jpg') no-repeat 52% center/cover;`;
+//     }else{
+//         document.body.style.background = `url('${configValues[1].value}') no-repeat 52% center/cover;`;
+//     }
+
+// }else{
+//     checkbox.checked = true;
+//     if (configData.fondo02 == ''){
+//         document.body.style.background = `url('src/img/bg2.jpg') no-repeat 52% center/cover;`;
+//     }else{
+//         document.body.style.background = `url('${configValues[2].value}') no-repeat 52% center/cover;`;
+//     }
+// };
+
+

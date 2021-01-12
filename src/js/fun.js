@@ -25,14 +25,25 @@ const showCardAll = (account, user, pass, notes) => {
     newSub3.textContent = 'Contraseña: ' + pass;
     newSub4.textContent = 'Notas: ' + `${notes}`;
 
+
     newSub1.setAttribute('class', 'cardTitle');
+
 
     newHeader.appendChild(newSub1);
     newHeader.appendChild(newSub2);
     newHeader.appendChild(newSub3);
     newHeader.appendChild(newSub4);
+
     ionCard.appendChild(newHeader);
     showSearch.appendChild(ionCard);
+
+    // ScrollReveal().reveal('ion-card');
+    // ScrollReveal().reveal('ion-card', {
+    //     delay: 0,
+    //     duration: 0,
+    //     reset: false
+    // });
+
 };
 
 const itemPers = (id, ico, text, button = true, color = '', show = true) => {
@@ -67,7 +78,9 @@ const itemPers = (id, ico, text, button = true, color = '', show = true) => {
 //######################## FUNCIONES ########################
 
 function multipleAttribute(idElements, style, attribute) {
+    // for (let idElement of idElements) document.getElementById(idElement).setAttribute(style, attribute);
     for (let idElement of idElements) document.querySelector(idElement).setAttribute(style, attribute);
+
 }
 
 function setAttributes(elem, obj) {
@@ -76,6 +89,7 @@ function setAttributes(elem, obj) {
     }
 }
 
+//
 function delete_spaces(v1) {
     if (v1) {
         v1 = v1.split("");
@@ -99,16 +113,37 @@ function delete_spaces(v1) {
     return v1;
 };
 
+function delete_spaces2(texto, type = 'data') {
+    if (texto) {
+        texto = (texto) ? texto.split(" ").join("") : "";
+        if (type === 'nota') {
+            texto = texto.split("");
+            texto = texto.map(function (letra) {
+                return (letra === '.') ? letra + ' ' : letra;
+            })
+            texto = texto.join("");
+        }
+    } else {
+        texto = "";
+    }
+    return texto;
+};
+
+
 function barProgressF(color, state) {
     setAttributes(barProgress01, { color: color, type: state, value: '100' });
     barProgress.setAttribute('style', `opacity: ${(color == 'light' && state == 'determinate') ? 0 : 1}`);
 };
 
+
 function refreshData(toast = true, refresh = true) {
     aTotal.sort(); // borrar?
-    let contador = 0;
 
+    let contador = 0;
     const newTotalLength = newTotal.length;
+    // const newSearchValue = newSearch.value;
+
+    // ACTIVAR
     if (refresh) showSearch.innerHTML = '';
 
     if (newSearch.value == '') {
@@ -159,7 +194,16 @@ function alertMsgReset(msg1, msg2) {
     return alert.present();
 }
 
-function presentToast(msg, time, clase, btn = false) {
+function presentToast2(msg, time, color) {
+    const toast = document.createElement('ion-toast');
+    toast.setAttribute('color', color);
+    toast.message = msg;
+    toast.duration = time;
+    document.body.appendChild(toast);
+    return toast.present();
+}
+
+function presentToastB(msg, time, clase, btn = false) {
     const toast = document.createElement('ion-toast');
     toast.cssClass = clase;
     toast.message = msg;
@@ -169,6 +213,28 @@ function presentToast(msg, time, clase, btn = false) {
             {
                 side: 'end',
                 text: 'Deshacer',
+                handler: () => {
+                    btnToast = false;
+                    refreshData(false);
+                    presentToast(`Deshaciendo cambios`, 2000, 'black');
+                }
+            }
+        ];
+    }
+    document.body.appendChild(toast);
+    return toast.present();
+}
+
+function presentToast(msg, time, clase, btn = false,) {
+    const toast = document.createElement('ion-toast');
+    toast.cssClass = clase;
+    toast.message = msg;
+    toast.duration = time;
+    if (btn) {
+        toast.buttons = [
+            {
+                side: 'end',
+                text: 'deshacer',
                 handler: () => {
                     btnToast = false;
                     refreshData(false);
@@ -204,6 +270,7 @@ function code(cod) {
     return hexF;
 }
 
+
 function deco(dec) {
     let str = '', decLength = dec.length;
     for (let n = 0; n < decLength; n += 2) {
@@ -219,6 +286,7 @@ function deco(dec) {
     }
     return str;
 }
+
 
 function splitInit() {
     txt = localStorage.getItem('L1').split('GD');
@@ -241,6 +309,7 @@ function aTotalTOnewTotal() {
 }
 
 function updateData(text, compareChanges, toast = true) {
+
     splitInit();
     aTotalTOnewTotal();
 
@@ -249,11 +318,14 @@ function updateData(text, compareChanges, toast = true) {
     document.getElementById('userName').innerHTML = deco(txt[0]);
     showLogin.innerHTML = '';
 
+
     if (text == 'Rechazar') {
+        // b6002
         if (localStorage.getItem('offline')) {
             localStorage.removeItem('offline');
             compareChanges = localStorage.getItem('L1');
         }
+        // /b6002
         localStorage.setItem('L1', (docB1 == newCompareData2) ? compareChanges : newCompareData2);
         updateDB('L1', 'B1');
     } else {
@@ -262,23 +334,60 @@ function updateData(text, compareChanges, toast = true) {
 
     newSearch.value = '';
     refreshData();
+    // F0601
     if (toast) { presentToast((text == 'Rechazar') ? 'Cancelando cambios.' : 'Datos actualizados.', '1000', 'black') }
     else { presentToast('Datos offline actualizados', '1000', 'success') };
+    // F0601
     setTimeout(() => { window.location.reload() }, 1000);
 }
 
+
+
 function updateDB(send, receive) {
-    if (send == 'B1') return localStorage.setItem(receive, docB1);
-    if (send == 'B2') return localStorage.setItem(receive, docB2);
+    if (send == 'B1') localStorage.setItem(receive, docB1);
+    if (send == 'B2') localStorage.setItem(receive, docB2);
+
     if (receive == 'B1') return db.collection(coll).doc(userID).update({ B1: localStorage.getItem(send), });
     if (receive == 'B2') return db.collection(coll).doc(userID).update({ B2: localStorage.getItem(send), });
+
+    // if (receive == 'B1') {
+    //     return db.collection(coll).doc(userID).update({
+    //         B1: localStorage.getItem(send),
+    //     })
+    //         .catch(function (error) {
+    //             presentToast('Error updating document.', 1000, 'danger');
+    //             console.error('Error updating document: ', error);
+    //             return;
+    //         });
+    // }
+
+    // if (receive == 'B2') {
+    //     return db.collection(coll).doc(userID).update({
+    //         B2: localStorage.getItem(send),
+    //     })
+    //         .catch(function (error) {
+    //             presentToast('Error updating document.', 1000, 'danger');
+    //             console.error('Error updating document: ', error);
+    //             return;
+    //         });
+    // }
+
 }
 
 function save() {
+    // probar
     localStorage.setItem('L1', `${txt[0]}GD${txt[1]}GD${txt[2]}GD${(aTotal.length > 0) ? aTotal.join('Q0') + 'Q0' + 'GD' : ''}${txt[4]}`);
+
+    // if (aTotal.length > 0) {
+    //     localStorage.setItem('L1', txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD' + aTotal.join('Q0') + 'Q0' + 'GD' + txt[4]);
+    // } else {
+    //     localStorage.setItem('L1', txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD' + txt[4]);
+    // }
+
 }
 
 function sendEmail() {
+
     coincidencia = false
     restoreKey = Math.floor(Math.random() * 999999) + 10000;
 
@@ -306,6 +415,7 @@ function sendEmail() {
                             userID = doc.id;
                             userEmail = doc.data().B1.split('GD');
                             if (userEmail[1] == code(usData.restorePass)) {
+                                // if (doc.data().B1.split('GD')[1] == code(usData.restorePass)) {
                                 coincidencia = true;
                                 db.collection(coll).doc(userID).update({
                                     B3: restoreKey,
@@ -313,12 +423,17 @@ function sendEmail() {
                                     .then(function () {
                                         presentToast('Mail enviado', 1000, 'success');
                                         barProgressF('light', 'determinate');
+                                        // setTimeout(() => { window.location.reload(); }, 1000);
                                     });
 
+                                // b5001
                                 emailjs.send("service_60bgz48", "template_jb9t50n", {
                                     to_email: usData.restorePass,
                                     restore_Key: restoreKey,
                                 });
+                                // b5001
+
+
                             };
                         };
                     });
@@ -333,6 +448,155 @@ function sendEmail() {
     document.body.appendChild(alert);
     return alert.present();
 }
+
+
+// function alertAdd2(modalVal) {
+//     if (
+//         modalVal[0] == '' ||
+//         modalVal[1] == '' ||
+//         modalVal[2] == ''
+//     ) {
+//         barProgressF('warning', 'determinate');
+//         alertMsg('Error', 'Campos obligatorios vacíos.');
+//         setTimeout(() => { barProgressF('light', 'determinate'); }, 1500);
+//         return;
+//     }
+
+//     modalVal[0] = delete_spaces(modalVal[0].toLowerCase());
+//     modalVal[1] = delete_spaces(modalVal[1]);
+//     modalVal[2] = delete_spaces(modalVal[2]);
+//     modalVal[3] = delete_spaces(modalVal[3]);
+
+//     for (let i = 0; i < newTotal.length; i += 5) {
+//         if (
+//             modalVal[0] == newTotal[i] &&
+//             modalVal[1] == newTotal[i + 1] &&
+//             modalVal[2] == newTotal[i + 2]
+//         ) {
+//             alertMsg('Error', `La cuenta "${modalVal[0].toUpperCase()}" ya existe.`);
+//             return;
+//         }
+//     }
+
+//     //parche b5003
+//     // multipleAttribute(['#bkmodal', '#modal'], 'style', 'opacity:0; pointer-events: none');
+//     // multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch'], 'style', 'opacity:1; pointer-events: auto');
+//     // AUTOEXPAND
+//     // if (showSearch.innerHTML != '') multipleAttribute(['#expandCard'], 'style', 'opacity:1; pointer-events: auto');
+//     // 
+
+//     aTotal.push(`${code(modalVal[0].toLowerCase())}OG${code(modalVal[1])}OG${code(modalVal[2])}OG${code(modalVal[3])}`)
+//     aTotalTOnewTotal();
+//     save();
+//     showSearch.innerHTML = '';
+//     newSearch.value = modalVal[0];
+//     // AUTOEXPAND 2
+//     document.getElementById('expandIcon').setAttribute('name', icoCom);
+//     refreshData();
+//     presentToast(`"${modalVal[0].toUpperCase()}" agregada`, 800, 'success');
+//     updateDB('L1', 'B1');
+// }
+
+// function alertEdit2(modalVal, reemplace) {
+//     const toRemplace = reemplace / 5;
+
+//     if (modalVal[0] == '' || modalVal[1] == '' || modalVal[2] == '') {
+//         alertMsg('Error', 'Campos obligatorios vacíos.');
+//         return;
+//     }
+
+//     modalVal[0] = delete_spaces(modalVal[0].toLowerCase());
+//     modalVal[1] = delete_spaces(modalVal[1]);
+//     modalVal[2] = delete_spaces(modalVal[2]);
+//     modalVal[3] = delete_spaces(modalVal[3]);
+
+
+//     if (
+//         modalVal[0] == cuPath[0].toLowerCase() &&
+//         modalVal[1] == cuPath[1] &&
+//         modalVal[2] == cuPath[2] &&
+//         modalVal[3] == cuPath[3]
+//     ) {
+//         return;
+//     }
+
+//     for (i = 0; i < newTotal.length; i += 5) {
+//         if (
+//             modalVal[0] == newTotal[i] &&
+//             modalVal[1] == newTotal[i + 1] &&
+//             modalVal[2] == newTotal[i + 2] &&
+//             modalVal[3] == newTotal[i + 3]
+//         ) {
+//             alertMsg('Error', `La cuenta "${modalVal[0].toUpperCase()}" ya existe.`);
+//             return;
+//         }
+//     }
+
+//     //parche b6001
+//     multipleAttribute(['#bkmodal', '#modal'], 'style', 'opacity:0; pointer-events: none');
+//     multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch'], 'style', 'opacity:1; pointer-events: auto');
+//     // AUTOEXPAND
+//     if (showSearch.innerHTML != '') multipleAttribute(['#expandCard'], 'style', 'opacity:1; pointer-events: auto');
+//     // 
+
+//     aTotal.splice(toRemplace, 1, code(modalVal[0]) + 'OG' + code(modalVal[1]) + 'OG' + code(modalVal[2]) + 'OG' + code(modalVal[3]));
+//     aTotalTOnewTotal();
+//     showSearch.innerHTML = '';
+//     newSearch.value = modalVal[0];
+//     // AUTOEXPAND 2
+//     document.getElementById('expandIcon').setAttribute('name', icoCom);
+//     refreshData();
+//     presentToast(`"${modalVal[0].toUpperCase()}" editado.`, 800, 'success');
+//     save();
+//     updateDB('L1', 'B1');
+//     closeAlert = false;
+
+// }
+
+// function alertDel_DELETE(cuPath, reemplace) {
+//     document.getElementById('bkmodal').setAttribute('style', 'opacity:0; pointer-events: none');
+//     document.getElementById('modal').setAttribute('style', 'opacity:0; pointer-events: none');
+//     document.getElementById('buttonEdit').setAttribute('style', 'opacity:0; pointer-events: none');
+//     document.getElementById('buttonDelete').setAttribute('style', 'opacity:0; pointer-events: none');
+//     const alert = document.createElement('ion-alert');
+//     alert.message = `¿Eliminar "${cuPath[0]}"?`;
+//     alert.buttons = [
+//         { text: 'cancelar', role: 'cancel' },
+//         {
+//             text: 'ok',
+//             handler: () => {
+//                 aTotal.splice(reemplace / 5, 1);
+//                 aTotalTOnewTotal();
+//                 refreshData();
+//                 save();
+//                 presentToast(`"${cuPath[0]}" eliminado.`, 500, 'danger');
+//                 updateDB('L1', 'B1');
+//                 // if (showSearch.value == '') newSearch.value = '';
+//                 closeAlert = false;
+//                 // alertcompare = false;
+//                 // setTimeout(() => { alertcompare = true; }, 1500)
+//             },
+//         },
+//     ];
+//     document.body.appendChild(alert);
+//     return alert.present();
+// }
+
+// function presentCompareData(metaObj, compareChanges) {
+//     const alert = document.createElement('ion-alert');
+//     alert.setAttribute('backdrop-dismiss', 'false');
+//     alert.header = 'Se detectaron cambios';
+//     alert.message = `¿Aceptar y sincorinizar con la base de datos? </br></br> DETALLES:`;
+//     alert.inputs = metaObj;
+//     alert.buttons = [
+//         { text: 'Rechazar', handler: () => { updateData('Rechazar', compareChanges) } },
+//         { text: 'Aceptar', handler: () => { updateData('Aceptar', compareChanges) } },
+//     ];
+//     document.body.appendChild(alert);
+//     return alert.present();
+// }
+
+
 
 function listDrop(arrLista, tituloLista) {
     let arrListaLength = arrLista.length
@@ -349,6 +613,99 @@ function listDrop(arrLista, tituloLista) {
         return '';
     }
 }
+
+
+
+
+// CONFIG EDIT NM/US/PS/NO
+// function alertPass_DELETE() {
+//     const alertPassItem = document.createElement('ion-alert');
+//     alertPassItem.header = 'Configuración personal';
+//     alertPassItem.message = 'Inserte contraseña para continuar..';
+//     alertPassItem.inputs = [
+//         { name: 'uEPass', placeholder: 'Contraseña', type: 'password' },
+//     ];
+//     alertPassItem.buttons = [
+//         {
+//             text: 'Ok',
+//             handler: u => {
+//                 if (u.uEPass == deco(txt[2])) {
+//                     if (txt[0] == '25') txt[0] = '';
+//                     // presentAlertEditUserData();
+//                     // presentAlertEditUserData2(txt);
+
+//                 } else {
+//                     presentToast('Incorrecto.', '800', 'warning');
+//                 }
+//             },
+//         },
+//     ];
+//     document.body.appendChild(alertPassItem);
+//     return alertPassItem.present();
+// }
+// function presentAlertEditUserData_DELETE() {
+//     const alert = document.createElement('ion-alert');
+//     alert.header = 'Editar cuenta';
+//     alert.inputs = [
+//         { name: 'userEditName', placeholder: 'Nombre (Opcional)', value: deco(txt[0]) },
+//         { name: 'userEditUser', placeholder: 'Email', value: deco(txt[1]) },
+//         { name: 'userEditPass', placeholder: 'Contraseña', value: deco(txt[2]) },
+//         { name: 'userPin', placeholder: 'PIN', value: deco(txt[4]) },
+//     ];
+//     alert.buttons = [
+//         { text: 'Cancelar', role: 'cancel' },
+//         {
+//             text: 'Ok',
+//             handler: usNData => {
+//                 if (usNData.userEditUser == '' || usNData.userEditPass == '') {
+//                     barProgressF('danger', 'determinate');
+//                     alertMsg('Error', 'Datos vacíos.');
+//                     setTimeout(() => { barProgressF('light', 'determinate'); }, 1500);
+//                     return;
+//                 }
+
+//                 if (usNData.userEditUser == deco(txt[0]) && usNData.userEditPass == deco(txt[1]) && usNData.userEditPass == deco(txt[2]) && usNData.userPin == deco(txt[4])) {
+//                     return;
+//                 }
+//                 const confPersonal = [usNData.userEditName, usNData.userEditUser, usNData.userEditPass, usNData.userPin];
+
+//                 presentAlertConfirmEdit(confPersonal);
+
+
+
+//             },
+//         },
+//     ];
+//     document.body.appendChild(alert);
+//     return alert.present();
+// }
+// function presentAlertEditUserData2_DELETE(txt) {
+
+//     document.getElementById('bkmodal').setAttribute('style', 'opacity:0.3; pointer-events: auto');
+//     document.getElementById('modal').setAttribute('style', 'opacity:1; pointer-events: auto');
+
+
+//     document.getElementById('modal').innerHTML =
+//         `
+//     <p id="op1" class="cct">Editar cuenta</p>
+//     <hr style="height:1px; border-width:0; color:gray;background-color:gray">
+//     <p style="margin: 0px 0px 0px 0px;">
+//     <input type="text" placeholder="*Opcional" class="ccse modal_input" value="${deco(txt[0])}">
+//     <label class="cce" > Nombre: </label>
+//     <input type="text" placeholder="*Obligatorio" class="ccse modal_input" value="${deco(txt[1])}">
+//     <label class="cce" > Email: </label>
+//     <input type="text" placeholder="*Obligatorio" class="ccse modal_input" value="${deco(txt[2])}">
+//     <label class="cce" > Contraseña: </label>
+//     <input type="text" placeholder="*Opcional" class="ccse modal_input" value="${deco(txt[4])}">
+//     <label class="cce" > PIN: </label>
+
+//         <input type="button" class="modal_btns" value="OK" onClick="buttons_modal('ok_user')">
+//         <input type="button" class="modal_btns" value="CANCELAR" onClick="buttons_modal('cancel')">
+
+//     </p>
+// `;
+
+// }
 
 function presentAlertConfirmEdit(confPersonal) {
     const alert = document.createElement('ion-alert');
@@ -368,11 +725,17 @@ function presentAlertConfirmEdit(confPersonal) {
                 document.getElementById('userName').innerHTML = deco(txt[0]);
                 document.getElementById('nameSettingText').innerHTML = deco(txt[0]).slice(0, 1).toUpperCase();
                 localStorage.setItem('accessTempData', txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD');
+                // localStorage.setItem('accessTempData', txt[1] + 'GD' + txt[2] + 'GD');
+
+                // 
                 localStorage.setItem('bp', txt[4]);
+                // 
 
                 save();
                 updateDB('L1', 'B1');
                 updateDB('L1', 'B2');
+
+                // alertcompare = false;
             },
         },
     ];
@@ -382,7 +745,9 @@ function presentAlertConfirmEdit(confPersonal) {
 
 
 
+
 //EXTRAS
+
 function fecha() {
     let today = new Date();
     let DD = String(today.getDate()).padStart(2, '0');
@@ -392,6 +757,7 @@ function fecha() {
     let mm = (today.getMinutes() < 10) ? '0' : '' + today.getMinutes();
     return today = `${DD}-${MM}-${YY}_${hh}${mm}`
 }
+
 
 function downloadFile(data, fileName, type = 'text/plain') {
     var data2 = new Blob([data], { type: 'text/plain' });
@@ -404,6 +770,7 @@ function downloadFile(data, fileName, type = 'text/plain') {
     window.URL.revokeObjectURL(a.href);
     document.body.removeChild(a);
 }
+
 
 // function mostrarCambios() {
 //     let openAdd = 0; openDel = 0; openEdit = 0;

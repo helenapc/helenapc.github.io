@@ -30,6 +30,7 @@ const coll = '273';
 var alertcompare = true;
 var resetLogin = false;
 var offline = true;
+// var acceptOffline = true;
 var closeAlert = false;
 var helpActivate = false;
 var cuPath = [];
@@ -60,6 +61,9 @@ const newSearch = document.getElementById('new-s');
 
 document.getElementById('content').setAttribute('style', ' --background:var(--val)');
 document.querySelector('#refresher').setAttribute('disabled', 'true');
+
+// AUTOEXPAND
+// document.querySelector('#imagenes').setAttribute('style', 'opacity:1; pointer-events:auto; transform: translateY(300px)');
 multipleAttribute(['#cardPin', '#nameSetting', '#buttonEdit', '#buttonDelete', '#expandCard', '#showCard', '#buttonSearch', '#buttonAdd', '.button_nav'], 'style', 'pointer-events: none; opacity: 0');
 
 var statSearchBar = false;
@@ -112,6 +116,7 @@ itemPers('version', '', version, false);
 itemPers('barDelAcc', 'close-outline', 'Eliminar Cuenta', true, 'danger');
 
 document.querySelector('#versionLogin').innerHTML = version;
+// localStorage.setItem('offline', true);
 
 
 
@@ -142,6 +147,10 @@ if (eyePass) {
     })
 }
 
+// document.body.style.background = `url('https://i.blogs.es/594843/chrome/450_1000.jpg') no-repeat 52% center/cover`;
+
+
+// document.getElementById('cardPin').setAttribute('style', 'pointer-events: none; opacity: 0');
 
 emailjs.init('user_EbX2uqx7kGIlimJTNppDy');
 
@@ -158,7 +167,18 @@ firebase.initializeApp({
 var db = firebase.firestore();
 
 
+// var initStateL1 = '';
+// var initStateL1 = true;
+// var hideCompare = false;
+
 // ------------------ START ------------------ //
+// localStorage.removeItem('alrt');
+// if (cargarTema1[0] && cargarTema1[0].classList[0] == 'light') {
+//     if (cargarTema1[0]) cargarTema1[0].setAttribute('style', `background: url('${(configData.fondo01 == '') ? 'src/img/bg1.jpg' : configData.fondo01} ') no-repeat 50% center/cover`);
+// }
+// else if (cargarTema2[0] && cargarTema2[0].classList[0] == 'dark') {
+//     if (cargarTema2[0]) cargarTema2[0].setAttribute('style', `background: url('${(configData.fondo02 == '') ? 'src/img/bg2.jpg' : configData.fondo02} ') no-repeat 50% center/cover`);
+// }
 
 if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
     showLogin.innerHTML = '';
@@ -171,12 +191,19 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
     newSearch.setAttribute('style', 'opacity:1; margin-top:0px;');
 
 
+
+
+
     splitInit();
     aTotalTOnewTotal();
     document.querySelector('#help-config').innerHTML = deco(txt[0]);
     document.querySelector('#userName').innerHTML = deco(txt[0]);
     document.querySelector('#nameSettingText').innerHTML = deco(txt[0]).slice(0, 1).toUpperCase();
+
     comparePersonalData = false;
+
+    // alertcompare = true;
+
 
     // PIN;
     if (txt[4] != '' && localStorage.getItem('tPin')) {
@@ -189,6 +216,7 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
             document.querySelectorAll('.point_backup')[0].setAttribute('style', 'z-index: 0');
             newSearch.setAttribute('style', 'margin-top:-60px');
         }
+        // }
 
         document.getElementById('pin').addEventListener('ionInput', () => {
             hideCompare = false;
@@ -213,11 +241,13 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
         querySnapshot.forEach(doc => {
             offline = false;
             if (!comparePersonalData && doc.data().B1.includes(localStorage.getItem('accessTempData'))) {
+                // if (doc.data().B1.includes(localStorage.getItem('accessTempData'))) {
                 docB1 = doc.data().B1;
                 docB2 = doc.data().B2;
                 docBpin = doc.data().Bpin;
                 userID = doc.id;
                 comparePersonalData = true;
+                // reload = false;
                 return;
             }
         });
@@ -226,6 +256,9 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
 
         // reinicio cambio de datos personales
         if (!comparePersonalData && !offline || localStorage.getItem('bp') != txt[4]) {
+            // o1101
+            // localStorage.clear();
+            // / o1101
             localStorage.removeItem('bp');
             localStorage.removeItem('accessTempData')
             localStorage.setItem('L1', 'GDGDGDGD');
@@ -234,12 +267,19 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
 
         comparePersonalData = false;
 
+        // 
+        // if (offline) localStorage.setItem('offline', 'offline'); // PROBAR
+        // 
+
+        // hideCompare = false;
+
         if (docB1 == localStorage.getItem('L1')) {
             compareChanges = localStorage.getItem('L1');
         }
 
         if (!localStorage.getItem('offline')) {
             updateDB('B1', 'L1');
+            // compareChanges = localStorage.getItem('L1');
         }
 
         splitInit();
@@ -248,11 +288,16 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
 
         //POINT BACKUP
         document.querySelector('.point_backup').setAttribute('style', `z-index: ${(docB1 != docB2) ? '2' : '0'}`);
+        // document.querySelectorAll('.point_backup')[1].setAttribute('style', `z-index: ${(docB1 != docB2) ? '2' : '0'}`);
         ;
 
         
         
         if (docB1 != compareChanges && !offline) {
+            
+            // 
+            // localStorage.removeItem('offline'); // PROBAR
+            // 
             showSearch.innerHTML = '';
 
             // MODAL-CHANGES
@@ -285,6 +330,7 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
 
 } else {
     localStorage.setItem('L1', 'GDGDGDGD');
+    // localStorage.setItem('data', JSON.stringify({ autoExpand: false, fondo01: '', fondo02: '', animacion: '0.4' }));
 };
 
 
@@ -294,6 +340,7 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
 
 // welcome();
 if (!txt[3] && showLogin.innerHTML == '') {
+    // AUTOEXPAND 2
     expandIcon.setAttribute('name', icoCom);
     showSearch.innerHTML = `
     <div style="text-align:center"><br>No hay datos guardados. </div>
@@ -302,5 +349,6 @@ if (!txt[3] && showLogin.innerHTML == '') {
     `;
     showCardAll('facebook', 'prueba@hotmail.com', '1234abcd', 'Las notas son opcionales 😎');
     showCardAll('google 👍', 'tucuenta@gmail.com', 'prueba1234', '');
+    // AUTOEXPAND 2
     expandIcon.setAttribute('name', icoExp);
 };
