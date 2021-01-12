@@ -1,38 +1,21 @@
 
-/* *{  transition-duration: 0s; } */
+.divOverflow{
+  z-index: 0;
+  height: 100%;
+  overflow: auto;
+}
 
-/* left: 29px;
-top: 56px;
-font-size: 1.6rem; */
-/* #point_backup{
-  position: fixed;
-  left: 29px;
-  top: 56px;
-  font-size: 4rem;
-  color: red;
-  transition-duration: 0s;
-} */
+.divOverflow::-webkit-scrollbar{
+  width: 0px;
+}
 
 .point_backup{
   pointer-events: none;
   position: fixed;
   left: 33px;
-  top: 60px;
+  top: 106px;
   color: #ff00007e;
 }
-
-#point_backup_nav{
-  left: 5px;
-  top: 10px;
-}
-
-/* #point_backup_nav{
-  pointer-events: none;
-  font-size: 6rem;
-  left: -35px;
-  top: -25px;
-  transition-duration: 0s;
-} */
 
 #dropAddButton,
 #dropDelButton,
@@ -45,7 +28,6 @@ font-size: 1.6rem; */
   cursor: pointer;
   outline: none;
 }
-
 
 .dropdown-content {
   left: 35px;
@@ -61,7 +43,6 @@ font-size: 1.6rem; */
 
 
 .dropdown-content p{
-  /* color: black; */
   color: var(--ion-text-color);
   padding: 8px 0px 8px 16px;
   margin: 1px 0px 1px 0px;
@@ -70,25 +51,11 @@ font-size: 1.6rem; */
 }
 
 
-
-
-
-
-
-
-
-/* @keyframes op {
-  0% { opacity: 0; }
-  20% { opacity: 1; }
-  80% { opacity: 1; }
-  100%{ opacity: 0; }
-} */
-
-
+#buttonAdd { margin-right: -8px;}
+/* CELULAR */
 @media screen and (min-width: 600px){
-  #buttonAdd, #buttonHelp {
-    padding-right: 20px;
-  }
+
+  #buttonAdd { margin-right: 10px;}
 
   #nameSetting:hover ~ #help-config,
   #buttonEdit:hover ~ #help-edit,
@@ -102,9 +69,10 @@ font-size: 1.6rem; */
   }
 }
 
-@media (pointer:none), (pointer:coarse) {
-  /* @media screen and (max-width: 599px) and (orientation: portrait){ */
 
+
+@media (pointer:none), (pointer:coarse) {
+  
   #nameSetting:active ~ #help-config,
   #buttonEdit:active ~ #help-edit,
   #buttonDelete:active ~ #help-delete,
@@ -120,145 +88,7 @@ font-size: 1.6rem; */
 }
 
 
-/* ********* */
-/* .cct{ margin: auto; font-weight: bold; text-align: center; color: var(--ion-text-color);} */
-
-.cct{ margin: auto; color: var(--ion-text-color); font-size: 18px; padding: 5px 0px 2px 0px}
-
-.cce{
-  position: fixed;
-  left: 0px;
-  color: var(--ion-color-primary);
-  padding: 1px 20px 0px 20px;
-  font-size: 0.7rem;
-  transition-duration: 0.2s;
-  pointer-events: none;
-}
-
-.cce_st{ color: var(--ion-color-primary); font-size: 0.7rem; }
-
-.ccse{ color: var(--ion-color-step-550); margin: 2px 0px 8px 0px; }
-
-.div_list{
-  width: 200px;
-  max-height: 150px;
-  overflow: auto;
-  margin:10px 10px 15px 5px
-}
-
-.list_text{
-  user-select: none;
-  font-size: 14px;
-  color: var(--ion-color-step-550);
-  margin: 5px 0px 0px 5px;
-  padding: 6px 5px 4px 10px;
-  white-space: nowrap;
-}
-
-/* width */
-::-webkit-scrollbar {
-  width: 3px;
-  height: 3px;
-
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #00000000; 
-}
- 
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #bebebe; 
-  border-radius: 10px;
-}
-
-.modal_input{
-  /* margin-top: 20px; */
-  color: var(--ion-text-color);
-  padding-top: 20px;
-  margin-bottom: 4px;
-  background-color: #ffffff00;
-  border: 0;
-  border-bottom: 2px solid var(--ion-color-light);
-  transition-duration: 0.2s;
-}
-
-
-
-
-.modal_input:placeholder-shown + .cce{
-  position: fixed;
-  left: 0px;
-  color: var(--ion-color-step-550);
-  padding: 10px 20px 0px 20px;
-  font-size: 1rem;
-  transition-duration: 0.2s;
-}
-
-
-.modal_input:focus + .cce {
-  color: var(--ion-color-primary);
-  padding: 1px 20px 0px 20px;
-  font-size: 0.7rem;
-}
-
-
-p .modal_input::-webkit-input-placeholder{opacity: 0;}
-p .modal_input:focus::-webkit-input-placeholder{opacity: 0.4; font-style: italic;}
-
-.modal_input:focus {
-  outline: none; border-bottom:
-  2px solid var(--ion-color-primary);
-  transition-duration: 0.2s;
-}
-
-
-
-
-.modal_btns{
-  float: right;
-  color: var(--ion-color-primary);
-  background-color: #ff000000;
-  font-size: 15px;
-  border: 0px;
-  margin: 0rem 0rem 1rem 1rem;
-  outline: none;
-}
-
-.bkpopup{
-  position: absolute;
-  width: 100vw;
-  height: 100vh;
-  background: #00000044;
-  /* z-index: 1; */
-  opacity: 0;
-  pointer-events: none;
-}
-
-.popup_box{
-  position: absolute;
-  left: 50%;
-  top: 30%;
-  width: 250px;
-  transform: translateX(-125px);
-  /* background: var(--ion-item-background); */
-  background: var(--ion-background-color);
-  
-  padding: 12px 20px 0px 20px;
-  
-  border-radius: 3px;
-  box-shadow: 2px 5px 20px rgba(0, 0, 0, 0.5);
-  z-index: 1;
-  transition-duration: 0.1s;
-
-  /*CAMBIAR*/
-  opacity: 0;
-  pointer-events: none;
-}
-
-
-/* **** ICONS ***** */
+/* **** FAB ***** */
 
 .add{ color: #2f3136;}
 
@@ -272,68 +102,72 @@ p .modal_input:focus::-webkit-input-placeholder{opacity: 0.4; font-style: italic
   position: absolute;
 }
 
+ion-fab ion-label{
+  white-space: nowrap;
+  position: absolute;
+}
 
-
-
-.help-configuracion{ left: 100%; top: 18%; opacity: 0; pointer-events: none;} 
-.help-editar{ left: 100%; top: 5%; opacity: 0; pointer-events: none; }
-.help-borrar{ left: 100%; top: 24%; opacity: 0; pointer-events: none; }
-.help-expandir-contraer{ left: 100%; top: 43%; opacity: 0; pointer-events: none; }
-.help-mostrar-ocultar{ left: 100%; top: 62%; opacity: 0; pointer-events: none;}
-.help-buscar{ left: 100%; top: 81%; opacity: 0; pointer-events: none; }
-.help-agregar{ right: 100%; top: 16%; opacity: 0; pointer-events: none; }
-
-/* #nameSetting:hover ~ #help-config{ opacity: 1; }
-#buttonEdit:hover ~ #help-edit{ opacity: 1; }
-#buttonDelete:hover ~ #help-delete{ opacity: 1; }
-#expandCard:hover ~ #help-exp-com{ opacity: 1; }
-#showCard:hover ~ #help-show{ opacity: 1; }
-#buttonSearch:hover ~ #help-search{ opacity: 1; }
-#buttonAdd:hover > #help-add{ opacity: 1 ;} */
-
-
-
-
-/* NAVBAR */
-
-.barLogout{ transform: scaleX(-1); padding-left: 2px; }
-
-ion-icon#barClose.md.hydrated{ margin-inline-end: 0px; }
-
-ion-title#userName.md.title-default.hydrated{ text-align: center; }
-
-.input-wrapper{ --padding-start: 2px; }
-
+.help-editar{ left: 60px; top: 10px; opacity: 0; pointer-events: none; }
+.help-borrar{ left: 60px; top: 59px; opacity: 0; pointer-events: none; } 
+.help-configuracion{ left: 60px; top: 10px; opacity: 0; pointer-events: none;} 
+.help-expandir-contraer{ left: 60px; top: 105px; opacity: 0; pointer-events: none; }
+.help-mostrar-ocultar{ left: 60px; top: 155px; opacity: 0; pointer-events: none;}
+.help-buscar{ left: 60px; top: 201px; opacity: 0; pointer-events: none; }
+.help-agregar{ right: 60px; top: 10px; opacity: 0; pointer-events: none; }
 
 
 /* CARDS */
 
 .card-sub-account{ margin-left: 20px; }
 
-.hide{ display: none; }
+ion-card-header{
+  padding: 0px 16px 16px 16px;
+  height: 48px;
+  transition-duration: .5s;
+}
+
+
+.ionCardHeader{
+  padding: 0px 16px 16px 16px;
+  height: 48px;
+  transition-duration: .5s;
+}
+
+.cardExpand:hover{
+  height: 133px;
+  transition-duration: .2s;
+  transition-delay: .05s;
+  overflow: auto
+}
+
+.btnExpandCard{
+  height: 133px;
+  transition-duration: .2s;
+  overflow: auto;
+}
+
+.animCardCero{
+  transition-duration: 0s;
+}
+
+
+ion-card-header::-webkit-scrollbar-thumb {
+  background: var(--ion-color-primary);
+}
+
+.cardTitle{
+  padding: 17px 0px 10px 0px;
+  font-size: 1em;
+  font-weight: 600;
+  white-space: nowrap;
+  margin: 0px 0px 0px 0px;
+}
 
 
 /*ITEMS*/
-
-/* .ion-text-wrap #title{ margin-right: -100px; padding: -100px; } */
-
 #eyePass{ margin-top: 18px; }
 
-/* #content{ --background:var(--val); } */
-/* .content {--background: #ffffff00 } */
-
-/* #cardPin{
-  z-index: 99999;
-} */
-
-.button_nav{
-  opacity: 0;
-  pointer-events: none;
-  margin-right: -30px;
-}
-
 #refresher{
-  /* z-index: -1; */
   opacity: 1;
   pointer-events: none;
 }
@@ -395,19 +229,17 @@ ion-icon, .item .sc-ion-label-md-h , .restoreText , #nameSettingText{ /*icon, in
 
 .checkbox + .label{ background-color:var(--ion-color-medium); margin-left: -10px; }
 
-.fa-moon{ color: #414141; }
 
-.fa-color{ color: #ffffff; }
+.fa-moon{ color: #414141; transform: translateX(-1px);}
 
-
+.fa-lightbulb{ color: #ffffff; transform: translateX(3px);}
 
 
 
 
 /*THEMES*/
-body.light {
+.light {
   --val: #ffffff70;
-  background: url('bg1.jpg') no-repeat 52% center/cover;
   --ion-color-primary: #3880ff;
   --ion-color-secondary: #3dc2ff;
   --ion-color-tertiary: #5260ff;
@@ -436,9 +268,8 @@ body.light {
   --color-toolbar-text: #00ffea;
 }
 
-body.dark {
+.dark {
   --val: #000000d5;
-  background: url('bg2.jpg') no-repeat 52% center/cover;
   --ion-color-primary: #428cff;
   --ion-color-secondary: #50c8ff;
   --ion-color-tertiary: #6a64ff;

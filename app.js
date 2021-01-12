@@ -3,10 +3,19 @@ var coincidencia = false;
 var txt = [];
 var aTotal = [];
 var newTotal = [];
+var btnToast = true;
 
-var docB1, docB2, docBpin, userID;
+var cargarTema1 = document.getElementsByClassName('light');
+var cargarTema2 = document.getElementsByClassName('dark');
+
+var configData = JSON.parse(localStorage.getItem('data'));
+if (configData == null) {
+    localStorage.setItem('data', JSON.stringify({ 'autoExpand': false, 'fondo01': '', 'fondo02': '', 'animacion': false, 'animacionVelocidad': '2' }));
+    configData = JSON.parse(localStorage.getItem('data'));
+}
+
+var configValues = document.getElementsByClassName('configData');
 var comparePersonalData = false;
-// var reload = true; 
 var compareChanges = '';
 
 var newCompareData2 = localStorage.getItem('L1');
@@ -21,7 +30,6 @@ const coll = '273';
 var alertcompare = true;
 var resetLogin = false;
 var offline = true;
-// var acceptOffline = true;
 var closeAlert = false;
 var helpActivate = false;
 var cuPath = [];
@@ -50,17 +58,12 @@ const newSearch = document.getElementById('new-s');
 
 //******************************************* */
 
-// localStorage.setItem('offline', true);
 document.getElementById('content').setAttribute('style', ' --background:var(--val)');
 document.querySelector('#refresher').setAttribute('disabled', 'true');
 multipleAttribute(['#cardPin', '#nameSetting', '#buttonEdit', '#buttonDelete', '#expandCard', '#showCard', '#buttonSearch', '#buttonAdd', '.button_nav'], 'style', 'pointer-events: none; opacity: 0');
 
-
-
-
 var statSearchBar = false;
 newSearch.setAttribute('style', 'opacity:1; margin-top:-60px;');
-
 
 
 // PROGRESS BAR
@@ -99,16 +102,19 @@ barHeader.appendChild(barToolbar);
 barMenuPrincipal.appendChild(barHeader);
 
 
+const version = 'Versión 2.8-beta';
+itemPers('account', 'person-circle-outline', 'Cuenta');
+itemPers('barExport', 'arrow-up-circle-outline', 'Crear copia de Seguridad');
+itemPers('barImport', 'arrow-down-circle-outline', 'Cargar copia de Seguridad');
+itemPers('config', 'settings-outline', 'Configuración');
+itemPers('barLogout', 'log-out-outline', 'Cerrar sesión');
+itemPers('version', '', version, false);
+itemPers('barDelAcc', 'close-outline', 'Eliminar Cuenta', true, 'danger');
 
-item('barExport', 'arrow-up-circle-outline', 'Crear copia de Seguridad')
-item('barImport', 'arrow-down-circle-outline', 'Cargar copia de Seguridad');
-item('barLogout', 'log-out-outline', 'Cerrar Sesión');
-item('barLOG', 'document-text-outline', 'Novedades');
-const ver = document.createElement('ion-item-divider');
-barContent.appendChild(ver);
-item('barDelAcc', 'close-outline', 'Eliminar Cuenta', 'danger');
-ver.innerHTML = 'Versión 2.7.4';
-document.querySelector('#versionLogin').innerHTML = ver.innerHTML;
+document.querySelector('#versionLogin').innerHTML = version;
+
+
+
 
 //DARK THEME
 const lTheme = localStorage.getItem('theme');
@@ -118,6 +124,16 @@ var activeTheme = localStorage.getItem('theme').split(',');
 if (activeTheme[1] == 'dark') { checkbox.checked = true; };
 document.body.classList.toggle(activeTheme[(activeTheme[1] == 'dark') ? 1 : 0]);
 
+
+// INIT BACKGROUND
+if (cargarTema1[0] && cargarTema1[0].classList[0] == 'light') {
+    cargarTema1[0].setAttribute('style', `background: url('${(configData.fondo01 == '') ? 'src/img/bg1.jpg' : configData.fondo01} ') no-repeat 50% center/cover`);
+}
+else if (cargarTema2[0] && cargarTema2[0].classList[0] == 'dark') {
+    cargarTema2[0].setAttribute('style', `background: url('${(configData.fondo02 == '') ? 'src/img/bg2.jpg' : configData.fondo02} ') no-repeat 50% center/cover`);
+}
+
+
 //LOGIN (eye)
 if (eyePass) {
     eyePass.addEventListener('click', () => {
@@ -126,8 +142,6 @@ if (eyePass) {
     })
 }
 
-
-// document.getElementById('cardPin').setAttribute('style', 'pointer-events: none; opacity: 0');
 
 emailjs.init('user_EbX2uqx7kGIlimJTNppDy');
 
@@ -144,12 +158,7 @@ firebase.initializeApp({
 var db = firebase.firestore();
 
 
-// var initStateL1 = '';
-// var initStateL1 = true;
-// var hideCompare = false;
-
 // ------------------ START ------------------ //
-// localStorage.removeItem('alrt');
 
 if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
     showLogin.innerHTML = '';
@@ -161,16 +170,13 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
     statSearchBar = true;
     newSearch.setAttribute('style', 'opacity:1; margin-top:0px;');
 
+
     splitInit();
     aTotalTOnewTotal();
-
+    document.querySelector('#help-config').innerHTML = deco(txt[0]);
     document.querySelector('#userName').innerHTML = deco(txt[0]);
     document.querySelector('#nameSettingText').innerHTML = deco(txt[0]).slice(0, 1).toUpperCase();
-
     comparePersonalData = false;
-
-    // alertcompare = true;
-
 
     // PIN;
     if (txt[4] != '' && localStorage.getItem('tPin')) {
@@ -183,7 +189,6 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
             document.querySelectorAll('.point_backup')[0].setAttribute('style', 'z-index: 0');
             newSearch.setAttribute('style', 'margin-top:-60px');
         }
-        // }
 
         document.getElementById('pin').addEventListener('ionInput', () => {
             hideCompare = false;
@@ -208,13 +213,11 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
         querySnapshot.forEach(doc => {
             offline = false;
             if (!comparePersonalData && doc.data().B1.includes(localStorage.getItem('accessTempData'))) {
-                // if (doc.data().B1.includes(localStorage.getItem('accessTempData'))) {
                 docB1 = doc.data().B1;
                 docB2 = doc.data().B2;
                 docBpin = doc.data().Bpin;
                 userID = doc.id;
                 comparePersonalData = true;
-                // reload = false;
                 return;
             }
         });
@@ -231,19 +234,12 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
 
         comparePersonalData = false;
 
-        // 
-        // if (offline) localStorage.setItem('offline', 'offline'); // PROBAR
-        // 
-
-        // hideCompare = false;
-
         if (docB1 == localStorage.getItem('L1')) {
             compareChanges = localStorage.getItem('L1');
         }
-    
-        if (!localStorage.getItem('offline')){
+
+        if (!localStorage.getItem('offline')) {
             updateDB('B1', 'L1');
-            // compareChanges = localStorage.getItem('L1');
         }
 
         splitInit();
@@ -251,16 +247,12 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
         // reinicio cambio de datos personales
 
         //POINT BACKUP
-        // document.querySelectorAll('.point_backup')[0].setAttribute('style', `z-index: ${(docB1 != docB2) ? '2' : '0'}`);
-        document.querySelectorAll('.point_backup')[1].setAttribute('style', `z-index: ${(docB1 != docB2) ? '2' : '0'}`);
+        document.querySelector('.point_backup').setAttribute('style', `z-index: ${(docB1 != docB2) ? '2' : '0'}`);
         ;
 
-
+        
+        
         if (docB1 != compareChanges && !offline) {
-
-            // 
-            // localStorage.removeItem('offline'); // PROBAR
-            // 
             showSearch.innerHTML = '';
 
             // MODAL-CHANGES
@@ -268,45 +260,26 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
                 document.getElementById('bkmodal').setAttribute('style', 'opacity:1; pointer-events: none');
                 document.getElementById('modal').setAttribute('style', 'opacity:1; pointer-events: auto');
             }
-            // b6003
+
             if (localStorage.getItem('offline')) {
-                document.getElementById('modal').innerHTML =
-                    `
-                <p class="cct" ;">Se detectaron cambios</p>
-                <p class="ccse" style="margin: 10px 0px 20px 0px;">¿Aplicar cambios hechos sin internet?</p>
-    
-                <input type="button" class="modal_btns" style="margin-left:100%" value="Usar datos de celular (Sin internet)" onClick="buttons_modal('rechazar')">   
-                <input type="button" class="modal_btns" style="margin-left:100%" value="Usar base de datos (internet)" onClick="buttons_modal('aceptar')" >
-                `;
-                // /b6003
-
+                updateData('Rechazar', compareChanges, false);
             } else {
-
                 document.getElementById('modal').innerHTML =
                     `
                 <p class="cct" ;">Se detectaron cambios</p>
                 <p class="ccse" style="margin: 10px 0px 20px 0px;">¿Aceptar y sincronizar datos?</p>
     
-                <input type="button" class="modal_btns" style="margin-left:100%" value="ACEPTAR" onClick="buttons_modal('aceptar')" >
-                <input type="button" class="modal_btns" style="margin-left:100%" value="RECHAZAR" onClick="buttons_modal('rechazar')">
-                <input type="button" class="modal_btns" style="margin-left:100%" value="VER CAMBIOS" onClick="buttons_modal('verCambios')">
+                <input type="button" class="modal_btns" style="margin-left:100%" value="ACEPTAR" onClick="buttonModalChanges('aceptar')" >
+                <input type="button" class="modal_btns" style="margin-left:100%" value="RECHAZAR" onClick="buttonModalChanges('rechazar')">
+                <input type="button" class="modal_btns" style="margin-left:100%" value="VER CAMBIOS" onClick="buttonModalSetChanges()">
     
                 `;
             }
 
-        }
-
-
-
-        else {
-            // initStateL1 = true;
-            // document.getElementById('modal').innerHTML = '';
-            // console.log('No comparación');
-            // if (offline) acceptOffline = false;
-
-            // document.getElementById('bkmodal').setAttribute('style', 'opacity:0; pointer-events: none');
-            // document.getElementById('modal').setAttribute('style', 'opacity:0; pointer-events: none');
-            multipleAttribute(['#bkmodal', '#modal'], 'style', 'opacity:0; pointer-events: none')
+        } else {
+            if (document.querySelector('#modal').innerHTML.includes('Se detectaron cambios')){
+                multipleAttribute(['#bkmodal', '#modal'], 'style', 'opacity:0; pointer-events: none');
+            }
         }
     })
 

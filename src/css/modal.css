@@ -1,0 +1,132 @@
+
+.cct{ margin: auto; color: var(--ion-text-color); font-size: 18px; padding: 5px 0px 2px 0px}
+
+
+/* INPUT INACTIVO SIN DATOS*/
+.modal_input:placeholder-shown + .cce{
+  position: relative;
+  top: -25px;
+  left: -20px;
+  color: var(--ion-color-step-550);
+  padding: 1px 20px px 20px;
+  font-size: 1rem;
+  transition-duration: 0.2s;
+  pointer-events: none;
+}
+
+/* INPUT ACTIVO / CON DATOS*/
+.cce, .modal_input:focus + .cce {
+  position: relative;
+  top: -42px;
+  left: -20px;
+  color: var(--ion-color-primary);
+  padding: 1px 20px 0px 20px;
+  font-size: 0.7rem;
+  pointer-events: none;
+  
+}
+
+
+
+.modal_input:placeholder-shown + .noteTextArea{
+  top: -50px;
+}
+.noteTextArea, .modal_input:focus + .noteTextArea{
+  top: -67px;
+}
+textarea {
+  resize: none;
+}
+
+.cce_st{ color: var(--ion-color-primary); font-size: 0.7rem; }
+
+.ccse{ color: var(--ion-color-step-550); margin: 2px 0px 8px 0px; }
+
+.div_list{
+  width: 200px;
+  max-height: 150px;
+  overflow: auto;
+  margin:10px 10px 15px 5px
+}
+
+.list_text{
+  user-select: none;
+  font-size: 14px;
+  color: var(--ion-color-step-550);
+  margin: 5px 0px 0px 5px;
+  padding: 6px 5px 4px 10px;
+  white-space: nowrap;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+}
+
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #00000000; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #bebebe; 
+  border-radius: 10px;
+}
+
+.modal_input{
+  color: var(--ion-text-color);
+  margin: 1px 1px 1px 1px;
+  background-color: #ffffff00;
+  border: 0;
+  border-bottom: 2px solid var(--ion-color-light);
+  transition-duration: 0.2s;
+}
+
+
+p .modal_input::-webkit-input-placeholder{opacity: 0;}
+p .configData::-webkit-input-placeholder{opacity: 1;font-style: italic;}
+p .modal_input:focus::-webkit-input-placeholder{opacity: 0.4; font-style: italic;}
+
+.modal_input:focus {
+  outline: none; border-bottom:
+  2px solid var(--ion-color-primary);
+  transition-duration: 0.2s;
+}
+
+
+.modal_btns{
+  float: right;
+  color: var(--ion-color-primary);
+  background-color: #ff000000;
+  font-size: 15px;
+  border: 0px;
+  margin: 0rem 0rem 1rem 1rem;
+  outline: none;
+}
+
+.bkpopup{
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background: #00000044;
+}
+
+.popup_box{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 250px;
+  max-height: 350px;
+  align-self: center;
+  background: var(--ion-background-color);
+  padding: 12px 20px 0px 20px;
+  border-radius: 3px;
+  box-shadow: 2px 5px 20px rgba(0, 0, 0, 0.5);
+  z-index: 1;
+  transition-duration: 0.1s;
+  overflow-y: auto;
+  overflow-x: hidden;
+}

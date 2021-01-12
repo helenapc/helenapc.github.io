@@ -5,56 +5,44 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gestor de Contraseñas</title>
-  <link rel="shortcut icon" href="icopass.png" type="image/png">
+  <link rel="shortcut icon" href="src/img/icopass.png" type="image/png">
   <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-firestore.js"></script>
-
   <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
   <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
-  
-  <!-- mail -->
-  <!-- <script src="https://smtpjs.com/v3/smtp.js"></script> -->
-  <!-- mail 2-->
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js"></script>
-  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
   <link rel="stylesheet" href="variables.css">
+  <link rel="stylesheet" href="src/css/nav.css">
+  <link rel="stylesheet" href="src/css/toast.css">
+  <link rel="stylesheet" href="src/css/modal.css">
 
 </head>
 
 <body>
   <ion-app class="fondo">
-    <label id="point_backup_nav" class="point_backup">&#9679</label>
-
-    <ion-menu side="start" content-id="main-content" max-edge-start="0" id="barMenuPrincipal">
-      <!-- <label id="point_backup" class="point_backup_menu">&#9679</label> -->
-      <!-- <label id="point_backup" class="point_backup_menu">·</label> -->
+    <ion-menu side="start" content-id="main-content" max-edge-start="0" id="barMenuPrincipal" swipe-gesture="true">
       <label class="point_backup">&#9679</label>
-
     </ion-menu>
 
-
-    <!-- <ion-fab id="offline" vertical="top" horizontal="end" style="opacity: 0;">
-      <ion-icon name="cloud-offline-outline" size="large"></ion-icon>
-    </ion-fab> -->
+    <div id ="imagenes" class="popup_box" style="opacity:0; pointer-events: none">
+      <input id="fondo1" type='file' onchange="readURL(this);"/>
+      <input id="fondo2" type='file' onchange="readURL2(this);"/>
+      <textarea id="dataUrl" rows="4" cols="100"></textarea>
+    </div>
+    
 
     <div class="ion-page" id="main-content">
       <ion-header>
         <ion-row id="barProgress"></ion-row>
         <ion-toolbar>
-          <!-- <ion-buttons id="barOpen" style="margin-right: -30px;" slot="start"> -->
 
           <ion-buttons class="button_nav" slot="start">
             <ion-menu-button style="margin-left: -10px;">
               <ion-icon name="ellipsis-vertical-outline"></ion-icon>
             </ion-menu-button>
           </ion-buttons>
-
-          <!-- <ion-buttons slot="start">
-            <ion-menu-button>
-              <ion-icon name="ellipsis-vertical-outline"></ion-icon>
-            </ion-menu-button>
-          </ion-buttons> -->
 
           <ion-title id="title">
             <ion-label class="ion-text-wrap">Gestor de Contraseñas</ion-label>
@@ -63,15 +51,13 @@
           <div slot="end" style="margin-right:20px;">
             <input type="checkbox" class="checkbox" id="checkbox">
             <label for="checkbox" class="label">
-              <ion-icon class="fa-color" name="bulb"></ion-icon>
-              <ion-icon class="fa-moon" name="moon"></ion-icon>
+              <i class="fas fa-lightbulb"></i>
+              <i class="fas fa-moon"></i>
               <div class="ball"></div>
             </label>
           </div>
         </ion-toolbar>
       </ion-header>
-
-
 
       <ion-row>
         <ion-col size="9" offset="1.5" size-md="5" offset-md="3.5">
@@ -79,22 +65,18 @@
         </ion-col>
       </ion-row>
 
+      <!-- CONTENT -->
       <ion-content class="content" id='content'>
-
         <ion-refresher slot="fixed" id="refresher" pull-factor="0.5" pull-min="50" pull-max="200">
           <ion-refresher-content></ion-refresher-content>
         </ion-refresher>
 
-        
         <ion-row>
           <ion-col id="show-accounts1" size="9" offset="1.5" size-md="5" offset-md="3.5"></ion-col>
         </ion-row>
 
-
         <ion-row id="showLogin" style="margin-top: 50px;">
-          
           <ion-col size="8" offset="2" size-md="5" offset-md="3.5">
-
             <ion-item class="bordeSup">
               <ion-label position="floating">Email</ion-label>
               <ion-input id="nameLog"></ion-input>
@@ -105,7 +87,7 @@
               <ion-label position="floating">Contraseña</ion-label>
               <ion-input type="password" id="passLog"></ion-input>
             </ion-item>
-            
+
             <ion-button fill="outline" expand="block" id="buttonLogin" strong="true">Iniciar sesión </ion-button>
             <ion-button expand="block" id="buttonCreate">Registrarse</ion-button>
 
@@ -115,12 +97,8 @@
             </ion-button>
 
             <ion-label id="versionLogin" style="display: block; text-align: center;"></ion-label>
-
           </ion-col>
-
         </ion-row>
-
-
 
         <ion-row id="cardPin">
           <ion-col size="5" offset="3.5" size-md="2" offset-md="5">
@@ -130,35 +108,22 @@
             </ion-card>
           </ion-col>
         </ion-row>
-
       </ion-content>
 
       <!-- MODAL -->
-      <div id="bkmodal" class="bkpopup"></div>
-      <div id="modal" class="popup_box"></div>
+      <div id="bkmodal" style="opacity:0; pointer-events: none" class="bkpopup"></div>
+      <div id="modal" style="opacity:0; pointer-events: none" class="popup_box"></div>
 
       <!-- FAB TOP-LEFT -->
       <ion-fab vertical="top" horizontal="start" style="margin-top: 58px; margin-left: -8px;">
         <ion-fab-button id="nameSetting" color="light" size="small">
           <ion-label id="nameSettingText" style="font-size: 20px;"></ion-label>
         </ion-fab-button>
-        <ion-label id="help-config" class="help help-configuracion">Configuración</ion-label>
+        <ion-label id="help-config" class="help help-configuracion"></ion-label>
       </ion-fab>
-
-      <!-- FAB TOP-RIGHT -->
-      <!-- <ion-fab vertical="top" horizontal="end" style="margin-top:58px; margin-right:-7px;" id="buttonHelp">
-        <ion-fab-button class="help-outline" color="light" size="small">
-          <ion-icon name="help-outline"></ion-icon>
-        </ion-fab-button>
-      </ion-fab> -->
 
       <!-- FAB BOTTOM-LEFT -->
       <ion-fab vertical="bottom" horizontal="start" style="margin-left:-8px">
-
-        <!-- <ion-fab-button id="buttonTest" color="light" size="small">
-          <ion-icon name="help" color="primary"></ion-icon>
-        </ion-fab-button> -->
-        <!-- <ion-label id="help-edit" class="help help-editar">Editar</ion-label> -->
 
         <ion-fab-button id="buttonEdit" color="light" size="small">
           <ion-icon name="pencil" color="primary"></ion-icon>
@@ -178,7 +143,7 @@
         <ion-fab-button id="showCard" color="light" size="small">
           <ion-icon id="showIcon" name="eye-outline"></ion-icon>
         </ion-fab-button>
-        <ion-label id="help-show" class="help help-mostrar-ocultar">Mostrar/Ocultar</ion-label>
+        <ion-label id="help-show" class="help help-mostrar-ocultar">Mostrar todo/Ocultar</ion-label>
 
         <ion-fab-button id="buttonSearch" color="light" size="small">
           <ion-icon name="search"></ion-icon>
@@ -197,9 +162,13 @@
     </div>
 
   </ion-app>
-  <script src="fun.js"></script>
-  <script src="2_7.js"></script>
-  <script src="btn.js"></script>
+  <script src="src/js/imgLocal.js"></script>
+  <script src="src/js/btn_modal.js"></script>
+  <script src="src/js/fun.js"></script>
+  <script src="app.js"></script>
+  <script src="src/js/btn_nav.js"></script>
+  <script src="src/js/btn_fab.js"></script>
+  <script src="src/js/btn.js"></script>
   <script nomodule src="https://cdn.jsdelivr.net/npm/ionicons@4.7.4/dist/ionicons/ionicons.js"></script>
 </body>
 
