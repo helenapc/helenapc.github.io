@@ -37,13 +37,6 @@ const showCardAll = (account, user, pass, notes) => {
     ionCard.appendChild(newHeader);
     showSearch.appendChild(ionCard);
 
-    // ScrollReveal().reveal('ion-card');
-    // ScrollReveal().reveal('ion-card', {
-    //     delay: 0,
-    //     duration: 0,
-    //     reset: false
-    // });
-
 };
 
 const itemPers = (id, ico, text, button = true, color = '', show = true) => {
@@ -129,12 +122,10 @@ function delete_spaces2(texto, type = 'data') {
     return texto;
 };
 
-
 function barProgressF(color, state) {
     setAttributes(barProgress01, { color: color, type: state, value: '100' });
     barProgress.setAttribute('style', `opacity: ${(color == 'light' && state == 'determinate') ? 0 : 1}`);
 };
-
 
 function refreshData(toast = true, refresh = true) {
     aTotal.sort(); // borrar?
@@ -270,7 +261,6 @@ function code(cod) {
     return hexF;
 }
 
-
 function deco(dec) {
     let str = '', decLength = dec.length;
     for (let n = 0; n < decLength; n += 2) {
@@ -286,7 +276,6 @@ function deco(dec) {
     }
     return str;
 }
-
 
 function splitInit() {
     txt = localStorage.getItem('L1').split('GD');
@@ -340,8 +329,6 @@ function updateData(text, compareChanges, toast = true) {
     // F0601
     setTimeout(() => { window.location.reload() }, 1000);
 }
-
-
 
 function updateDB(send, receive) {
     if (send == 'B1') localStorage.setItem(receive, docB1);
@@ -449,155 +436,6 @@ function sendEmail() {
     return alert.present();
 }
 
-
-// function alertAdd2(modalVal) {
-//     if (
-//         modalVal[0] == '' ||
-//         modalVal[1] == '' ||
-//         modalVal[2] == ''
-//     ) {
-//         barProgressF('warning', 'determinate');
-//         alertMsg('Error', 'Campos obligatorios vacíos.');
-//         setTimeout(() => { barProgressF('light', 'determinate'); }, 1500);
-//         return;
-//     }
-
-//     modalVal[0] = delete_spaces(modalVal[0].toLowerCase());
-//     modalVal[1] = delete_spaces(modalVal[1]);
-//     modalVal[2] = delete_spaces(modalVal[2]);
-//     modalVal[3] = delete_spaces(modalVal[3]);
-
-//     for (let i = 0; i < newTotal.length; i += 5) {
-//         if (
-//             modalVal[0] == newTotal[i] &&
-//             modalVal[1] == newTotal[i + 1] &&
-//             modalVal[2] == newTotal[i + 2]
-//         ) {
-//             alertMsg('Error', `La cuenta "${modalVal[0].toUpperCase()}" ya existe.`);
-//             return;
-//         }
-//     }
-
-//     //parche b5003
-//     // multipleAttribute(['#bkmodal', '#modal'], 'style', 'opacity:0; pointer-events: none');
-//     // multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch'], 'style', 'opacity:1; pointer-events: auto');
-//     // AUTOEXPAND
-//     // if (showSearch.innerHTML != '') multipleAttribute(['#expandCard'], 'style', 'opacity:1; pointer-events: auto');
-//     // 
-
-//     aTotal.push(`${code(modalVal[0].toLowerCase())}OG${code(modalVal[1])}OG${code(modalVal[2])}OG${code(modalVal[3])}`)
-//     aTotalTOnewTotal();
-//     save();
-//     showSearch.innerHTML = '';
-//     newSearch.value = modalVal[0];
-//     // AUTOEXPAND 2
-//     document.getElementById('expandIcon').setAttribute('name', icoCom);
-//     refreshData();
-//     presentToast(`"${modalVal[0].toUpperCase()}" agregada`, 800, 'success');
-//     updateDB('L1', 'B1');
-// }
-
-// function alertEdit2(modalVal, reemplace) {
-//     const toRemplace = reemplace / 5;
-
-//     if (modalVal[0] == '' || modalVal[1] == '' || modalVal[2] == '') {
-//         alertMsg('Error', 'Campos obligatorios vacíos.');
-//         return;
-//     }
-
-//     modalVal[0] = delete_spaces(modalVal[0].toLowerCase());
-//     modalVal[1] = delete_spaces(modalVal[1]);
-//     modalVal[2] = delete_spaces(modalVal[2]);
-//     modalVal[3] = delete_spaces(modalVal[3]);
-
-
-//     if (
-//         modalVal[0] == cuPath[0].toLowerCase() &&
-//         modalVal[1] == cuPath[1] &&
-//         modalVal[2] == cuPath[2] &&
-//         modalVal[3] == cuPath[3]
-//     ) {
-//         return;
-//     }
-
-//     for (i = 0; i < newTotal.length; i += 5) {
-//         if (
-//             modalVal[0] == newTotal[i] &&
-//             modalVal[1] == newTotal[i + 1] &&
-//             modalVal[2] == newTotal[i + 2] &&
-//             modalVal[3] == newTotal[i + 3]
-//         ) {
-//             alertMsg('Error', `La cuenta "${modalVal[0].toUpperCase()}" ya existe.`);
-//             return;
-//         }
-//     }
-
-//     //parche b6001
-//     multipleAttribute(['#bkmodal', '#modal'], 'style', 'opacity:0; pointer-events: none');
-//     multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch'], 'style', 'opacity:1; pointer-events: auto');
-//     // AUTOEXPAND
-//     if (showSearch.innerHTML != '') multipleAttribute(['#expandCard'], 'style', 'opacity:1; pointer-events: auto');
-//     // 
-
-//     aTotal.splice(toRemplace, 1, code(modalVal[0]) + 'OG' + code(modalVal[1]) + 'OG' + code(modalVal[2]) + 'OG' + code(modalVal[3]));
-//     aTotalTOnewTotal();
-//     showSearch.innerHTML = '';
-//     newSearch.value = modalVal[0];
-//     // AUTOEXPAND 2
-//     document.getElementById('expandIcon').setAttribute('name', icoCom);
-//     refreshData();
-//     presentToast(`"${modalVal[0].toUpperCase()}" editado.`, 800, 'success');
-//     save();
-//     updateDB('L1', 'B1');
-//     closeAlert = false;
-
-// }
-
-// function alertDel_DELETE(cuPath, reemplace) {
-//     document.getElementById('bkmodal').setAttribute('style', 'opacity:0; pointer-events: none');
-//     document.getElementById('modal').setAttribute('style', 'opacity:0; pointer-events: none');
-//     document.getElementById('buttonEdit').setAttribute('style', 'opacity:0; pointer-events: none');
-//     document.getElementById('buttonDelete').setAttribute('style', 'opacity:0; pointer-events: none');
-//     const alert = document.createElement('ion-alert');
-//     alert.message = `¿Eliminar "${cuPath[0]}"?`;
-//     alert.buttons = [
-//         { text: 'cancelar', role: 'cancel' },
-//         {
-//             text: 'ok',
-//             handler: () => {
-//                 aTotal.splice(reemplace / 5, 1);
-//                 aTotalTOnewTotal();
-//                 refreshData();
-//                 save();
-//                 presentToast(`"${cuPath[0]}" eliminado.`, 500, 'danger');
-//                 updateDB('L1', 'B1');
-//                 // if (showSearch.value == '') newSearch.value = '';
-//                 closeAlert = false;
-//                 // alertcompare = false;
-//                 // setTimeout(() => { alertcompare = true; }, 1500)
-//             },
-//         },
-//     ];
-//     document.body.appendChild(alert);
-//     return alert.present();
-// }
-
-// function presentCompareData(metaObj, compareChanges) {
-//     const alert = document.createElement('ion-alert');
-//     alert.setAttribute('backdrop-dismiss', 'false');
-//     alert.header = 'Se detectaron cambios';
-//     alert.message = `¿Aceptar y sincorinizar con la base de datos? </br></br> DETALLES:`;
-//     alert.inputs = metaObj;
-//     alert.buttons = [
-//         { text: 'Rechazar', handler: () => { updateData('Rechazar', compareChanges) } },
-//         { text: 'Aceptar', handler: () => { updateData('Aceptar', compareChanges) } },
-//     ];
-//     document.body.appendChild(alert);
-//     return alert.present();
-// }
-
-
-
 function listDrop(arrLista, tituloLista) {
     let arrListaLength = arrLista.length
     if (arrListaLength != 1) {
@@ -605,7 +443,7 @@ function listDrop(arrLista, tituloLista) {
         for (let i = 1; i < arrListaLength; i++) { el += `<p class="list_text">- ${arrLista[i]}</p>`; };
         return `
         <div style="margin:5px 0px 2px 0px; padding: 5px 5px 5px 0px">
-            <label class="ccse" >&#9679 Cuentas ${tituloLista} (${arrListaLength - 1})</label>
+            <label class="modalContentData" >&#9679 Cuentas ${tituloLista} (${arrListaLength - 1})</label>
         </div>
         ${el}
         `
@@ -613,99 +451,6 @@ function listDrop(arrLista, tituloLista) {
         return '';
     }
 }
-
-
-
-
-// CONFIG EDIT NM/US/PS/NO
-// function alertPass_DELETE() {
-//     const alertPassItem = document.createElement('ion-alert');
-//     alertPassItem.header = 'Configuración personal';
-//     alertPassItem.message = 'Inserte contraseña para continuar..';
-//     alertPassItem.inputs = [
-//         { name: 'uEPass', placeholder: 'Contraseña', type: 'password' },
-//     ];
-//     alertPassItem.buttons = [
-//         {
-//             text: 'Ok',
-//             handler: u => {
-//                 if (u.uEPass == deco(txt[2])) {
-//                     if (txt[0] == '25') txt[0] = '';
-//                     // presentAlertEditUserData();
-//                     // presentAlertEditUserData2(txt);
-
-//                 } else {
-//                     presentToast('Incorrecto.', '800', 'warning');
-//                 }
-//             },
-//         },
-//     ];
-//     document.body.appendChild(alertPassItem);
-//     return alertPassItem.present();
-// }
-// function presentAlertEditUserData_DELETE() {
-//     const alert = document.createElement('ion-alert');
-//     alert.header = 'Editar cuenta';
-//     alert.inputs = [
-//         { name: 'userEditName', placeholder: 'Nombre (Opcional)', value: deco(txt[0]) },
-//         { name: 'userEditUser', placeholder: 'Email', value: deco(txt[1]) },
-//         { name: 'userEditPass', placeholder: 'Contraseña', value: deco(txt[2]) },
-//         { name: 'userPin', placeholder: 'PIN', value: deco(txt[4]) },
-//     ];
-//     alert.buttons = [
-//         { text: 'Cancelar', role: 'cancel' },
-//         {
-//             text: 'Ok',
-//             handler: usNData => {
-//                 if (usNData.userEditUser == '' || usNData.userEditPass == '') {
-//                     barProgressF('danger', 'determinate');
-//                     alertMsg('Error', 'Datos vacíos.');
-//                     setTimeout(() => { barProgressF('light', 'determinate'); }, 1500);
-//                     return;
-//                 }
-
-//                 if (usNData.userEditUser == deco(txt[0]) && usNData.userEditPass == deco(txt[1]) && usNData.userEditPass == deco(txt[2]) && usNData.userPin == deco(txt[4])) {
-//                     return;
-//                 }
-//                 const confPersonal = [usNData.userEditName, usNData.userEditUser, usNData.userEditPass, usNData.userPin];
-
-//                 presentAlertConfirmEdit(confPersonal);
-
-
-
-//             },
-//         },
-//     ];
-//     document.body.appendChild(alert);
-//     return alert.present();
-// }
-// function presentAlertEditUserData2_DELETE(txt) {
-
-//     document.getElementById('bkmodal').setAttribute('style', 'opacity:0.3; pointer-events: auto');
-//     document.getElementById('modal').setAttribute('style', 'opacity:1; pointer-events: auto');
-
-
-//     document.getElementById('modal').innerHTML =
-//         `
-//     <p id="op1" class="cct">Editar cuenta</p>
-//     <hr style="height:1px; border-width:0; color:gray;background-color:gray">
-//     <p style="margin: 0px 0px 0px 0px;">
-//     <input type="text" placeholder="*Opcional" class="ccse modal_input" value="${deco(txt[0])}">
-//     <label class="cce" > Nombre: </label>
-//     <input type="text" placeholder="*Obligatorio" class="ccse modal_input" value="${deco(txt[1])}">
-//     <label class="cce" > Email: </label>
-//     <input type="text" placeholder="*Obligatorio" class="ccse modal_input" value="${deco(txt[2])}">
-//     <label class="cce" > Contraseña: </label>
-//     <input type="text" placeholder="*Opcional" class="ccse modal_input" value="${deco(txt[4])}">
-//     <label class="cce" > PIN: </label>
-
-//         <input type="button" class="modal_btns" value="OK" onClick="buttons_modal('ok_user')">
-//         <input type="button" class="modal_btns" value="CANCELAR" onClick="buttons_modal('cancel')">
-
-//     </p>
-// `;
-
-// }
 
 function presentAlertConfirmEdit(confPersonal) {
     const alert = document.createElement('ion-alert');
@@ -723,7 +468,7 @@ function presentAlertConfirmEdit(confPersonal) {
                 txt[4] = code(confPersonal[3]);
 
                 document.getElementById('userName').innerHTML = deco(txt[0]);
-                document.getElementById('nameSettingText').innerHTML = deco(txt[0]).slice(0, 1).toUpperCase();
+                // document.getElementById('nameSettingText').innerHTML = deco(txt[0]).slice(0, 1).toUpperCase();
                 localStorage.setItem('accessTempData', txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD');
                 // localStorage.setItem('accessTempData', txt[1] + 'GD' + txt[2] + 'GD');
 
@@ -771,88 +516,3 @@ function downloadFile(data, fileName, type = 'text/plain') {
     document.body.removeChild(a);
 }
 
-
-// function mostrarCambios() {
-//     let openAdd = 0; openDel = 0; openEdit = 0;
-
-//     document.getElementById('modal').innerHTML = `
-//     <p id="op1" class="cct">Cambios</p>
-//     <hr style="height:1px; border-width:0; color:gray;background-color:gray">
-//     <p style="margin: 0px 0px 0px 0px;">
-
-//     ${listDetail(arrCompareAdd, 'Nuevas', 'dropAddButton')}
-//     ${listDetail(arrCompareDel, 'Borradas', 'dropDelButton')}
-//     ${listDetail(arrCompareEdit, 'Editadas', 'dropEditButton')}
-
-//     <input type="button" class="modal_btns" value="ACEPTAR" onClick="buttons_modal('aceptar')">
-//     <input type="button" class="modal_btns" value="RECHAZAR" onClick="buttons_modal('rechazar')">
-//     </p>
-//     `;
-
-
-//     document.getElementById('bkmodal').setAttribute('style', 'opacity:1; pointer-events: none');
-//     document.getElementById('modal').setAttribute('style', 'opacity:1; pointer-events: auto');
-//     document.querySelector('.dropdown-content').setAttribute('style', 'display: none');
-
-//     const dropAddButton = document.querySelector('#dropAddButton');
-//     const dropDelButton = document.querySelector('#dropDelButton');
-//     const dropEditButton = document.querySelector('#dropEditButton');
-
-//     if (arrCompareAdd.length != 1) {
-//         dropAddButton.addEventListener('click', () => {
-//             openDel = 0, openEdit = 0, openAdd++
-
-//             if (openAdd < 2) {
-//                 listDrop(arrCompareAdd);
-//                 document.querySelector('.dropdown-content').setAttribute('style', 'display: block;');
-//                 if (dropAddButton) dropAddButton.setAttribute('style', 'background-color: var(--ion-border-color)');
-//                 if (dropDelButton) dropDelButton.setAttribute('style', 'background-color: var(--ion-color-primary)');
-//                 if (dropEditButton) dropEditButton.setAttribute('style', 'background-color: var(--ion-color-primary)');
-//             }
-//             else {
-//                 openAdd = 0;
-//                 document.querySelector('.dropdown-content').setAttribute('style', 'display: none');
-//                 dropAddButton.setAttribute('style', 'background-color: var(--ion-color-primary)');
-//             }
-//         });
-//     }
-
-//     if (arrCompareDel.length != 1) {
-//         dropDelButton.addEventListener('click', () => {
-//             openDel++, openEdit = 0, openAdd = 0;
-
-//             if (openDel < 2) {
-//                 listDrop(arrCompareDel);
-//                 document.querySelector('.dropdown-content').setAttribute('style', 'display: block;');
-//                 if (dropAddButton) dropAddButton.setAttribute('style', 'background-color: var(--ion-color-primary)');
-//                 if (dropDelButton) dropDelButton.setAttribute('style', 'background-color: var(--ion-border-color)');
-//                 if (dropEditButton) dropEditButton.setAttribute('style', 'background-color: var(--ion-color-primary)');
-//             }
-//             else {
-//                 openDel = 0;
-//                 document.querySelector('.dropdown-content').setAttribute('style', 'display: none');
-//                 dropDelButton.setAttribute('style', 'background-color: var(--ion-color-primary)');
-//             }
-//         });
-//     }
-
-//     if (arrCompareEdit.length != 1) {
-//         dropEditButton.addEventListener('click', () => {
-//             openDel = 0, openEdit++, openAdd = 0;
-
-//             if (openEdit < 2) {
-//                 listDrop(arrCompareEdit);
-//                 document.querySelector('.dropdown-content').setAttribute('style', 'display: block;');
-//                 if (dropAddButton) dropAddButton.setAttribute('style', 'background-color: var(--ion-color-primary)');
-//                 if (dropDelButton) dropDelButton.setAttribute('style', 'background-color: var(--ion-color-primary)');
-//                 if (dropEditButton) dropEditButton.setAttribute('style', 'background-color: var(--ion-border-color)');
-
-//             }
-//             else {
-//                 openEdit = 0;
-//                 document.querySelector('.dropdown-content').setAttribute('style', 'display: none');
-//                 dropEditButton.setAttribute('style', 'background-color: var(--ion-color-primary)');
-//             }
-//         });
-//     }
-// }

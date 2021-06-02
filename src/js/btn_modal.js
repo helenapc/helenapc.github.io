@@ -1,13 +1,13 @@
 
-const timeUndo = 2500;
+const timeUndo = 3500;
 
 function buttonModalCancel() {
-    // multipleAttribute(['#bkmodal', '#modal'], 'style', 'opacity:0; pointer-events: none');
     multipleAttribute(['#bkmodal', '#modal', '#buttonEdit', '#buttonDelete'], 'style', 'opacity:0; pointer-events: none');
-    multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch', '#buttonAdd'], 'style', 'opacity:1; pointer-events: auto');
+    // multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch', '#buttonAdd'], 'style', 'opacity:1; pointer-events: auto');
+    multipleAttribute(['#showCard', '#buttonAdd'], 'style', 'opacity:1; pointer-events: auto');
     if (showSearch.innerHTML != '') multipleAttribute(['#expandCard'], 'style', 'opacity:1; pointer-events: auto');
-    let ccse = document.querySelectorAll('.ccse');
-    for (let i = 0; i < ccse.length; i++) { ccse[i].setAttribute('style', 'user-select:none;'); }
+    let modalContentData = document.querySelectorAll('.modalContentData');
+    for (let i = 0; i < modalContentData.length; i++) { modalContentData[i].setAttribute('style', 'user-select:none;'); }
 }
 
 function buttonModalAdd() {
@@ -217,7 +217,6 @@ function buttonModalChanges(text, toast = true) {
 }
 
 
-// prox buttonModalSetChanges() ver y escoger cambios;
 function buttonModalSetChanges() {
 
     let txtTemp = (docB1 == newCompareData2) ? compareChanges.split('GD') : newCompareData2.split('GD');;
@@ -249,12 +248,11 @@ function buttonModalSetChanges() {
         };
     };
 
-    //parche b5002
     if (arrCompareAdd == '' && arrCompareEdit == '' && arrCompareDel == '') {
         return
     } else {
         document.getElementById('modal').innerHTML = `
-        <p id="op1" class="cct">Cambios</p>
+        <p id="op1" class="modalTitle">Cambios</p>
         <hr style="height:1px; border-width:0; color:gray;background-color:gray">
         <div class="div_list">
         
@@ -295,75 +293,3 @@ function buttonModalAccount() {
         presentAlertConfirmEdit(modalVal);
     }
 }
-
-// function buttons_modal(func) {
-
-    // if (func == 'ok') {
-    //     let modalVal = [
-    //         document.querySelectorAll('.modal_input')[0].value,
-    //         document.querySelectorAll('.modal_input')[1].value,
-    //         document.querySelectorAll('.modal_input')[2].value,
-    //         document.querySelectorAll('.modal_input')[3].value,
-    //     ];
-    //     if (document.getElementById('op1').innerHTML == 'Editar cuenta') { alertEdit2(modalVal, reemplace); }
-    //     else if (document.getElementById('op1').innerHTML == 'Agregar cuenta') { alertAdd2(modalVal); }
-
-    // }
-
-
-
-    // else if (func === 'aceptar') { updateData('Aceptar', compareChanges); }
-
-    // else if (func === 'rechazar') { updateData('Rechazar', compareChanges); }
-
-    // if (func == 'aceptar_offline') {
-    // updateData('Aceptar', compareChanges);
-    // localStorage.removeItem('offline');
-    // };
-
-    // if (func == 'rechazar_offline') {
-    // updateData('Rechazar', compareChanges);
-    // localStorage.removeItem('offline');
-    // };
-    // 
-    // if (func === 'verCambios') {}
-
-
-    // if (func != 'verCambios') { //CANCELAR
-    //     multipleAttribute(['#bkmodal', '#modal'], 'style', 'opacity:0; pointer-events: none');
-    //     multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch', '#buttonAdd'], 'style', 'opacity:1; pointer-events: auto');
-    //     if (showSearch.innerHTML != '') multipleAttribute(['#expandCard'], 'style', 'opacity:1; pointer-events: auto');
-    // }
-
-
-
-    // if (func == 'ok_datosDeUsuario') {
-    //     let modalVal = [
-    //         document.querySelectorAll('.modal_input')[0].value,
-    //         document.querySelectorAll('.modal_input')[1].value,
-    //         document.querySelectorAll('.modal_input')[2].value,
-    //         document.querySelectorAll('.modal_input')[3].value,
-    //     ];
-
-    //     if (modalVal[1] == '' || modalVal[2] == '') {
-    //         barProgressF('danger', 'determinate');
-    //         alertMsg('Error', 'Datos vacíos.');
-    //         setTimeout(() => { barProgressF('light', 'determinate'); }, 1500);
-    //         return;
-    //     }
-
-    //     if (modalVal[0] == deco(txt[0]) && modalVal[1] == deco(txt[1]) && modalVal[2] == deco(txt[2]) && modalVal[3] == deco(txt[4])) {
-    //         //return;
-    //     } else {
-    //         presentAlertConfirmEdit(modalVal);
-    //     }
-    // }
-
-    // if (func == 'cancel_datosDeUsuario') {
-
-    //     multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch', '#buttonAdd'], 'style', 'opacity:0; pointer-events: auto');
-    // }
-
-
-
-// }

@@ -9,13 +9,9 @@
   <link rel="shortcut icon" href="src/img/icopass.png" type="image/png">
   <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-firestore.js"></script>
-
-   <!-- <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script> -->
-   <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" /> -->
-   <!-- <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script> -->
-  
   <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core@5.4.0/dist/ionic/ionic.esm.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core@5.4.0/css/ionic.bundle.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core@5.4.0/dist/ionic/ionic.js"></script>
 
   <!-- mail -->
@@ -32,47 +28,31 @@
 
 <body>
   <ion-app class="fondo">
-    <!-- <label id="point_backup_nav" class="point_backup">&#9679</label> -->
-
     <ion-menu side="start" content-id="main-content" max-edge-start="0" id="barMenuPrincipal" swipe-gesture="true">
-      <!-- <label id="point_backup" class="point_backup_menu">&#9679</label> -->
-      <!-- <label id="point_backup" class="point_backup_menu">·</label> -->
       <label class="point_backup">&#9679</label>
     </ion-menu>
 
 
 
-    <div id ="imagenes" class="popup_box" style="opacity:0; pointer-events: none">
-      <input id="fondo1" type='file' onchange="readURL(this);"/>
-      <input id="fondo2" type='file' onchange="readURL2(this);"/>
+    <div id="imagenes" class="popup_box" style="opacity:0; pointer-events: none">
+      <input id="fondo1" type='file' onchange="readURL(this);" />
+      <input id="fondo2" type='file' onchange="readURL2(this);" />
       <textarea id="dataUrl" rows="4" cols="100"></textarea>
     </div>
-    
-
-    <!-- <ion-fab id="offline" vertical="top" horizontal="end" style="opacity: 0;">
-      <ion-icon name="cloud-offline-outline" size="large"></ion-icon>
-    </ion-fab> -->
 
     <div class="ion-page" id="main-content">
       <ion-header>
         <ion-row id="barProgress"></ion-row>
         <ion-toolbar>
-          <!-- <ion-buttons id="barOpen" style="margin-right: -30px;" slot="start"> -->
 
           <ion-buttons class="button_nav" slot="start">
-            <ion-menu-button style="margin-left: -10px;">
-              <ion-icon name="ellipsis-vertical-outline"></ion-icon>
-            </ion-menu-button>
+            <ion-menu-button></ion-menu-button>
           </ion-buttons>
 
-          <!-- <ion-buttons slot="start">
-            <ion-menu-button>
-              <ion-icon name="ellipsis-vertical-outline"></ion-icon>
-            </ion-menu-button>
-          </ion-buttons> -->
-
           <ion-title id="title">
-            <ion-label class="ion-text-wrap">Gestor de Contraseñas</ion-label>
+            <div class="titleBar">
+              <Label class="titleApp">Gestor de Contraseñas</Label>
+            </div>
           </ion-title>
 
           <div slot="end" style="margin-right:20px;">
@@ -97,7 +77,6 @@
 
 
       <ion-content class="content" id='content'>
-        <!-- <div class="divOverflow"> -->
 
         <ion-refresher slot="fixed" id="refresher" pull-factor="0.5" pull-min="50" pull-max="200">
           <ion-refresher-content></ion-refresher-content>
@@ -135,86 +114,58 @@
         <ion-row id="cardPin">
           <ion-col size="5" offset="3.5" size-md="2" offset-md="5">
             <ion-card>
-              <ion-input type="password" style="text-align: center; --padding-start: 0px;" placeholder="PIN" id="pin">
+              <ion-input autofocus="true" type="password" style="text-align: center; --padding-start: 0px;"
+                placeholder="PIN" id="pin">
               </ion-input>
             </ion-card>
           </ion-col>
         </ion-row>
-
-        <!-- </div> -->
       </ion-content>
 
 
 
       <!-- MODAL -->
-
-      
-      
-
       <div id="bkmodal" style="opacity:0; pointer-events: none" class="bkpopup"></div>
-      <div id="modal" style="opacity:0; pointer-events: none" class="popup_box"></div>
+      <div id="modal" style="opacity:0; pointer-events: none;" class="popup_box"></div>
 
       <!-- FAB TOP-LEFT -->
-      <ion-fab vertical="top" horizontal="start" style="margin-top: 58px; margin-left: -8px;">
+      <!-- <ion-fab vertical="top" horizontal="start" style="margin-top: 70px; margin-left: -8px;">
         <ion-fab-button id="nameSetting" color="light" size="small">
           <ion-label id="nameSettingText" style="font-size: 20px;"></ion-label>
         </ion-fab-button>
         <ion-label id="help-config" class="help help-configuracion"></ion-label>
-      </ion-fab>
-
-      <!-- FAB TOP-RIGHT -->
-      <!-- <ion-fab vertical="top" horizontal="end" style="margin-top:58px; margin-right:-7px;" id="buttonHelp">
-        <ion-fab-button class="help-outline" color="light" size="small">
-          <ion-icon name="help-outline"></ion-icon>
-        </ion-fab-button>
       </ion-fab> -->
 
-      <!-- FAB BOTTOM-LEFT -->
-      <ion-fab vertical="bottom" horizontal="start" style="margin-left:-8px">
-
-        <!-- <ion-fab-button id="buttonTest" color="light" size="small">
-          <ion-icon name="help" color="primary"></ion-icon>
-        </ion-fab-button> -->
-        <!-- <ion-label id="help-edit" class="help help-editar">Editar</ion-label> -->
-
+      <!-- FAB BOTTOM-RIGHT -->
+      <ion-fab vertical="bottom" horizontal="end" slot="end">
         <ion-fab-button id="buttonEdit" color="light" size="small">
           <ion-icon name="pencil" color="primary"></ion-icon>
         </ion-fab-button>
-        <ion-label id="help-edit" class="help help-editar">Editar</ion-label>
 
         <ion-fab-button id="buttonDelete" color="light" size="small">
           <ion-icon name="trash" color="danger"></ion-icon>
         </ion-fab-button>
-        <ion-label id="help-delete" class="help help-borrar">Borrar</ion-label>
 
         <ion-fab-button id="expandCard" color="light" size="small">
           <ion-icon id="expandIcon" name="expand-outline"></ion-icon>
         </ion-fab-button>
-        <ion-label id="help-exp-com" class="help help-expandir-contraer">Expandir/Contraer</ion-label>
 
         <ion-fab-button id="showCard" color="light" size="small">
           <ion-icon id="showIcon" name="eye-outline"></ion-icon>
         </ion-fab-button>
-        <ion-label id="help-show" class="help help-mostrar-ocultar">Mostrar todo/Ocultar</ion-label>
 
-        <ion-fab-button id="buttonSearch" color="light" size="small">
+        <!-- <ion-fab-button id="buttonSearch" color="light" size="small">
           <ion-icon name="search"></ion-icon>
-        </ion-fab-button>
-        <ion-label id="help-search" class="help help-buscar">Buscar</ion-label>
-      </ion-fab>
+        </ion-fab-button> -->
 
-      <!-- FAB BOTTOM-RIGHT -->
-      <ion-fab vertical="bottom" horizontal="end" slot="end" id="buttonAdd">
-        <ion-fab-button class="buttonAdd" color="success" size="small">
+        <ion-fab-button id="buttonAdd" class="buttonAdd" color="success">
           <ion-icon name="add" class="add"></ion-icon>
         </ion-fab-button>
-        <ion-label id="help-add" class="help help-agregar">Agregar</ion-label>
       </ion-fab>
 
     </div>
 
   </ion-app>
-  <!-- <script src="https://unpkg.com/scrollreveal"></script> -->
   <script src="src/js/imgLocal.js"></script>
   <script src="src/js/btn_modal.js"></script>
   <script src="src/js/fun.js"></script>
@@ -222,7 +173,9 @@
   <script src="src/js/btn_nav.js"></script>
   <script src="src/js/btn_fab.js"></script>
   <script src="src/js/btn.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+    integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+    crossorigin="anonymous" />
   <script nomodule src="https://cdn.jsdelivr.net/npm/ionicons@4.7.4/dist/ionicons/ionicons.js"></script>
 </body>
 

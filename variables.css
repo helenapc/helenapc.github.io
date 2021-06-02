@@ -24,6 +24,17 @@ font-size: 1.6rem; */
   transition-duration: 0s;
 } */
 
+.titleBar{
+  margin-left: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+ion-fab-button{
+  margin-top: -3px;
+}
+
 .divOverflow{
   z-index: 0;
   height: 100%;
@@ -42,15 +53,6 @@ font-size: 1.6rem; */
   color: #ff00007e;
 }
 
-
-
-/* #point_backup_nav{
-  pointer-events: none;
-  font-size: 6rem;
-  left: -35px;
-  top: -25px;
-  transition-duration: 0s;
-} */
 
 #dropAddButton,
 #dropDelButton,
@@ -96,17 +98,15 @@ font-size: 1.6rem; */
 } */
 
 
-#buttonAdd { margin-right: -8px;}
+#buttonAdd { margin-right: -88px; size: 100px;}
+
+
 /* CELULAR */
 @media screen and (min-width: 600px){
 
-  /* #buttonAdd, #buttonHelp {
-    padding-right: 20px;
-  } */
-
   #buttonAdd { margin-right: 10px;}
 
-  #nameSetting:hover ~ #help-config,
+  /* #nameSetting:hover ~ #help-config,
   #buttonEdit:hover ~ #help-edit,
   #buttonDelete:hover ~ #help-delete,
   #expandCard:hover ~ #help-exp-com,
@@ -115,26 +115,26 @@ font-size: 1.6rem; */
   #buttonAdd:hover > #help-add{
     opacity: 1;
     transition: 0.6s;
-  }
+  } */
 }
 
 
 
-@media (pointer:none), (pointer:coarse) {
-  
+/* @media (pointer:none), (pointer:coarse) {
+
   #nameSetting:active ~ #help-config,
   #buttonEdit:active ~ #help-edit,
   #buttonDelete:active ~ #help-delete,
   #expandCard:active ~ #help-exp-com,
   #showCard:active ~ #help-show,
   #buttonSearch:active ~ #help-search,
-  #buttonAdd:active > #help-add{ 
+  #buttonAdd:active > #help-add{
     opacity: 1;
     transition: 0.4s;
     transition-timing-function: cubic-bezier(1,0,0,0);
   }
-  
-}
+
+} */
 
 
 /* ********* */
@@ -159,8 +159,8 @@ ion-fab ion-label{
 }
 
 .help-editar{ left: 60px; top: 10px; opacity: 0; pointer-events: none; }
-.help-borrar{ left: 60px; top: 59px; opacity: 0; pointer-events: none; } 
-.help-configuracion{ left: 60px; top: 10px; opacity: 0; pointer-events: none;} 
+.help-borrar{ left: 60px; top: 59px; opacity: 0; pointer-events: none; }
+.help-configuracion{ left: 60px; top: 10px; opacity: 0; pointer-events: none;}
 .help-expandir-contraer{ left: 60px; top: 105px; opacity: 0; pointer-events: none; }
 .help-mostrar-ocultar{ left: 60px; top: 155px; opacity: 0; pointer-events: none;}
 .help-buscar{ left: 60px; top: 201px; opacity: 0; pointer-events: none; }
@@ -304,8 +304,6 @@ ion-icon, .item .sc-ion-label-md-h , .restoreText , #nameSettingText{ /*icon, in
 /*THEMES*/
 .light {
   --val: #ffffff70;
-  /* background: url('src/img/bg1.jpg') no-repeat 52% center/cover; */
-  /* background: url('https://i.blogs.es/594843/chrome/450_1000.jpg') no-repeat 52% center/cover; */
   --ion-color-primary: #3880ff;
   --ion-color-secondary: #3dc2ff;
   --ion-color-tertiary: #5260ff;
@@ -328,22 +326,14 @@ ion-icon, .item .sc-ion-label-md-h , .restoreText , #nameSettingText{ /*icon, in
   --ion-border-color: #cccccc; /*LÍNEA ITEMS*/
   --ion-item-background: #f5f5f5;  /*fondo 'CARDs e ITEM*/
   --ion-toolbar-background: #f5f5f5;  /*NOMBRE*/
-  
+
   --ion-item-background-activated: #00ffea;
   --color-toolbar-background:#00ffea;
   --color-toolbar-text: #00ffea;
 }
 
-
-/* body.bgl{
-  background: url('https://i.pinimg.com/originals/67/54/78/675478c7dcc17f90ffa729387685615a.jpg') no-repeat 52% center/cover;
-  opacity: 1;
-} */
-
-
 .dark {
   --val: #000000d5;
-  /* background: url('src/img/bg2.jpg') no-repeat 52% center/cover; */
   --ion-color-primary: #428cff;
   --ion-color-secondary: #50c8ff;
   --ion-color-tertiary: #6a64ff;

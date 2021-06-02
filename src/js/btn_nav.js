@@ -1,8 +1,6 @@
 
 //NAV BAR
 
-// document.getElementById('barOpen').addEventListener('click', () => { helpFunction('0', false) });
-
 document.getElementById('barClose').addEventListener('click', () => { barMenuPrincipal.close() });
 
 account.addEventListener('click', () => {
@@ -23,17 +21,17 @@ account.addEventListener('click', () => {
 
                     document.getElementById('modal').innerHTML =
                         `
-                        <p id="op1" class="cct">Datos de usuario</p>
+                        <p id="op1" class="modalTitle">Datos de usuario</p>
                         <hr style="height:1px; border-width:0; color:gray;background-color:gray">
                         <p style="margin: 25px 0px 0px 0px;">
-                        <input type="text" placeholder="Opcional" class="ccse modal_input" value="${deco(txt[0])}">
-                        <label class="cce" > Nombre: </label>
-                        <input type="text" placeholder="Obligatorio" class="ccse modal_input" value="${deco(txt[1])}">
-                        <label class="cce" > Email: </label>
-                        <input type="text" placeholder="Obligatorio" class="ccse modal_input" value="${deco(txt[2])}">
-                        <label class="cce" > Contraseña: </label>
-                        <input type="text" placeholder="Opcional" class="ccse modal_input" value="${deco(txt[4])}">
-                        <label class="cce" > PIN: </label>
+                        <input type="text" placeholder="Opcional" class="modalContentData modal_input" value="${deco(txt[0])}">
+                        <label class="modalLabel" > Nombre: </label>
+                        <input type="text" placeholder="Obligatorio" class="modalContentData modal_input" value="${deco(txt[1])}">
+                        <label class="modalLabel" > Email: </label>
+                        <input type="text" placeholder="Obligatorio" class="modalContentData modal_input" value="${deco(txt[2])}">
+                        <label class="modalLabel" > Contraseña: </label>
+                        <input type="text" placeholder="Opcional" class="modalContentData modal_input" value="${deco(txt[4])}">
+                        <label class="modalLabel" > PIN: </label>
                         </p>
 
                         <input type="button" class="modal_btns" value="OK" onClick="buttonModalAccount()">
@@ -127,7 +125,8 @@ config.addEventListener('click', () => {
 
     barMenuPrincipal.close();
     multipleAttribute(['#bkmodal', '#modal'], 'style', 'opacity:1; pointer-events: auto');
-    multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch', '#buttonAdd'], 'style', 'opacity:0.3; pointer-events: none');
+    // multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch', '#buttonAdd'], 'style', 'opacity:0; pointer-events: none');
+    multipleAttribute(['#showCard', '#buttonAdd'], 'style', 'opacity:0; pointer-events: none');
     // AUTOEXPAND
 
     if (showSearch.innerHTML != '') multipleAttribute(['#expandCard'], 'style', 'opacity:0.3; pointer-events: none');
@@ -135,15 +134,16 @@ config.addEventListener('click', () => {
     document.getElementById('modal').innerHTML =
 
         `
-        <p id="op1" class="cct">Configuración</p>
+        <p id="op1" class="modalTitle">Configuración</p>
         <hr style="height:1px; background-color:gray">
     
         <div style="width: 100%; height: 220px; overflow-y:scroll; overflow-x: hidden; margin: 1px; paddgin: 1px">
-                
-            <label class="cce_st" style="font-size:0.9rem">Fondos (internet)</label>
+
+               
+            <label class="modalLabelStatic" style="font-size:0.9rem">Fondos (internet)</label>
 
             <p style="margin: 15px 0px; ; color: var(--ion-text-color)"> Tema Claro:
-                <input type="text" class="ccse modal_input configData" placeholder ="Pegar link aquí.." value="${configDataFondo01}"style="width: 78%"> 
+                <input type="text" class="modalContentData modal_input configData" placeholder ="Pegar link aquí.." value="${configDataFondo01}"style="width: 78%"> 
                 <label for="fondo1">
                     <i class="fas fa-camera" style=" margin-top:-15px; padding: 10px; background: var(--ion-color-light)"></i>
                 </label>
@@ -151,7 +151,7 @@ config.addEventListener('click', () => {
             </p>
 
             <p style="margin: 15px 0px; ; color: var(--ion-text-color)"> Tema Oscuro:
-                <input type="text" class="ccse modal_input configData" placeholder ="Pegar link aquí.." value="${configDataFondo02}" style="width: 78%"> 
+                <input type="text" class="modalContentData modal_input configData" placeholder ="Pegar link aquí.." value="${configDataFondo02}" style="width: 78%"> 
                 <label for="fondo2">
                     <i class="fas fa-camera" style="  pointer-events: auto; padding: 10px; background: var(--ion-color-light);"></i>
                 </label>
@@ -159,11 +159,11 @@ config.addEventListener('click', () => {
 
             <br>
 
-            <label class="cce_st" style="font-size:0.9rem">Tarjetas</label>
+            <label class="modalLabelStatic" style="font-size:0.9rem">Tarjetas</label>
 
             <p style="padding: 15px 0px; margin: 0; ">
                 <label style="color: var(--ion-text-color);">
-                    <input type="checkbox" class="ccse modal_input configData">&nbsp;&nbsp;Auto-expandir
+                    <input type="checkbox" class="modalContentData modal_input configData">&nbsp;&nbsp;Auto-expandir
                 </label>
             </p>
 
@@ -171,7 +171,15 @@ config.addEventListener('click', () => {
             
             <p style="padding: 15px 0px; margin: 0;">
                 <label style="color: var(--ion-text-color);">
-                    <input type="checkbox" class="ccse modal_input configData">&nbsp;&nbsp;Animación
+                    <input type="checkbox" class="modalContentData modal_input configData">&nbsp;&nbsp;Animación
+                </label>
+            </p>
+
+            <label class="modalLabelStatic" style="font-size:0.9rem">Actualización de datos</label>
+
+            <p style="padding: 15px 0px; margin: 0; ">
+                <label style="color: var(--ion-text-color);">
+                    <input type="checkbox" class="modalContentData modal_input configData">&nbsp;&nbsp;Actualización automática
                 </label>
             </p>
             
@@ -189,7 +197,7 @@ config.addEventListener('click', () => {
 
     configValues[2].checked = configData.autoExpand;
     configValues[3].checked = configData.animacion;
-
+    configValues[4].checked = configData.sincronizacion;
     // fondo claro 
     configValues[0].addEventListener('input', () => {
         if (configValues[0].value === '*Imagen Local*') {
@@ -239,12 +247,17 @@ config.addEventListener('click', () => {
 
     });
 
+    // sincronización de datos
+    configValues[4].addEventListener('click', () => {
+        configData.sincronizacion = configValues[4].checked;
+        localStorage.setItem('data', JSON.stringify(configData));
+
+    });
+
 
 
     multipleAttribute(['#buttonEdit', '#buttonDelete'], 'style', 'opacity:0; pointer-events: none');
 })
-
-
 
 barDelAcc.addEventListener('click', () => {
     barMenuPrincipal.close();

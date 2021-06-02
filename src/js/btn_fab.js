@@ -7,42 +7,42 @@
 //FAB
 
 document.getElementById('buttonEdit').addEventListener('click', () => {
-
+    
     multipleAttribute(['#buttonEdit', '#buttonDelete'], 'style', 'opacity:0; pointer-events: none');
-
-    multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch', '#buttonAdd'], 'style', 'opacity:0.3; pointer-events: none');
+    // multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch', '#buttonAdd'], 'style', 'opacity:0.3; pointer-events: none');
+    multipleAttribute(['#showCard', '#buttonAdd'], 'style', 'opacity:0.3; pointer-events: none');
     // AUTOEXPAND
     if (showSearch.innerHTML != '') multipleAttribute(['#expandCard'], 'style', 'opacity:0.3; pointer-events: none');
 
-
-    document.getElementById('modal').innerHTML =
+    let modalTemporal = document.getElementById('modal');
+    modalTemporal.setAttribute('style', 'z-index:20');
+    modalTemporal.innerHTML =
         `
-    <p id="op1" class="cct">Editar cuenta</p>
+    <p id="op1" class="modalTitle">Editar cuenta</p>
     <hr style="height:1px; border-width:0; color:gray;background-color:gray">
     <p style="margin: 25px 0px 15px 0px;">
-    <input type="text" placeholder="Obligatorio" class="ccse modal_input" value="${cuPath[0].toLowerCase()}">
-    <label class="cce" > Cuenta: </label>
-    <input type="text" placeholder="Obligatorio" class="ccse modal_input" value="${cuPath[1]}">
-    <label class="cce" > Usuario: </label>
-    <input type="text" placeholder="Obligatorio" class="ccse modal_input" value="${cuPath[2]}">
-    <label class="cce" > Contraseña: </label>
-    <textarea placeholder="Opcional" cols='23' class="ccse modal_input">${cuPath[3]}</textarea>
-    <label class="cce noteTextArea"> Notas: </label>
+    <input type="text" placeholder="Obligatorio" class="modalContentData modal_input" value="${cuPath[0].toLowerCase()}">
+    <label class="modalLabel" > Cuenta: </label>
+    <input type="text" placeholder="Obligatorio" class="modalContentData modal_input" value="${cuPath[1]}">
+    <label class="modalLabel" > Usuario: </label>
+    <input type="text" placeholder="Obligatorio" class="modalContentData modal_input" value="${cuPath[2]}">
+    <label class="modalLabel" > Contraseña: </label>
+    <textarea placeholder="Opcional" cols='23' class="modalContentData modal_input">${cuPath[3]}</textarea>
+    <label class="modalLabel noteTextArea"> Notas: </label>
     </p>
     
     <input type="button" class="modal_btns" value="OK" onClick="buttonModalEdit()">
     <input type="button" class="modal_btns" value="CANCELAR" onClick="buttonModalCancel()">
     
     `;
-    // <input type="text" placeholder="Opcional" class="ccse modal_input" value="${cuPath[3]}">
-    // <label class="cce" > Notas: </label>
 });
 
 document.getElementById('buttonDelete').addEventListener('keyup', () => {
 
     // F0602
     multipleAttribute(['#bkmodal', '#modal', '#buttonEdit', '#buttonDelete'], 'style', 'opacity:0; pointer-events: none');
-    multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch', '#buttonAdd'], 'style', 'opacity:1; pointer-events: auto');
+    // multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch', '#buttonAdd'], 'style', 'opacity:1; pointer-events: auto');
+    multipleAttribute(['#showCard', '#buttonAdd'], 'style', 'opacity:1; pointer-events: auto');
     if (showSearch.innerHTML != '') {
         multipleAttribute(['#expandCard'], 'style', 'opacity:1; pointer-events: auto');
     }
@@ -51,23 +51,14 @@ document.getElementById('buttonDelete').addEventListener('keyup', () => {
     const alert = document.createElement('ion-alert');
     alert.message = `¿Eliminar "${cuPath[0]}"?`;
     alert.buttons = [
-        {
-            // F0602
-            text: 'cancelar', role: 'cancel'
-            // handler: () => {
-            // AUTOEXPAND
-            // multipleAttribute(['#nameSetting', '#expandCard', '#showCard', '#buttonSearch'], 'style', 'opacity:1; pointer-events: auto');
-            // multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch'], 'style', 'opacity:1; pointer-events: auto');
-            // }
-            // F0602
-        },
+        { text: 'cancelar', role: 'cancel' },
         {
             text: 'ok',
             handler: () => {
                 aTotal.splice(reemplace / 5, 1);
                 aTotalTOnewTotal();
-
-                multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch', '#buttonAdd'], 'style', 'opacity:1; pointer-events: auto');
+                // multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch', '#buttonAdd'], 'style', 'opacity:1; pointer-events: auto');
+                multipleAttribute(['#showCard', '#buttonAdd'], 'style', 'opacity:1; pointer-events: auto');
                 // AUTOEXPAND
                 if (showSearch.innerHTML != '') expandCard.setAttribute('style', 'opacity:1; pointer-events: auto');
 
@@ -90,44 +81,26 @@ document.getElementById('buttonDelete').addEventListener('keyup', () => {
                 save();
                 presentToast(`"${cuPath[0]}" eliminado.`, '800', 'danger');
                 updateDB('L1', 'B1');
-                // multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch', '#buttonAdd'], 'style', 'opacity:1; pointer-events: auto');
-                // if (showSearch.innerHTML != '') expandCard.setAttribute('style', 'opacity:1; pointer-events: auto');
                 closeAlert = false;
-
-                // multipleAttribute(['#nameSetting','#expandCard', '#showCard', '#buttonSearch'], 'style', 'opacity:1; pointer-events: auto');
 
             },
         },
     ];
 
-    // multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch', '#buttonAdd'], 'style', 'opacity:1; pointer-events: auto');
-    // if (showSearch.innerHTML != '') {
-    //     multipleAttribute(['#expandCard'], 'style', 'opacity:1; pointer-events: auto');
-    // }
-
-    // } else {
-    //     document.getElementById('showIcon').setAttribute('name', icoShow);
-    //     newSearch.setAttribute('style', 'margin-top:0px');
-    //     // multipleAttribute(['#new-s'], 'style', 'opacity:1; margin-top:0px');
-    //     newSearch.setFocus();
-    //     statSearchBar = true;
-    //     testExpand = true;
-    //     newSearch.value = '';
-    // }
 
     document.body.appendChild(alert);
     return alert.present();
 });
 
 document.getElementById('buttonDelete').addEventListener('click', () => {
-    // barProgressF('danger', 'indeterminate');
     multipleAttribute(['#bkmodal', '#modal'], 'style', 'opacity:1; pointer-events: auto');
-    multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch', '#buttonAdd'], 'style', 'opacity:0.3; pointer-events: none');
+    // multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch', '#buttonAdd'], 'style', 'opacity:0.3; pointer-events: none');
+    multipleAttribute(['#showCard', '#buttonAdd'], 'style', 'opacity:0.3; pointer-events: none');
     if (showSearch.innerHTML != '') multipleAttribute(['#expandCard'], 'style', 'opacity:0.3; pointer-events: none');
 
     document.getElementById('modal').innerHTML =
         `
-    <p class="cct" style="margin: 5px 0px 20px 0px;">
+    <p class="modalTitle" style="margin: 5px 0px 20px 0px;">
         ¿Eliminar ${cuPath[0]}?
     </p>
     <input type="button" class="modal_btns" value="OK" onClick="buttonModalDelete()">
@@ -171,37 +144,38 @@ document.getElementById('showCard').addEventListener('click', () => {
     };
 });
 
-document.getElementById('buttonSearch').addEventListener('click', () => {
-    if (statSearchBar) {
-        newSearch.setAttribute('style', 'margin-top:-60px');
-        statSearchBar = false;
-    } else {
-        newSearch.value = '';
-        newSearch.setAttribute('style', 'margin-top:0px');
-        newSearch.setFocus();
-        statSearchBar = true;
-    }
-})
+// document.getElementById('buttonSearch').addEventListener('click', () => {
+//     if (statSearchBar) {
+//         newSearch.setAttribute('style', 'margin-top:-60px');
+//         statSearchBar = false;
+//     } else {
+//         newSearch.value = '';
+//         newSearch.setAttribute('style', 'margin-top:0px');
+//         newSearch.setFocus();
+//         statSearchBar = true;
+//     }
+// })
 
 document.getElementById('buttonAdd').addEventListener('click', () => {
-    multipleAttribute(['#bkmodal', '#modal'], 'style', 'opacity:1; pointer-events: auto');
-    multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch', '#buttonAdd'], 'style', 'opacity:0.3; pointer-events: none');
+    multipleAttribute(['#bkmodal', '#modal'], 'style', 'opacity:1; pointer-events: auto; z-index:20');
+    // multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch', '#buttonAdd'], 'style', 'opacity:0.3; pointer-events: none');
+    multipleAttribute(['#showCard', '#buttonAdd'], 'style', 'opacity:0.3; pointer-events: none');
     if (showSearch.innerHTML != '') multipleAttribute(['#expandCard'], 'style', 'opacity:0.3; pointer-events: none');
 
     document.getElementById('modal').innerHTML =
         `
-    <p id="op1" class="cct">Agregar cuenta</p>
-    <hr style="height:1px; border-width:0; color:gray;background-color:gray">
-    <p style="margin: 25px 0px 0px 0px;">
+        <p id="op1" class="modalTitle">Agregar cuenta</p>
+        <hr style="height:1px; border-width:0; color:gray;background-color:gray">
+        <p style="margin: 25px 0px 0px 0px;">
     
-        <input type="text" placeholder="Obligatorio" class="ccse modal_input" value="">
-        <label class="cce" > Cuenta:</label>
-        <input type="text" placeholder="Obligatorio" class="ccse modal_input" value="">
-        <label class="cce" > Usuario:</label>
-        <input type="text" placeholder="Obligatorio" class="ccse modal_input" value="">
-        <label class="cce" > Contraseña:</label>
-        <textarea placeholder="Opcional" cols='23' class="ccse modal_input"></textarea>
-        <label class="cce noteTextArea" > Notas:</label>
+        <input type="text" placeholder="Obligatorio" class="modalContentData modal_input" value="">
+        <label class="modalLabel" > Cuenta:</label>
+        <input type="text" placeholder="Obligatorio" class="modalContentData modal_input" value="">
+        <label class="modalLabel" > Usuario:</label>
+        <input type="text" placeholder="Obligatorio" class="modalContentData modal_input" value="">
+        <label class="modalLabel" > Contraseña:</label>
+        <textarea placeholder="Opcional" cols='23' class="modalContentData modal_input"></textarea>
+        <label class="modalLabel noteTextArea" > Notas:</label>
     </p>
     
     <input type="button" class="modal_btns" value="OK" onClick="buttonModalAdd()">

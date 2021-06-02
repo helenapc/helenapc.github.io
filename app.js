@@ -10,7 +10,7 @@ var cargarTema2 = document.getElementsByClassName('dark');
 
 var configData = JSON.parse(localStorage.getItem('data'));
 if (configData == null) {
-    localStorage.setItem('data', JSON.stringify({ 'autoExpand': false, 'fondo01': '', 'fondo02': '', 'animacion': false, 'animacionVelocidad': '2' }));
+    localStorage.setItem('data', JSON.stringify({ 'autoExpand': false, 'fondo01': '', 'fondo02': '', 'animacion': false, 'animacionVelocidad': '2', 'sincronizacion': true }));
     configData = JSON.parse(localStorage.getItem('data'));
 }
 
@@ -30,13 +30,11 @@ const coll = '273';
 var alertcompare = true;
 var resetLogin = false;
 var offline = true;
-// var acceptOffline = true;
 var closeAlert = false;
 var helpActivate = false;
 var cuPath = [];
 var reemplace;
 const timePin = 300000;
-
 const icoShow = 'eye-outline';
 const icoHide = 'eye-off-outline';
 const icoExp = 'expand-outline';
@@ -61,10 +59,11 @@ const newSearch = document.getElementById('new-s');
 
 document.getElementById('content').setAttribute('style', ' --background:var(--val)');
 document.querySelector('#refresher').setAttribute('disabled', 'true');
+const inputPin = document.getElementById('pin');
 
-// AUTOEXPAND
-// document.querySelector('#imagenes').setAttribute('style', 'opacity:1; pointer-events:auto; transform: translateY(300px)');
-multipleAttribute(['#cardPin', '#nameSetting', '#buttonEdit', '#buttonDelete', '#expandCard', '#showCard', '#buttonSearch', '#buttonAdd', '.button_nav'], 'style', 'pointer-events: none; opacity: 0');
+
+// multipleAttribute(['#cardPin', '#nameSetting', '#buttonEdit', '#buttonDelete', '#expandCard', '#showCard', '#buttonSearch', '#buttonAdd', '.button_nav'], 'style', 'pointer-events: none; opacity: 0');
+multipleAttribute(['#cardPin', '#buttonEdit', '#buttonDelete', '#expandCard', '#showCard', '#buttonAdd', '.button_nav'], 'style', 'pointer-events: none; opacity: 0');
 
 var statSearchBar = false;
 newSearch.setAttribute('style', 'opacity:1; margin-top:-60px;');
@@ -106,7 +105,7 @@ barHeader.appendChild(barToolbar);
 barMenuPrincipal.appendChild(barHeader);
 
 
-const version = 'Versión 2.8';
+const version = 'Versión 2.8.1';
 itemPers('account', 'person-circle-outline', 'Cuenta');
 itemPers('barExport', 'arrow-up-circle-outline', 'Crear copia de Seguridad');
 itemPers('barImport', 'arrow-down-circle-outline', 'Cargar copia de Seguridad');
@@ -147,10 +146,6 @@ if (eyePass) {
     })
 }
 
-// document.body.style.background = `url('https://i.blogs.es/594843/chrome/450_1000.jpg') no-repeat 52% center/cover`;
-
-
-// document.getElementById('cardPin').setAttribute('style', 'pointer-events: none; opacity: 0');
 
 emailjs.init('user_EbX2uqx7kGIlimJTNppDy');
 
@@ -167,52 +162,35 @@ firebase.initializeApp({
 var db = firebase.firestore();
 
 
-// var initStateL1 = '';
-// var initStateL1 = true;
-// var hideCompare = false;
-
-// ------------------ START ------------------ //
-// localStorage.removeItem('alrt');
-// if (cargarTema1[0] && cargarTema1[0].classList[0] == 'light') {
-//     if (cargarTema1[0]) cargarTema1[0].setAttribute('style', `background: url('${(configData.fondo01 == '') ? 'src/img/bg1.jpg' : configData.fondo01} ') no-repeat 50% center/cover`);
-// }
-// else if (cargarTema2[0] && cargarTema2[0].classList[0] == 'dark') {
-//     if (cargarTema2[0]) cargarTema2[0].setAttribute('style', `background: url('${(configData.fondo02 == '') ? 'src/img/bg2.jpg' : configData.fondo02} ') no-repeat 50% center/cover`);
-// }
-
 if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
     showLogin.innerHTML = '';
 
     // INIT SET   
-    multipleAttribute(['.button_nav', '#buttonAdd', '#nameSetting', '#showCard', '#buttonSearch'], 'style', 'pointer-events: auto; opacity: 1');
+    // multipleAttribute(['.button_nav', '#buttonAdd', '#nameSetting', '#showCard', '#buttonSearch'], 'style', 'pointer-events: auto; opacity: 1');
+    multipleAttribute(['.button_nav', '#buttonAdd', '#showCard'], 'style', 'pointer-events: auto; opacity: 1');
     document.querySelector('#refresher').setAttribute('disabled', 'false');
     document.querySelector('#content').setAttribute('style', '--background: #ffffff00');
     statSearchBar = true;
     newSearch.setAttribute('style', 'opacity:1; margin-top:0px;');
 
-
-
-
-
     splitInit();
     aTotalTOnewTotal();
-    document.querySelector('#help-config').innerHTML = deco(txt[0]);
     document.querySelector('#userName').innerHTML = deco(txt[0]);
-    document.querySelector('#nameSettingText').innerHTML = deco(txt[0]).slice(0, 1).toUpperCase();
+    // document.querySelector('#nameSettingText').innerHTML = deco(txt[0]).slice(0, 1).toUpperCase();
 
     comparePersonalData = false;
 
-    // alertcompare = true;
-
-
+   
     // PIN;
     if (txt[4] != '' && localStorage.getItem('tPin')) {
         if (Date.now() - localStorage.getItem('tPin') > timePin) {
+            inputPin.focus();
             var hideCompare = true;
             document.querySelector('#cardPin').setAttribute('style', 'opacity: 1');
             document.querySelector('#refresher').setAttribute('disabled', 'true');
             document.getElementById('content').setAttribute('style', ' --background:#00000055');
-            multipleAttribute(['#buttonAdd', '#showCard', '#buttonSearch', '.button_nav', '#modal'], 'style', 'pointer-events: none; opacity: 0');
+            // multipleAttribute(['#buttonAdd', '#showCard', '#buttonSearch', '.button_nav', '#modal'], 'style', 'pointer-events: none; opacity: 0');
+            multipleAttribute(['#buttonAdd', '#showCard', '.button_nav', '#modal'], 'style', 'pointer-events: none; opacity: 0');
             document.querySelectorAll('.point_backup')[0].setAttribute('style', 'z-index: 0');
             newSearch.setAttribute('style', 'margin-top:-60px');
         }
@@ -225,9 +203,11 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
                 document.getElementById('cardPin').setAttribute('style', 'pointer-events: none; opacity: 0');
                 document.querySelector('#refresher').setAttribute('disabled', 'false');
                 document.getElementById('content').setAttribute('style', ' --background:#00000000');
-                multipleAttribute(['#buttonAdd', '#showCard', '#buttonSearch', '.button_nav'], 'style', 'pointer-events: auto; opacity: 1');
+                // multipleAttribute(['#buttonAdd', '#showCard', '#buttonSearch', '.button_nav'], 'style', 'pointer-events: auto; opacity: 1');
+                multipleAttribute(['#buttonAdd', '#showCard', '.button_nav'], 'style', 'pointer-events: auto; opacity: 1');
                 if (document.getElementById('modal').innerHTML != '') document.getElementById('modal').setAttribute('style', 'pointer-events: auto; opacity: 1');
                 newSearch.setAttribute('style', 'margin-top:0px');
+
             }
         });
     }
@@ -241,67 +221,52 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
         querySnapshot.forEach(doc => {
             offline = false;
             if (!comparePersonalData && doc.data().B1.includes(localStorage.getItem('accessTempData'))) {
-                // if (doc.data().B1.includes(localStorage.getItem('accessTempData'))) {
                 docB1 = doc.data().B1;
                 docB2 = doc.data().B2;
                 docBpin = doc.data().Bpin;
                 userID = doc.id;
                 comparePersonalData = true;
-                // reload = false;
                 return;
             }
         });
 
         if (offline) localStorage.setItem('offline', true);
 
-        // reinicio cambio de datos personales
+        
+        // reinicio por cambio de datos personales
         if (!comparePersonalData && !offline || localStorage.getItem('bp') != txt[4]) {
-            // o1101
-            // localStorage.clear();
-            // / o1101
             localStorage.removeItem('bp');
             localStorage.removeItem('accessTempData')
             localStorage.setItem('L1', 'GDGDGDGD');
             window.location.reload();
         }
-
+        
         comparePersonalData = false;
 
-        // 
-        // if (offline) localStorage.setItem('offline', 'offline'); // PROBAR
-        // 
-
-        // hideCompare = false;
-
         if (docB1 == localStorage.getItem('L1')) {
-            compareChanges = localStorage.getItem('L1');
-        }
-
+            compareChanges = localStorage.getItem('L1')
+        };
         if (!localStorage.getItem('offline')) {
-            updateDB('B1', 'L1');
-            // compareChanges = localStorage.getItem('L1');
-        }
+            updateDB('B1', 'L1')
+        };
 
         splitInit();
 
-        // reinicio cambio de datos personales
 
         //POINT BACKUP
         document.querySelector('.point_backup').setAttribute('style', `z-index: ${(docB1 != docB2) ? '2' : '0'}`);
-        // document.querySelectorAll('.point_backup')[1].setAttribute('style', `z-index: ${(docB1 != docB2) ? '2' : '0'}`);
-        ;
+        
 
-        
-        
+        //UPDATE CHANGES
         if (docB1 != compareChanges && !offline) {
             
-            // 
-            // localStorage.removeItem('offline'); // PROBAR
-            // 
             showSearch.innerHTML = '';
 
+            
+            if (configData.sincronizacion) buttonModalChanges('aceptar'); //sincronización automática
+
             // MODAL-CHANGES
-            if (!hideCompare) {
+            if (!hideCompare && !configData.sincronizacion) {
                 document.getElementById('bkmodal').setAttribute('style', 'opacity:1; pointer-events: none');
                 document.getElementById('modal').setAttribute('style', 'opacity:1; pointer-events: auto');
             }
@@ -309,15 +274,15 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
             if (localStorage.getItem('offline')) {
                 updateData('Rechazar', compareChanges, false);
             } else {
+
                 document.getElementById('modal').innerHTML =
                     `
-                <p class="cct" ;">Se detectaron cambios</p>
-                <p class="ccse" style="margin: 10px 0px 20px 0px;">¿Aceptar y sincronizar datos?</p>
+                <p class="modalTitle" ;">Se detectaron cambios</p>
+                <p class="modalContentData" style="margin: 10px 0px 20px 0px;">¿Aceptar y sincronizar datos?</p>
     
                 <input type="button" class="modal_btns" style="margin-left:100%" value="ACEPTAR" onClick="buttonModalChanges('aceptar')" >
                 <input type="button" class="modal_btns" style="margin-left:100%" value="RECHAZAR" onClick="buttonModalChanges('rechazar')">
                 <input type="button" class="modal_btns" style="margin-left:100%" value="VER CAMBIOS" onClick="buttonModalSetChanges()">
-    
                 `;
             }
 
@@ -327,10 +292,8 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
             }
         }
     })
-
 } else {
     localStorage.setItem('L1', 'GDGDGDGD');
-    // localStorage.setItem('data', JSON.stringify({ autoExpand: false, fondo01: '', fondo02: '', animacion: '0.4' }));
 };
 
 
@@ -340,7 +303,6 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
 
 // welcome();
 if (!txt[3] && showLogin.innerHTML == '') {
-    // AUTOEXPAND 2
     expandIcon.setAttribute('name', icoCom);
     showSearch.innerHTML = `
     <div style="text-align:center"><br>No hay datos guardados. </div>
@@ -349,6 +311,5 @@ if (!txt[3] && showLogin.innerHTML == '') {
     `;
     showCardAll('facebook', 'prueba@hotmail.com', '1234abcd', 'Las notas son opcionales 😎');
     showCardAll('google 👍', 'tucuenta@gmail.com', 'prueba1234', '');
-    // AUTOEXPAND 2
     expandIcon.setAttribute('name', icoExp);
 };

@@ -1,16 +1,6 @@
-// Version 2.7.3 => 2.7.4
-
 // NEW MODAL
 
-document.getElementById('bkmodal').addEventListener('click', () => {
-    // multipleAttribute(['#bkmodal', '#modal', '#buttonEdit', '#buttonDelete'], 'style', 'opacity:0; pointer-events: none');
-    // multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch', '#buttonAdd'], 'style', 'opacity:1; pointer-events: auto');
-    // if (showSearch.innerHTML != '') multipleAttribute(['#expandCard'], 'style', 'opacity:1; pointer-events: auto');
-    // let ccse = document.querySelectorAll('.ccse');
-    // for (let i = 0; i < ccse.length; i++) { ccse[i].setAttribute('style', 'user-select:none;'); }
-    buttonModalCancel();
-})
-
+document.getElementById('bkmodal').addEventListener('click', () => buttonModalCancel());
 
 
 //home
@@ -41,7 +31,8 @@ buttonLogin.addEventListener('click', () => {
                     // console.log(localStorage.getItem('accessTempData'));
                     localStorage.setItem('bp', txt[4]); //FIX?
                     document.getElementById('userName').innerHTML = deco(txt[0]);
-                    multipleAttribute(['.button_nav', '#buttonAdd', '#nameSetting', '#showCard', '#buttonSearch'], 'style', 'pointer-events: auto; opacity: 1');
+                    // multipleAttribute(['.button_nav', '#buttonAdd', '#nameSetting', '#showCard', '#buttonSearch'], 'style', 'pointer-events: auto; opacity: 1');
+                    multipleAttribute(['.button_nav', '#buttonAdd', '#showCard'], 'style', 'pointer-events: auto; opacity: 1');
                     window.location.reload();
                 }
 
@@ -92,7 +83,7 @@ buttonLogin.addEventListener('click', () => {
                                 txt[4] = userRestoreAccount[4];
 
                                 document.getElementById('userName').innerHTML = deco(txt[0]);
-                                document.getElementById('nameSettingText').innerHTML = deco(txt[0]).slice(0, 1).toUpperCase();
+                                // document.getElementById('nameSettingText').innerHTML = deco(txt[0]).slice(0, 1).toUpperCase();
                                 localStorage.setItem('accessTempData', txt[0] + 'GD' + txt[1] + 'GD' + txt[2] + 'GD');
                                 localStorage.setItem('bp', txt[4]);
                                 localStorage.setItem('tPin', Date.now());
@@ -203,7 +194,8 @@ buttonCreate.addEventListener('click', () => {
                                     aTotalTOnewTotal();
                                     document.getElementById('userName').innerHTML = deco(txt[0]);
                                     // disableItem(false);
-                                    multipleAttribute(['.button_nav', '#buttonAdd', '#nameSetting', '#showCard', '#buttonSearch', '#refresher'], 'style', 'pointer-events: auto; opacity: 1');
+                                    // multipleAttribute(['.button_nav', '#buttonAdd', '#nameSetting', '#showCard', '#buttonSearch', '#refresher'], 'style', 'pointer-events: auto; opacity: 1');
+                                    multipleAttribute(['.button_nav', '#buttonAdd', '#showCard', '#refresher'], 'style', 'pointer-events: auto; opacity: 1');
                                     // document.getElementById('content').setAttribute('style', '--background: #ffffff00');
                                     barProgressF('light', 'determinate');
                                     window.location.reload();
@@ -255,33 +247,31 @@ showSearch.addEventListener('click', e => {  //editCard
         ) {
             // const reemplace = i
             reemplace = i
-
-            document.getElementById('modal').innerHTML =
-                `
-            <p id="op1" class="cct" style="text-align: center">${cuPath[0]}</p>
+            let modalTemporal = document.getElementById('modal');
+            modalTemporal.innerHTML =
+            `
+            <p id="op1" class="modalTitle" style="text-align: center">${cuPath[0]}</p>
             <hr style="height:1px; border-width:0; color:gray;background-color:gray">
             <p style="margin: 0px 0px 0px 0px;">
-            <label class="cce_st" > Usuario: </label>
-            <p class="ccse" > ${cuPath[1]} </p>
-            <label class="cce_st" > Contraseña: </label>
-            <p class="ccse" > ${cuPath[2]} </p>
-            <label class="cce_st" > Notas: </label>
-            <p class="ccse" > ${cuPath[3]} </p>
+            <label class="modalLabelStatic" > Usuario: </label>
+            <p class="modalContentData" > ${cuPath[1]} </p>
+            <label class="modalLabelStatic" > Contraseña: </label>
+            <p class="modalContentData" > ${cuPath[2]} </p>
+            <label class="modalLabelStatic" > Notas: </label>
+            <p class="modalContentData" > ${cuPath[3]} </p>
             </p>
             `;
 
-
-
-            // document.getElementById('bkmodal').setAttribute('style', 'opacity:0.3; pointer-events: auto');
-            multipleAttribute(['#bkmodal', '#modal', '#buttonEdit', '#buttonDelete'], 'style', 'opacity:1; pointer-events: auto');
+            multipleAttribute(['#bkmodal', '#modal', '#buttonEdit', '#buttonDelete'], 'style', 'opacity:1; pointer-events: auto; z-index:20');
             // AUTOEXPAND
-            multipleAttribute(['#nameSetting', '#expandCard', '#showCard', '#buttonSearch'], 'style', 'opacity:0.3; pointer-events: none');
-            // multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch'], 'style', 'opacity:0.3; pointer-events: none');
+            // multipleAttribute(['#nameSetting', '#expandCard', '#showCard', '#buttonSearch'], 'style', 'opacity:0.3; pointer-events: none');
+            multipleAttribute(['#expandCard', '#showCard'], 'style', 'opacity:0.3; pointer-events: none');
 
 
-            document.querySelectorAll('.ccse')[0].setAttribute('style', 'user-select:all;');
-            document.querySelectorAll('.ccse')[1].setAttribute('style', 'user-select:all;');
-            document.querySelectorAll('.ccse')[2].setAttribute('style', 'user-select:all;');
+
+            document.querySelectorAll('.modalContentData')[0].setAttribute('style', 'user-select:all;');
+            document.querySelectorAll('.modalContentData')[1].setAttribute('style', 'user-select:all;');
+            document.querySelectorAll('.modalContentData')[2].setAttribute('style', 'user-select:all;');
 
         }
     }
