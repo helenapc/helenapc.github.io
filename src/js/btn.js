@@ -1,6 +1,6 @@
 // NEW MODAL
 
-document.getElementById('bkmodal').addEventListener('click', () => buttonModalCancel());
+//document.getElementById('bkmodal').addEventListener('click', () => buttonModalCancel());
 
 
 //home
