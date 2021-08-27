@@ -90,7 +90,7 @@ document.getElementById('buttonEdit').addEventListener('click', () => {
 // });
 
 document.getElementById('buttonDelete').addEventListener('click', () => {
-    console.log('Delete 1');
+
     // multipleAttribute(['#bkmodal', '#modal'], 'style', 'opacity:1; pointer-events: auto');
     // document.querySelectorAll('ion-card').setAttribute('style', 'opacity:0.3')
     // console.log(document.querySelectorAll('ion-card').length);
@@ -100,7 +100,7 @@ document.getElementById('buttonDelete').addEventListener('click', () => {
         document.querySelectorAll('ion-card')[i].setAttribute('style', 'pointer-events:none')
     }
 
-    document.querySelectorAll('ion-card')[1].setAttribute('style', 'opacity:0.3')
+    // document.querySelectorAll('ion-card')[1].setAttribute('style', 'opacity:0.3')
     document.getElementById('bkmodal').setAttribute('style', 'opacity:1; pointer-events: none');
     document.getElementById('modal').setAttribute('style', 'opacity:1; pointer-events: auto; z-index:20');
 
