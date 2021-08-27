@@ -1,4 +1,3 @@
-
 var coincidencia = false;
 var txt = [];
 var aTotal = [];
@@ -105,7 +104,7 @@ barHeader.appendChild(barToolbar);
 barMenuPrincipal.appendChild(barHeader);
 
 
-const version = 'Versión 2.8.1';
+const version = 'Versión 2.8.11';
 itemPers('account', 'person-circle-outline', 'Cuenta');
 itemPers('barExport', 'arrow-up-circle-outline', 'Crear copia de Seguridad');
 itemPers('barImport', 'arrow-down-circle-outline', 'Cargar copia de Seguridad');
@@ -132,8 +131,7 @@ document.body.classList.toggle(activeTheme[(activeTheme[1] == 'dark') ? 1 : 0]);
 // INIT BACKGROUND
 if (cargarTema1[0] && cargarTema1[0].classList[0] == 'light') {
     cargarTema1[0].setAttribute('style', `background: url('${(configData.fondo01 == '') ? 'src/img/bg1.jpg' : configData.fondo01} ') no-repeat 50% center/cover`);
-}
-else if (cargarTema2[0] && cargarTema2[0].classList[0] == 'dark') {
+} else if (cargarTema2[0] && cargarTema2[0].classList[0] == 'dark') {
     cargarTema2[0].setAttribute('style', `background: url('${(configData.fondo02 == '') ? 'src/img/bg2.jpg' : configData.fondo02} ') no-repeat 50% center/cover`);
 }
 
@@ -180,7 +178,7 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
 
     comparePersonalData = false;
 
-   
+
     // PIN;
     if (txt[4] != '' && localStorage.getItem('tPin')) {
         if (Date.now() - localStorage.getItem('tPin') > timePin) {
@@ -232,7 +230,7 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
 
         if (offline) localStorage.setItem('offline', true);
 
-        
+
         // reinicio por cambio de datos personales
         if (!comparePersonalData && !offline || localStorage.getItem('bp') != txt[4]) {
             localStorage.removeItem('bp');
@@ -240,7 +238,7 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
             localStorage.setItem('L1', 'GDGDGDGD');
             window.location.reload();
         }
-        
+
         comparePersonalData = false;
 
         if (docB1 == localStorage.getItem('L1')) {
@@ -255,14 +253,14 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
 
         //POINT BACKUP
         document.querySelector('.point_backup').setAttribute('style', `z-index: ${(docB1 != docB2) ? '2' : '0'}`);
-        
+
 
         //UPDATE CHANGES
         if (docB1 != compareChanges && !offline) {
-            
+
             showSearch.innerHTML = '';
 
-            
+
             if (configData.sincronizacion) buttonModalChanges('aceptar'); //sincronización automática
 
             // MODAL-CHANGES
@@ -287,7 +285,7 @@ if (localStorage.getItem('L1') && localStorage.getItem('L1') != 'GDGDGDGD') {
             }
 
         } else {
-            if (document.querySelector('#modal').innerHTML.includes('Se detectaron cambios')){
+            if (document.querySelector('#modal').innerHTML.includes('Se detectaron cambios')) {
                 multipleAttribute(['#bkmodal', '#modal'], 'style', 'opacity:0; pointer-events: none');
             }
         }

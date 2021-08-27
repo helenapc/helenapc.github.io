@@ -1,8 +1,10 @@
-
 const showCardAll = (account, user, pass, notes) => {
     const ionCard = document.createElement('ion-card');
     ionCard.setAttribute('button', 'click-btn');
     const newHeader = document.createElement('ion-card-header');
+
+
+
 
     newHeader.setAttribute('id', 'ion-card-header');
     newHeader.setAttribute('class', 'cardExpand animCardCero');
@@ -88,11 +90,12 @@ function delete_spaces(v1) {
         v1 = v1.split("");
         const v1Length = v1.length;
         for (let i = 0; i < v1Length; i++) {
-            if (v1[i] == " ") { v1.shift(); i--; }
-            else {
+            if (v1[i] == " ") {
+                v1.shift();
+                i--;
+            } else {
                 while (true) {
-                    if (v1[v1Length - 1] == " ") { v1.pop(); }
-                    else { break; }
+                    if (v1[v1Length - 1] == " ") { v1.pop(); } else { break; }
                 }
                 v1 = v1.join("");
                 while (v1.includes("  ")) {
@@ -111,7 +114,7 @@ function delete_spaces2(texto, type = 'data') {
         texto = (texto) ? texto.split(" ").join("") : "";
         if (type === 'nota') {
             texto = texto.split("");
-            texto = texto.map(function (letra) {
+            texto = texto.map(function(letra) {
                 return (letra === '.') ? letra + ' ' : letra;
             })
             texto = texto.join("");
@@ -143,9 +146,18 @@ function refreshData(toast = true, refresh = true) {
         expandIcon.setAttribute('name', icoExp);
         expandCard.setAttribute('style', 'opacity:0; pointer-events: none');
         return
-    } else if (newSearch.value == '::id') { newSearch.value = userID; return }
-    else if (newSearch.value == '::password') { newSearch.value = deco(txt[2]); showSearch.innerHTML = ''; return }
-    else if (newSearch.value == '::bk') { newSearch.value = ''; downloadFile(docB1, (deco(txt[0]) + '_' + fecha())); return }
+    } else if (newSearch.value == '::id') {
+        newSearch.value = userID;
+        return
+    } else if (newSearch.value == '::pw') {
+        newSearch.value = deco(txt[2]);
+        showSearch.innerHTML = '';
+        return
+    } else if (newSearch.value == '::bk') {
+        newSearch.value = '';
+        downloadFile(docB1, (deco(txt[0]) + '_' + fecha()));
+        return
+    }
 
 
     for (i = 0; i < newTotalLength; i += 5) {
@@ -200,39 +212,35 @@ function presentToastB(msg, time, clase, btn = false) {
     toast.message = msg;
     toast.duration = time;
     if (btn) {
-        toast.buttons = [
-            {
-                side: 'end',
-                text: 'Deshacer',
-                handler: () => {
-                    btnToast = false;
-                    refreshData(false);
-                    presentToast(`Deshaciendo cambios`, 2000, 'black');
-                }
+        toast.buttons = [{
+            side: 'end',
+            text: 'Deshacer',
+            handler: () => {
+                btnToast = false;
+                refreshData(false);
+                presentToast(`Deshaciendo cambios`, 2000, 'black');
             }
-        ];
+        }];
     }
     document.body.appendChild(toast);
     return toast.present();
 }
 
-function presentToast(msg, time, clase, btn = false,) {
+function presentToast(msg, time, clase, btn = false, ) {
     const toast = document.createElement('ion-toast');
     toast.cssClass = clase;
     toast.message = msg;
     toast.duration = time;
     if (btn) {
-        toast.buttons = [
-            {
-                side: 'end',
-                text: 'deshacer',
-                handler: () => {
-                    btnToast = false;
-                    refreshData(false);
-                    presentToast(`Deshaciendo cambios`, 2000, 'black');
-                }
+        toast.buttons = [{
+            side: 'end',
+            text: 'deshacer',
+            handler: () => {
+                btnToast = false;
+                refreshData(false);
+                presentToast(`Deshaciendo cambios`, 2000, 'black');
             }
-        ];
+        }];
     }
     document.body.appendChild(toast);
     return toast.present();
@@ -247,14 +255,18 @@ function sleep(milliseconds) {
 }
 
 function code(cod) {
-    let hexCod = '', hexF = '';
+    let hexCod = '',
+        hexF = '';
     for (let i = 0; i < cod.length; i++) {
         hexCod = '' + cod.codePointAt(i).toString(16); //codifica
         if (hexCod.length == 2) {
             hexCod = (parseInt(hexCod, 16) + parseInt('05', 16)).toString(16).toUpperCase();
             hexF += '' + hexCod;
         } else {
-            if (hexCod.length == 5) { hexF += '' + ("0x" + hexCod); i++ }
+            if (hexCod.length == 5) {
+                hexF += '' + ("0x" + hexCod);
+                i++
+            }
             if (hexCod.length == 4) hexF += '' + ("0x" + hexCod + 'Z');
         }
     }
@@ -262,7 +274,8 @@ function code(cod) {
 }
 
 function deco(dec) {
-    let str = '', decLength = dec.length;
+    let str = '',
+        decLength = dec.length;
     for (let n = 0; n < decLength; n += 2) {
         let tt = dec.substr(n, 2)
         if (tt == '0x') {
@@ -291,7 +304,7 @@ function aTotalTOnewTotal() {
         const final = aTotal[b].split('OG');
         const finalLenght = final.length;
         for (n = 0; n < finalLenght; n++) {
-            (n % 4 == 0) ? newTotal.push(deco(final[n]).toLowerCase()) : newTotal.push(deco(final[n]));
+            (n % 4 == 0) ? newTotal.push(deco(final[n]).toLowerCase()): newTotal.push(deco(final[n]));
             if (n == 3) newTotal.push('oo');
         }
     }
@@ -324,8 +337,7 @@ function updateData(text, compareChanges, toast = true) {
     newSearch.value = '';
     refreshData();
     // F0601
-    if (toast) { presentToast((text == 'Rechazar') ? 'Cancelando cambios.' : 'Datos actualizados.', '1000', 'black') }
-    else { presentToast('Datos offline actualizados', '1000', 'success') };
+    if (toast) { presentToast((text == 'Rechazar') ? 'Cancelando cambios.' : 'Datos actualizados.', '1000', 'black') } else { presentToast('Datos offline actualizados', '1000', 'success') };
     // F0601
     setTimeout(() => { window.location.reload() }, 1000);
 }
@@ -405,9 +417,9 @@ function sendEmail() {
                                 // if (doc.data().B1.split('GD')[1] == code(usData.restorePass)) {
                                 coincidencia = true;
                                 db.collection(coll).doc(userID).update({
-                                    B3: restoreKey,
-                                })
-                                    .then(function () {
+                                        B3: restoreKey,
+                                    })
+                                    .then(function() {
                                         presentToast('Mail enviado', 1000, 'success');
                                         barProgressF('light', 'determinate');
                                         // setTimeout(() => { window.location.reload(); }, 1000);
@@ -462,7 +474,7 @@ function presentAlertConfirmEdit(confPersonal) {
         {
             text: 'Ok',
             handler: () => {
-                (code(confPersonal[0]) == '') ? txt[0] = '25' : txt[0] = code(confPersonal[0]);
+                (code(confPersonal[0]) == '') ? txt[0] = '25': txt[0] = code(confPersonal[0]);
                 txt[1] = code(confPersonal[1]);
                 txt[2] = code(confPersonal[2]);
                 txt[4] = code(confPersonal[3]);
@@ -498,8 +510,8 @@ function fecha() {
     let DD = String(today.getDate()).padStart(2, '0');
     let MM = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
     let YY = today.getFullYear();
-    let hh = (today.getHours() < 10) ? '0' : '' + today.getHours();
-    let mm = (today.getMinutes() < 10) ? '0' : '' + today.getMinutes();
+    let hh = (today.getHours() < 10) ? '0' + today.getHours() : '' + today.getHours();
+    let mm = (today.getMinutes() < 10) ? '0' + today.getMinutes() : '' + today.getMinutes();
     return today = `${DD}-${MM}-${YY}_${hh}${mm}`
 }
 
@@ -515,4 +527,3 @@ function downloadFile(data, fileName, type = 'text/plain') {
     window.URL.revokeObjectURL(a.href);
     document.body.removeChild(a);
 }
-

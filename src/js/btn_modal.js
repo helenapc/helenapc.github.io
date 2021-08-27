@@ -1,13 +1,19 @@
-
 const timeUndo = 3500;
 
 function buttonModalCancel() {
+    console.log('cancel');
+
     multipleAttribute(['#bkmodal', '#modal', '#buttonEdit', '#buttonDelete'], 'style', 'opacity:0; pointer-events: none');
-    // multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch', '#buttonAdd'], 'style', 'opacity:1; pointer-events: auto');
+
     multipleAttribute(['#showCard', '#buttonAdd'], 'style', 'opacity:1; pointer-events: auto');
     if (showSearch.innerHTML != '') multipleAttribute(['#expandCard'], 'style', 'opacity:1; pointer-events: auto');
     let modalContentData = document.querySelectorAll('.modalContentData');
-    for (let i = 0; i < modalContentData.length; i++) { modalContentData[i].setAttribute('style', 'user-select:none;'); }
+    let modalContentDataLength = modalContentData.length;
+    let lengthCard = document.querySelectorAll('ion-card').length;
+    for (let i = 0; i < modalContentDataLength; i++) { modalContentData[i].setAttribute('style', 'user-select:none;'); }
+    for (let i = 0; i < lengthCard; i++) {
+        document.querySelectorAll('ion-card')[i].setAttribute('style', 'pointer-events:auto')
+    }
 }
 
 function buttonModalAdd() {
@@ -20,7 +26,7 @@ function buttonModalAdd() {
         document.querySelectorAll('.modal_input')[2].value,
         document.querySelectorAll('.modal_input')[3].value,
     ];
-    // alertAdd2(modalVal);
+
     if (modalVal[0] == '' || modalVal[1] == '' || modalVal[2] == '') {
         barProgressF('warning', 'determinate');
         alertMsg('Error', 'Campos obligatorios vacíos.');
@@ -44,7 +50,7 @@ function buttonModalAdd() {
         }
     }
 
-    presentToast(`"${modalVal[0].toUpperCase()}" agregada`, (timeUndo-500), 'success', true);
+    presentToast(`"${modalVal[0].toUpperCase()}" agregada`, (timeUndo - 500), 'success', true);
 
     aTotal.push(`${code(modalVal[0].toLowerCase())}OG${code(modalVal[1])}OG${code(modalVal[2])}OG${code(modalVal[3])}`)
     aTotalTOnewTotal();
@@ -54,7 +60,7 @@ function buttonModalAdd() {
     document.getElementById('expandIcon').setAttribute('name', icoExp);
     refreshData(false, false);
     updateDB('L1', 'B1');
-    
+
     setTimeout(() => {
         if (!btnToast) {
             btnToast = true;
@@ -83,7 +89,7 @@ function buttonModalEdit() {
         document.querySelectorAll('.modal_input')[2].value,
         document.querySelectorAll('.modal_input')[3].value,
     ];
-    // alertEdit2(modalVal, reemplace);
+
     const toRemplace = reemplace / 5;
     if (modalVal[0] == '' || modalVal[1] == '' || modalVal[2] == '') {
         alertMsg('Error', 'Campos obligatorios vacíos.');
@@ -116,7 +122,7 @@ function buttonModalEdit() {
         }
     }
 
-    presentToast(`"${modalVal[0].toUpperCase()}" editado.`,(timeUndo-500), 'success', true);
+    presentToast(`"${modalVal[0].toUpperCase()}" editado.`, (timeUndo - 500), 'success', true);
 
     aTotal.splice(toRemplace, 1, code(modalVal[0]) + 'OG' + code(modalVal[1]) + 'OG' + code(modalVal[2]) + 'OG' + code(modalVal[3]));
     aTotalTOnewTotal();
@@ -126,7 +132,7 @@ function buttonModalEdit() {
     refreshData(false);
     save();
     updateDB('L1', 'B1');
-    
+
     setTimeout(() => {
         if (!btnToast) {
             btnToast = true;
@@ -141,7 +147,7 @@ function buttonModalEdit() {
         }
     }, timeUndo);
     return;
-    // closeAlert = false;
+
 
 }
 
@@ -151,7 +157,7 @@ function buttonModalDelete() {
     let aTotalTemp = localStorage.getItem('L1').split('GD')[3].split('Q0');
     aTotalTemp.pop();
 
-    presentToast(`"${cuPath[0]}" eliminado.`, (timeUndo-500), 'danger', true);
+    presentToast(`"${cuPath[0]}" eliminado.`, (timeUndo - 500), 'danger', true);
 
     aTotal.splice(reemplace / 5, 1);
     aTotalTOnewTotal();
@@ -211,8 +217,7 @@ function buttonModalChanges(text, toast = true) {
 
     newSearch.value = '';
     refreshData();
-    if (toast) { presentToast((text == 'rechazar') ? 'Cancelando cambios.' : 'Datos actualizados.', '1000', 'black') }
-    else { presentToast('Datos offline actualizados', '1000', 'success') };
+    if (toast) { presentToast((text == 'rechazar') ? 'Cancelando cambios.' : 'Datos actualizados.', '1000', 'black') } else { presentToast('Datos offline actualizados', '1000', 'success') };
     setTimeout(() => { window.location.reload() }, 1000);
 }
 
@@ -220,7 +225,8 @@ function buttonModalChanges(text, toast = true) {
 function buttonModalSetChanges() {
 
     let txtTemp = (docB1 == newCompareData2) ? compareChanges.split('GD') : newCompareData2.split('GD');;
-    aTotalTemp = []; newa = [];
+    aTotalTemp = [];
+    newa = [];
 
     aTotalTemp = txtTemp[3].split(txtTemp[3].includes('Q0') ? 'Q0' : 'BO');
     aTotalTemp.splice(-1, 1);
@@ -243,7 +249,7 @@ function buttonModalSetChanges() {
             i++
         } else {
             (txtTemp[3].includes(newa[i])) ?
-                arrCompareDel.push(deco(newaName[0]).toUpperCase()) :
+            arrCompareDel.push(deco(newaName[0]).toUpperCase()):
                 arrCompareAdd.push(deco(newaName[0]).toUpperCase());
         };
     };

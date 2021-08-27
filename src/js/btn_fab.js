@@ -1,21 +1,18 @@
-
-//FAB TEST
-// document.getElementById('buttonTest').addEventListener('click', () => {
-// });
-
-
-//FAB
-
 document.getElementById('buttonEdit').addEventListener('click', () => {
-    
+
     multipleAttribute(['#buttonEdit', '#buttonDelete'], 'style', 'opacity:0; pointer-events: none');
-    // multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch', '#buttonAdd'], 'style', 'opacity:0.3; pointer-events: none');
+
     multipleAttribute(['#showCard', '#buttonAdd'], 'style', 'opacity:0.3; pointer-events: none');
-    // AUTOEXPAND
+
     if (showSearch.innerHTML != '') multipleAttribute(['#expandCard'], 'style', 'opacity:0.3; pointer-events: none');
 
+    document.getElementById('bkmodal').setAttribute('style', 'opacity:1; pointer-events: none');
+
+    let lengthCard = document.querySelectorAll('ion-card').length;
+    for (let i = 0; i < lengthCard; i++) { document.querySelectorAll('ion-card')[i].setAttribute('style', 'pointer-events:none') }
+
     let modalTemporal = document.getElementById('modal');
-    modalTemporal.setAttribute('style', 'z-index:20');
+    // modalTemporal.setAttribute('style', 'z-index:20');
     modalTemporal.innerHTML =
         `
     <p id="op1" class="modalTitle">Editar cuenta</p>
@@ -37,71 +34,84 @@ document.getElementById('buttonEdit').addEventListener('click', () => {
     `;
 });
 
-document.getElementById('buttonDelete').addEventListener('keyup', () => {
+// document.getElementById('buttonDelete').addEventListener('keyup', () => {
 
-    // F0602
-    multipleAttribute(['#bkmodal', '#modal', '#buttonEdit', '#buttonDelete'], 'style', 'opacity:0; pointer-events: none');
-    // multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch', '#buttonAdd'], 'style', 'opacity:1; pointer-events: auto');
-    multipleAttribute(['#showCard', '#buttonAdd'], 'style', 'opacity:1; pointer-events: auto');
-    if (showSearch.innerHTML != '') {
-        multipleAttribute(['#expandCard'], 'style', 'opacity:1; pointer-events: auto');
-    }
-    // F0602
+//     console.log('keyup');
+//     multipleAttribute(['#bkmodal', '#modal', '#buttonEdit', '#buttonDelete'], 'style', 'opacity:0; pointer-events: none');
 
-    const alert = document.createElement('ion-alert');
-    alert.message = `¿Eliminar "${cuPath[0]}"?`;
-    alert.buttons = [
-        { text: 'cancelar', role: 'cancel' },
-        {
-            text: 'ok',
-            handler: () => {
-                aTotal.splice(reemplace / 5, 1);
-                aTotalTOnewTotal();
-                // multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch', '#buttonAdd'], 'style', 'opacity:1; pointer-events: auto');
-                multipleAttribute(['#showCard', '#buttonAdd'], 'style', 'opacity:1; pointer-events: auto');
-                // AUTOEXPAND
-                if (showSearch.innerHTML != '') expandCard.setAttribute('style', 'opacity:1; pointer-events: auto');
-
-                if (newSearch.value == '') {
-
-                    // refreshData();
-                    showSearch.innerHTML = '';
-                    showIcon.setAttribute('name', icoHide);
-                    // AUTOEXPAND
-                    expandCard.setAttribute('style', 'opacity:1; pointer-events: auto');
-                    for (i = 0; i < newTotal.length; i += 5) {
-                        showCardAll(newTotal[i].toUpperCase(), newTotal[i + 1], newTotal[i + 2], newTotal[i + 3]);
-                    }
-                    newTotal.length / 5 == 1 ? (s = '') : (s = 's');
-                    presentToast(`${newTotal.length / 5} Cuenta${s} guardad${s}.`, '800', 'black');
-
-                } else {
-                    refreshData();
-                }
-                save();
-                presentToast(`"${cuPath[0]}" eliminado.`, '800', 'danger');
-                updateDB('L1', 'B1');
-                closeAlert = false;
-
-            },
-        },
-    ];
+//     multipleAttribute(['#showCard', '#buttonAdd'], 'style', 'opacity:1; pointer-events: auto');
+//     if (showSearch.innerHTML != '') {
+//         multipleAttribute(['#expandCard'], 'style', 'opacity:1; pointer-events: auto');
+//     }
 
 
-    document.body.appendChild(alert);
-    return alert.present();
-});
+//     const alert = document.createElement('ion-alert');
+//     alert.message = `¿Eliminarrrrr "${cuPath[0]}"?`;
+//     alert.buttons = [
+//         { text: 'cancelar', role: 'cancel' },
+//         {
+//             text: 'ok',
+//             handler: () => {
+//                 aTotal.splice(reemplace / 5, 1);
+//                 aTotalTOnewTotal();
+
+//                 multipleAttribute(['#showCard', '#buttonAdd'], 'style', 'opacity:1; pointer-events: auto');
+
+//                 if (showSearch.innerHTML != '') expandCard.setAttribute('style', 'opacity:1; pointer-events: auto');
+
+//                 if (newSearch.value == '') {
+
+
+//                     showSearch.innerHTML = '';
+//                     showIcon.setAttribute('name', icoHide);
+
+//                     expandCard.setAttribute('style', 'opacity:1; pointer-events: auto');
+//                     for (i = 0; i < newTotal.length; i += 5) {
+//                         showCardAll(newTotal[i].toUpperCase(), newTotal[i + 1], newTotal[i + 2], newTotal[i + 3]);
+//                     }
+//                     newTotal.length / 5 == 1 ? (s = '') : (s = 's');
+//                     presentToast(`${newTotal.length / 5} Cuenta${s} guardad${s}.`, '800', 'black');
+
+//                 } else {
+//                     refreshData();
+//                 }
+//                 save();
+//                 presentToast(`"${cuPath[0]}" eliminadooooooooo.`, '800', 'danger');
+//                 updateDB('L1', 'B1');
+//                 closeAlert = false;
+
+//             },
+//         },
+//     ];
+
+
+//     document.body.appendChild(alert);
+//     return alert.present();
+// });
 
 document.getElementById('buttonDelete').addEventListener('click', () => {
-    multipleAttribute(['#bkmodal', '#modal'], 'style', 'opacity:1; pointer-events: auto');
-    // multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch', '#buttonAdd'], 'style', 'opacity:0.3; pointer-events: none');
+    console.log('Delete 1');
+    // multipleAttribute(['#bkmodal', '#modal'], 'style', 'opacity:1; pointer-events: auto');
+    // document.querySelectorAll('ion-card').setAttribute('style', 'opacity:0.3')
+    // console.log(document.querySelectorAll('ion-card').length);
+    let lengthCard = document.querySelectorAll('ion-card').length;
+
+    for (let i = 0; i < lengthCard; i++) {
+        document.querySelectorAll('ion-card')[i].setAttribute('style', 'pointer-events:none')
+    }
+
+    document.querySelectorAll('ion-card')[1].setAttribute('style', 'opacity:0.3')
+    document.getElementById('bkmodal').setAttribute('style', 'opacity:1; pointer-events: none');
+    document.getElementById('modal').setAttribute('style', 'opacity:1; pointer-events: auto; z-index:20');
+
     multipleAttribute(['#showCard', '#buttonAdd'], 'style', 'opacity:0.3; pointer-events: none');
+
     if (showSearch.innerHTML != '') multipleAttribute(['#expandCard'], 'style', 'opacity:0.3; pointer-events: none');
 
     document.getElementById('modal').innerHTML =
         `
     <p class="modalTitle" style="margin: 5px 0px 20px 0px;">
-        ¿Eliminar ${cuPath[0]}?
+        ¿Eliminaaaaar ${cuPath[0]}?
     </p>
     <input type="button" class="modal_btns" value="OK" onClick="buttonModalDelete()">
     <input type="button" class="modal_btns" value="CANCELAR" onClick="buttonModalCancel()">
@@ -109,7 +119,7 @@ document.getElementById('buttonDelete').addEventListener('click', () => {
     `;
 
     multipleAttribute(['#buttonEdit', '#buttonDelete'], 'style', 'opacity:0; pointer-events: none');
-    // alertcompare = false;
+
 });
 
 document.getElementById('expandCard').addEventListener('click', () => {
@@ -144,21 +154,16 @@ document.getElementById('showCard').addEventListener('click', () => {
     };
 });
 
-// document.getElementById('buttonSearch').addEventListener('click', () => {
-//     if (statSearchBar) {
-//         newSearch.setAttribute('style', 'margin-top:-60px');
-//         statSearchBar = false;
-//     } else {
-//         newSearch.value = '';
-//         newSearch.setAttribute('style', 'margin-top:0px');
-//         newSearch.setFocus();
-//         statSearchBar = true;
-//     }
-// })
+
 
 document.getElementById('buttonAdd').addEventListener('click', () => {
-    multipleAttribute(['#bkmodal', '#modal'], 'style', 'opacity:1; pointer-events: auto; z-index:20');
-    // multipleAttribute(['#nameSetting', '#showCard', '#buttonSearch', '#buttonAdd'], 'style', 'opacity:0.3; pointer-events: none');
+    let lengthCard = document.querySelectorAll('ion-card').length;
+    for (let i = 0; i < lengthCard; i++) {
+        document.querySelectorAll('ion-card')[i].setAttribute('style', 'pointer-events:none')
+    }
+    // multipleAttribute(['#bkmodal', '#modal'], 'style', 'opacity:1; pointer-events: auto; z-index:20');
+    document.getElementById('bkmodal').setAttribute('style', 'opacity:1; pointer-events: none');
+    document.getElementById('modal').setAttribute('style', 'opacity:1; pointer-events: auto');
     multipleAttribute(['#showCard', '#buttonAdd'], 'style', 'opacity:0.3; pointer-events: none');
     if (showSearch.innerHTML != '') multipleAttribute(['#expandCard'], 'style', 'opacity:0.3; pointer-events: none');
 
@@ -183,8 +188,4 @@ document.getElementById('buttonAdd').addEventListener('click', () => {
     
     `;
 
-    // multipleAttribute(['#buttonEdit', '#buttonDelete'], 'style', 'opacity:0; pointer-events: none');
-    // alertcompare = false;
 });
-
-
