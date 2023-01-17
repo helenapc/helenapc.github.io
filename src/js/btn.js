@@ -225,16 +225,25 @@ showSearch.addEventListener('click', e => {
     var xPath = 3;
 
 
+    //! fix path => composedPath()
+    // if (e.path[xPath].localName == 'ion-row') return;
+    // if (e.path[xPath].innerText == undefined) xPath = 0;
+    // if (e.path[xPath].innerText == '') xPath = 5;
+
+    // cuPath[0] = e.path[xPath].children[0].innerText;
+    // cuPath[1] = e.path[xPath].children[1].innerText.split('Usuario: ').pop();
+    // cuPath[2] = e.path[xPath].children[2].innerText.split('Contraseña: ').pop();
+    // cuPath[3] = e.path[xPath].children[3].innerText.split('Notas: ').pop();
 
 
-    if (e.path[xPath].localName == 'ion-row') return;
-    if (e.path[xPath].innerText == undefined) xPath = 0;
-    if (e.path[xPath].innerText == '') xPath = 5;
+    if (e.composedPath()[xPath].localName == 'ion-row') return;
+    if (e.composedPath()[xPath].innerText == undefined) xPath = 0;
+    if (e.composedPath()[xPath].innerText == '') xPath = 5;
 
-    cuPath[0] = e.path[xPath].children[0].innerText;
-    cuPath[1] = e.path[xPath].children[1].innerText.split('Usuario: ').pop();
-    cuPath[2] = e.path[xPath].children[2].innerText.split('Contraseña: ').pop();
-    cuPath[3] = e.path[xPath].children[3].innerText.split('Notas: ').pop();
+    cuPath[0] = e.composedPath()[xPath].children[0].innerText;
+    cuPath[1] = e.composedPath()[xPath].children[1].innerText.split('Usuario: ').pop();
+    cuPath[2] = e.composedPath()[xPath].children[2].innerText.split('Contraseña: ').pop();
+    cuPath[3] = e.composedPath()[xPath].children[3].innerText.split('Notas: ').pop();
 
     if (cuPath[3] == 'Notas:') cuPath[3] = '';
 
