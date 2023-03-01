@@ -1,11 +1,14 @@
-document.getElementById('buttonEdit').addEventListener('click', () => {
 
+
+document.getElementById('buttonEdit').addEventListener('click', () => {
+    const btnGeneratePass = document.getElementById('btnGeneratePass');
+    
     multipleAttribute(['#buttonEdit', '#buttonDelete'], 'style', 'opacity:0; pointer-events: none');
 
     multipleAttribute(['#showCard', '#buttonAdd'], 'style', 'opacity:0.3; pointer-events: none');
 
     if (showSearch.innerHTML != '') multipleAttribute(['#expandCard'], 'style', 'opacity:0.3; pointer-events: none');
-
+    
     document.getElementById('bkmodal').setAttribute('style', 'opacity:1; pointer-events: none');
 
     let lengthCard = document.querySelectorAll('ion-card').length;
@@ -24,6 +27,7 @@ document.getElementById('buttonEdit').addEventListener('click', () => {
     <label class="modalLabel" > Usuario: </label>
     <input type="text" placeholder="Obligatorio" class="modalContentData modal_input" value="${cuPath[2]}">
     <label class="modalLabel" > Contraseña: </label>
+    <input type="button" class="modal_btns_noMargin" value="Generar contraseña" onClick="buttonModalGeneratePass()">
     <textarea placeholder="Opcional" cols='23' class="modalContentData modal_input">${cuPath[3]}</textarea>
     <label class="modalLabel noteTextArea"> Notas: </label>
     </p>
@@ -34,73 +38,17 @@ document.getElementById('buttonEdit').addEventListener('click', () => {
     `;
 });
 
-// document.getElementById('buttonDelete').addEventListener('keyup', () => {
-
-//     console.log('keyup');
-//     multipleAttribute(['#bkmodal', '#modal', '#buttonEdit', '#buttonDelete'], 'style', 'opacity:0; pointer-events: none');
-
-//     multipleAttribute(['#showCard', '#buttonAdd'], 'style', 'opacity:1; pointer-events: auto');
-//     if (showSearch.innerHTML != '') {
-//         multipleAttribute(['#expandCard'], 'style', 'opacity:1; pointer-events: auto');
-//     }
 
 
-//     const alert = document.createElement('ion-alert');
-//     alert.message = `¿Eliminarrrrr "${cuPath[0]}"?`;
-//     alert.buttons = [
-//         { text: 'cancelar', role: 'cancel' },
-//         {
-//             text: 'ok',
-//             handler: () => {
-//                 aTotal.splice(reemplace / 5, 1);
-//                 aTotalTOnewTotal();
-
-//                 multipleAttribute(['#showCard', '#buttonAdd'], 'style', 'opacity:1; pointer-events: auto');
-
-//                 if (showSearch.innerHTML != '') expandCard.setAttribute('style', 'opacity:1; pointer-events: auto');
-
-//                 if (newSearch.value == '') {
-
-
-//                     showSearch.innerHTML = '';
-//                     showIcon.setAttribute('name', icoHide);
-
-//                     expandCard.setAttribute('style', 'opacity:1; pointer-events: auto');
-//                     for (i = 0; i < newTotal.length; i += 5) {
-//                         showCardAll(newTotal[i].toUpperCase(), newTotal[i + 1], newTotal[i + 2], newTotal[i + 3]);
-//                     }
-//                     newTotal.length / 5 == 1 ? (s = '') : (s = 's');
-//                     presentToast(`${newTotal.length / 5} Cuenta${s} guardad${s}.`, '800', 'black');
-
-//                 } else {
-//                     refreshData();
-//                 }
-//                 save();
-//                 presentToast(`"${cuPath[0]}" eliminadooooooooo.`, '800', 'danger');
-//                 updateDB('L1', 'B1');
-//                 closeAlert = false;
-
-//             },
-//         },
-//     ];
-
-
-//     document.body.appendChild(alert);
-//     return alert.present();
-// });
 
 document.getElementById('buttonDelete').addEventListener('click', () => {
 
-    // multipleAttribute(['#bkmodal', '#modal'], 'style', 'opacity:1; pointer-events: auto');
-    // document.querySelectorAll('ion-card').setAttribute('style', 'opacity:0.3')
-    // console.log(document.querySelectorAll('ion-card').length);
     let lengthCard = document.querySelectorAll('ion-card').length;
 
     for (let i = 0; i < lengthCard; i++) {
         document.querySelectorAll('ion-card')[i].setAttribute('style', 'pointer-events:none')
     }
 
-    // document.querySelectorAll('ion-card')[1].setAttribute('style', 'opacity:0.3')
     document.getElementById('bkmodal').setAttribute('style', 'opacity:1; pointer-events: none');
     document.getElementById('modal').setAttribute('style', 'opacity:1; pointer-events: auto; z-index:20');
 
@@ -179,13 +127,12 @@ document.getElementById('buttonAdd').addEventListener('click', () => {
         <label class="modalLabel" > Usuario:</label>
         <input type="text" placeholder="Obligatorio" class="modalContentData modal_input" value="">
         <label class="modalLabel" > Contraseña:</label>
+        <input type="button" class="modal_btns_noMargin" value="Generar contraseña" onClick="buttonModalGeneratePass()">
         <textarea placeholder="Opcional" cols='23' class="modalContentData modal_input"></textarea>
         <label class="modalLabel noteTextArea" > Notas:</label>
-    </p>
+        </p>
     
-    <input type="button" class="modal_btns" value="OK" onClick="buttonModalAdd()">
-    <input type="button" class="modal_btns" value="CANCELAR" onClick="buttonModalCancel()">
-    
+        <input type="button" class="modal_btns" value="OK" onClick="buttonModalAdd()">
+        <input type="button" class="modal_btns" value="CANCELAR" onClick="buttonModalCancel()">
     `;
-
 });

@@ -113,6 +113,17 @@ p .modal_input:focus::-webkit-input-placeholder{opacity: 0.4; font-style: italic
   outline: none;
 }
 
+.modal_btns_noMargin{
+  transform: translateY(-15px);
+  float: right;
+  color: var(--ion-color-primary);
+  background-color: #ff000000;
+  font-size: 15px;
+  border: 0px;
+  /* margin: 0rem 0rem 1rem 1rem; */
+  outline: none;
+}
+
 .bkpopup{
   position: absolute;
   width: 100vw;

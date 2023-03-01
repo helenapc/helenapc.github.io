@@ -1,8 +1,20 @@
 const timeUndo = 3500;
 
-function buttonModalCancel() {
-    console.log('cancel');
+function buttonModalGeneratePass(){
+    var chars = "0123456789abcdefghijklmnñopqrstuvwxyz!++@@##$$%%^^&&**{}{}[][]()()ABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
+    var passwordLength = 20;
+    var password = "";
 
+    for (var i = 0; i <= passwordLength; i++) {
+        var randomNumber = Math.floor(Math.random() * chars.length);
+        password += chars.substring(randomNumber, randomNumber +1);
+       };
+    // console.log(password);
+    document.querySelectorAll('.modal_input')[2].value = password;
+
+};
+
+function buttonModalCancel() {
     multipleAttribute(['#bkmodal', '#modal', '#buttonEdit', '#buttonDelete'], 'style', 'opacity:0; pointer-events: none');
 
     multipleAttribute(['#showCard', '#buttonAdd'], 'style', 'opacity:1; pointer-events: auto');
