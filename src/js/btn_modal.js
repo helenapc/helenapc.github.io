@@ -2,7 +2,7 @@ const timeUndo = 3500;
 
 function buttonModalGeneratePass(){
     var chars = "0123456789abcdefghijklmnñopqrstuvwxyz!++@@##$$%%^^&&**{}{}[][]()()ABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
-    var passwordLength = 20;
+    var passwordLength = 16;
     var password = "";
 
     for (var i = 0; i <= passwordLength; i++) {
