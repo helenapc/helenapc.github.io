@@ -104,12 +104,13 @@ barHeader.appendChild(barToolbar);
 barMenuPrincipal.appendChild(barHeader);
 
 
-const version = 'Versión 2.9.1';
+const version = 'Versión 2.9.2 [13/6/25]';
 itemPers('account', 'person-circle-outline', 'Cuenta');
 itemPers('barExport', 'arrow-up-circle-outline', 'Crear copia de Seguridad');
 itemPers('barImport', 'arrow-down-circle-outline', 'Cargar copia de Seguridad');
 itemPers('config', 'settings-outline', 'Configuración');
 itemPers('barLogout', 'log-out-outline', 'Cerrar sesión');
+itemPers('moreTools', 'build', 'Extra Tools');
 itemPers('version', '', version, false);
 itemPers('barDelAcc', 'close-outline', 'Eliminar Cuenta', true, 'danger');
 

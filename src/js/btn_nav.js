@@ -115,6 +115,12 @@ barLogout.addEventListener('click', () => {
     window.location.reload();
 });
 
+moreTools.addEventListener('click', () => {
+    barMenuPrincipal.close();
+    const externalUrl = 'https://helenapc.github.io/test-html-tools'; // Replace with your URL
+    window.location.href = externalUrl;
+});
+
 
 var configDataFondo01 = (configData.fondo01.includes('data:image')) ? '*Imagen Local*' : configData.fondo01;
 var configDataFondo02 = (configData.fondo02.includes('data:image')) ? '*Imagen Local*' : configData.fondo02;
@@ -217,12 +223,12 @@ config.addEventListener('click', () => {
         if (configValues[1].value === '*Imagen Local*') {
             cargarTema2[0].setAttribute('style', `background: url('${configData.fondo02}`);
         } else {
-        configData.fondo02 = configValues[1].value;
-        localStorage.setItem('data', JSON.stringify(configData));
-        if (cargarTema2[0] && cargarTema2[0].classList[0] == 'dark') {
-            cargarTema2[0].setAttribute('style', `background: url('${(configData.fondo02 == '') ? 'src/img/bg2.jpg' : configData.fondo02} ') no-repeat 50% center/cover;`);
+            configData.fondo02 = configValues[1].value;
+            localStorage.setItem('data', JSON.stringify(configData));
+            if (cargarTema2[0] && cargarTema2[0].classList[0] == 'dark') {
+                cargarTema2[0].setAttribute('style', `background: url('${(configData.fondo02 == '') ? 'src/img/bg2.jpg' : configData.fondo02} ') no-repeat 50% center/cover;`);
+            }
         }
-    }
     });
 
     // auto expandir
